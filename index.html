@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para você, com amor ❤️</title>
+    <style>
+        body {
+            background-color: #ffe6eb;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px 20px;
+            color: #d6336c;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff4d79;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        .botoes {
+            margin-top: 30px;
+            position: relative;
+            height: 60px;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        #sim {
+            background-color: #ff4d79;
+            color: white;
+            box-shadow: 0px 4px 15px rgba(255, 77, 121, 0.4);
+        }
+        #sim:hover {
+            background-color: #e63965;
+        }
+        #nao {
+            background-color: #ccc;
+            color: white;
+            position: absolute;
+            margin-left: 20px;
+        }
+        #mensagem-surpresa {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #ff4d79;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hey, bebea</h1>
+        <p>Fiz isso aqui pra te falar que Jesus te ama muito, e que ele tem planos perfeitos para voce!! Conte comigo pra tudo..</p>
+        <p> Você aceita receber todos os dias uma mensagem aqui?  </p>
+
+        <div class="botoes">
+            <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
+            <button class="btn" id="nao" onmouseover="foge()" onclick="foge()">Não 🙈</button>
+        </div>
+
+        <div id="mensagem-surpresa">
+            Yeeeei! Sabia que você ia dizer que sim!
+        </div>
+    </div>
+
+    <script>
+        function foge() {
+            var botaoNao = document.getElementById("nao");
+            // Faz o botão "Não" fugir para um lugar aleatório da tela
+            var larguraJanela = window.innerWidth - 100;
+            var alturaJanela = window.innerHeight - 100;
+            
+            var aleatorioX = Math.random() * larguraJanela;
+            var aleatorioY = Math.random() * alturaJanela;
+            
+            botaoNao.style.position = "fixed";
+            botaoNao.style.left = aleatorioX + "px";
+            botaoNao.style.top = aleatorioY + "px";
+        }
+
+        function clicouSim() {
+            document.getElementById("mensagem-surpresa").style.display = "block";
+            document.getElementById("nao").style.display = "none";
+        }
+    </script>
+
+</body>
+</html><S></S>
