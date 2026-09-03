@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -160,7 +161,6 @@
             background-color: rgba(255, 255, 255, 0.06);
             color: #a8a8b3;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            position: absolute;
         }
 
         #nao:hover {
@@ -188,6 +188,7 @@
 </head>
 <body>
 
+    <!-- Fundo animado -->
     <div class="coracoes-bg">
         <div class="heart-float" style="left: 10%; animation-delay: 0s;">🖤</div>
         <div class="heart-float" style="left: 25%; animation-delay: 3s;">✨</div>
@@ -196,6 +197,7 @@
         <div class="heart-float" style="left: 85%; animation-delay: 2s;">🖤</div>
     </div>
 
+    <!-- Áudios separados -->
     <audio id="som-triste">
         <source src="musica_triste.mp3" type="audio/mp3">
     </audio>
@@ -217,7 +219,8 @@
 
         <div class="botoes-area">
             <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
-            <button class="btn" id="nao" onmouseover="foge()" onclick="foge()">Não 🙈</button>
+            <!-- Agora o botão "Não" chama a função de tocar a música triste e fica quieto -->
+            <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
         </div>
 
         <div id="mensagem-surpresa">
@@ -226,22 +229,12 @@
     </div>
 
     <script>
-        function foge() {
-            var botaoNao = document.getElementById("nao");
-            
-            // Toca a música triste/dramática quando ela tenta clicar em "Não"
+        function clicouNao() {
+            // Toca a música triste caso ela decida clicar no "Não"
             var somTriste = document.getElementById("som-triste");
             somTriste.play().catch(e => {});
-
-            var larguraJanela = window.innerWidth - 120;
-            var alturaJanela = window.innerHeight - 120;
             
-            var aleatorioX = Math.random() * larguraJanela;
-            var aleatorioY = Math.random() * alturaJanela;
-            
-            botaoNao.style.position = "fixed";
-            botaoNao.style.left = aleatorioX + "px";
-            botaoNao.style.top = aleatorioY + "px";
+            alert("Ah, que peninha... Pense bem de novo! 🥺");
         }
 
         function clicouSim() {
