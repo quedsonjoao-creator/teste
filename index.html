@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -25,13 +24,15 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
         /* Fundo com corações e brilhos flutuantes */
         .coracoes-bg {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -54,17 +55,18 @@
         }
 
         .container {
-            max-width: 440px;
+            max-width: 480px;
             width: 100%;
-            background: rgba(22, 22, 30, 0.82);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            background: rgba(22, 22, 32, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 35px 25px;
-            border-radius: 28px;
-            box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.65);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
             z-index: 2;
+            margin: 20px 0;
             animation: fadeInScale 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -86,7 +88,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #ff5c8a;
-            box-shadow: 0px 0px 25px rgba(255, 92, 138, 0.35);
+            box-shadow: 0px 0px 25px rgba(255, 92, 138, 0.4);
         }
 
         .coracao-Badge {
@@ -114,16 +116,59 @@
             color: #ff5c8a;
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             letter-spacing: 0.3px;
         }
 
         p {
-            font-size: 0.95rem;
+            font-size: 0.93rem;
             color: #a8a8b3;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 300;
+        }
+
+        /* Bloco do Contador de Tempo */
+        .contador-box {
+            background: rgba(255, 92, 138, 0.06);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            padding: 12px 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: #ff8fa3;
+            font-weight: 500;
+        }
+
+        /* Bloco da Nova Seção: Histórico / Datas Especiais */
+        .historico-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .historico-box h3 {
+            color: #ff5c8a;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .historico-item {
+            font-size: 0.84rem;
+            color: #b8b8c2;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .historico-item span:first-child {
+            color: #ff8fa3;
+            font-weight: 500;
         }
 
         .botoes-area {
@@ -211,34 +256,61 @@
             <div class="coracao-Badge">🖤</div>
         </div>
         
-        <h1>Para a minha Bebea</h1>
-        
-        <p>Minha querida Bebea, fiz esse espacinho de mensagem para voce, para te lembrar todos os dias da pessoa incrivel que voce é!!! Saiba que voce é importante para mim e para todos nós, e que sou muito grato pelo seu carinho.</p>
+        <!-- Texto Personalizado (Troque o título se quiser) -->
+        <h1>Para a Bebea</h1>
+        a
+        <p>Não sei o que escrever hoje, porem sei sua importancia na minha vida, sei que na epoca que mais precisei voce me ajudou, voce me escutou quase todas noites possiveis quando minha crise de medo atacava, entao saiba que pra mim voce é a melhor, a mais mais, e vc mora no coração do joazinho, viu?</p>
 
-        <p>Você aceita continuar recebendo minhas mensagens por aqui ?</p>
+        <!-- NOVO: Contador de Tempo Dinâmico -->
+        <div class="contador-box" id="contador-tempo">
+            Guardando na memória o tempo desde que eu te conheço.
+        </div>
+
+        <!-- NOVO: Seção de Histórico / Datas Especiais -->
+        <div class="historico-box">
+            <h3>Momentos Especiais</h3>
+            <div class="historico-item">
+                <span>Primeiro vez que te vi la na CN:</span> 
+                <span>07/03/2026</span>
+            </div>
+            <div class="historico-item">
+                <span>o jogo do gama</span> 
+                <span>21/03/2026</span>
+            </div>
+        </div>
+
+        <p>Você aceita continuar recebendo essas mensagem? </p>
 
         <div class="botoes-area">
             <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
-            <!-- Agora o botão "Não" chama a função de tocar a música triste e fica quieto -->
             <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
         </div>
 
         <div id="mensagem-surpresa">
-            Yeeeei! Sabia que você ia dizer que sim! Você é perfeitaaaa
-        </div>
+            Yeeeei! Sabia que você ia dizer que sim! 
     </div>
 
     <script>
+        // CONFIGURAÇÃO DO CONTADOR: Altere o Ano, Mês (0 a 11, onde 0 é janeiro) e Dia
+        var dataInicio = new Date(2026, 0, 8); 
+
+        function atualizarContador() {
+            var agora = new Date();
+            var diferenca = agora - dataInicio;
+            var dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            
+            document.getElementById("contador-tempo").innerHTML = 
+                "✨ Juntos há <strong>" + dias + " dias</strong> construindo sorrisos";
+        }
+        atualizarContador();
+
         function clicouNao() {
-            // Toca a música triste caso ela decida clicar no "Não"
             var somTriste = document.getElementById("som-triste");
             somTriste.play().catch(e => {});
-            
-            alert("Ah, que peninha... Pense bem de novo! Solta a musica dj 😢😢😢😢");
+            alert("Ah, que peninha... Pense bem de novo! 🥺");
         }
 
         function clicouSim() {
-            // Para a música triste e toca a música feliz
             document.getElementById("som-triste").pause();
             var somFeliz = document.getElementById("som-feliz");
             somFeliz.play().catch(e => {});
