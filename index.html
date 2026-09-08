@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para você, com todo o meu amor 🖤✨</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         * {
@@ -28,7 +29,6 @@
             position: relative;
         }
 
-        /* Fundo com corações e brilhos flutuantes */
         .coracoes-bg {
             position: fixed;
             top: 0;
@@ -54,8 +54,45 @@
             100% { transform: translateY(-105vh) scale(1.4); opacity: 0; }
         }
 
+        .music-player-flutuante {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(22, 22, 32, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            padding: 8px 14px;
+            border-radius: 50px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #ff8fa3;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .music-player-flutuante button {
+            background: #ff5c8a;
+            border: none;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .music-player-flutuante button:hover {
+            transform: scale(1.1);
+        }
+
         .container {
-            max-width: 480px;
+            max-width: 520px;
             width: 100%;
             background: rgba(22, 22, 32, 0.85);
             backdrop-filter: blur(16px);
@@ -66,7 +103,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
             z-index: 2;
-            margin: 20px 0;
+            margin: 40px 0;
             animation: fadeInScale 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -120,15 +157,23 @@
             letter-spacing: 0.3px;
         }
 
-        p {
+        .maquina-escrever {
             font-size: 0.93rem;
             color: #a8a8b3;
             line-height: 1.6;
             margin-bottom: 20px;
             font-weight: 300;
+            min-height: 70px;
+            border-right: 2px solid rgba(255, 92, 138, 0.6);
+            white-space: pre-wrap;
+            animation: piscarCursor 0.75s step-end infinite;
         }
 
-        /* Bloco do Contador de Tempo */
+        @keyframes piscarCursor {
+            from, to { border-color: transparent }
+            50% { border-color: #ff5c8a; }
+        }
+
         .contador-box {
             background: rgba(255, 92, 138, 0.06);
             border: 1px solid rgba(255, 92, 138, 0.2);
@@ -140,34 +185,183 @@
             font-weight: 500;
         }
 
-        /* Bloco da Nova Seção: Histórico / Datas Especiais */
-        .historico-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            text-align: left;
+        .polaroid-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
-        .historico-box h3 {
+        .polaroid {
+            background: #fff;
+            padding: 10px 10px 25px 10px;
+            border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            width: 130px;
+            transform: rotate(-3deg);
+            transition: all 0.3s ease;
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(3deg);
+        }
+
+        .polaroid:hover {
+            transform: scale(1.08) rotate(0deg) !important;
+            z-index: 5;
+            box-shadow: 0 15px 30px rgba(255, 92, 138, 0.3);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .polaroid span {
+            display: block;
+            margin-top: 8px;
+            font-family: 'Special Elite', cursive;
+            font-size: 0.7rem;
+            color: #333;
+        }
+
+        .timeline-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 20px 15px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+
+        .timeline-box h3 {
             color: #ff5c8a;
             font-size: 0.95rem;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
             text-align: center;
             font-weight: 500;
         }
 
-        .historico-item {
-            font-size: 0.84rem;
-            color: #b8b8c2;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
+        .timeline-linha {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 92, 138, 0.3);
+            margin-left: 10px;
         }
 
-        .historico-item span:first-child {
+        .timeline-item {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '♥';
+            position: absolute;
+            left: -25.5px;
+            top: 0;
+            background: #161620;
+            color: #ff5c8a;
+            font-size: 0.75rem;
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline-data {
+            font-size: 0.75rem;
             color: #ff8fa3;
+            font-weight: 600;
+        }
+
+        .timeline-desc {
+            font-size: 0.83rem;
+            color: #b8b8c2;
+        }
+
+        .cartinhas-area {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-carta {
+            background: rgba(255, 92, 138, 0.1);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            color: #ff8fa3;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-carta:hover {
+            background: rgba(255, 92, 138, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-conteudo {
+            background: #1c1c28;
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 380px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            animation: fadeInScale 0.3s ease;
+            text-align: left;
+        }
+
+        .modal-conteudo h4 {
+            color: #ff5c8a;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .modal-conteudo p {
+            font-size: 0.88rem;
+            color: #d1d1d6;
+            margin-bottom: 20px;
+        }
+
+        .btn-fechar-modal {
+            background: #ff5c8a;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            float: right;
             font-weight: 500;
         }
 
@@ -229,11 +423,16 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        .footer-note {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #6c6c7c;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Fundo animado -->
     <div class="coracoes-bg">
         <div class="heart-float" style="left: 10%; animation-delay: 0s;">🖤</div>
         <div class="heart-float" style="left: 25%; animation-delay: 3s;">✨</div>
@@ -242,7 +441,11 @@
         <div class="heart-float" style="left: 85%; animation-delay: 2s;">🖤</div>
     </div>
 
-    <!-- Áudios separados -->
+    <div class="music-player-flutuante">
+        <span>🎵 Trilha Sonora</span>
+        <button id="btn-audio" onclick="alternarAudio()">▶</button>
+    </div>
+
     <audio id="som-triste">
         <source src="musica_triste.mp3" type="audio/mp3">
     </audio>
@@ -256,30 +459,55 @@
             <div class="coracao-Badge">🖤</div>
         </div>
         
-        <!-- Texto Personalizado (Troque o título se quiser) -->
-        <h1>Para a Bebea</h1>
-        a
-        <p>Não sei o que escrever hoje, porem sei sua importancia na minha vida, sei que na epoca que mais precisei voce me ajudou, voce me escutou quase todas noites possiveis quando minha crise de medo atacava, entao saiba que pra mim voce é a melhor, a mais mais, e vc mora no coração do joazinho, viu?</p>
+        <h1>Para a BEBEAAAA!! </h1>
+        
+        <div class="maquina-escrever" id="texto-maquina"></div>
 
-        <!-- NOVO: Contador de Tempo Dinâmico -->
+        <div class="polaroid-container">
+            <div class="polaroid">
+                <img src="foto.jpeg" alt="Momento 1">
+                <span> Momento legal.</span>
+            </div>
+            <div class="polaroid">
+                <img src="foto2.jpeg" alt="Momento 2">
+                <span>sorriso favorito</span>
+            </div>
+        </div>
+
         <div class="contador-box" id="contador-tempo">
-            Guardando na memória o tempo desde que eu te conheço.
+            ⏳ Calculando  momentos juntos...
         </div>
 
-        <!-- NOVO: Seção de Histórico / Datas Especiais -->
-        <div class="historico-box">
-            <h3>Momentos Especiais</h3>
-            <div class="historico-item">
-                <span>Primeiro vez que te vi la na CN:</span> 
-                <span>07/03/2026</span>
-            </div>
-            <div class="historico-item">
-                <span>o jogo do gama</span> 
-                <span>21/03/2026</span>
+        <!-- Linha do Tempo com 4 itens (os 2 originais + 2 novos) -->
+        <div class="timeline-box">
+            <h3>Linha do Tempo ✨</h3>
+            <div class="timeline-linha">
+                <div class="timeline-item">
+                    <div class="timeline-data">07/03/2025</div>
+                    <div class="timeline-desc">Primeira vez que te vi la na CN.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-data"> 21/03/2026</div>
+                    <div class="timeline-desc">O dia do jogo do gama, UM DOS MELHORES DIAS! </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-data">21/08/2026 á 23/08/2026</div>
+                    <div class="timeline-desc">O acampamento, por conta que deu pra aproveitar de "certa maneira" todos juntos.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-data">Semana Passada</div>
+                    <div class="timeline-desc"> Momento muito bom!</div>
+                </div>
             </div>
         </div>
 
-        <p>Você aceita continuar recebendo essas mensagem? </p>
+        <div class="cartinhas-area">
+            <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
+            <button class="btn-carta" onclick="abrirCarta('carta2')">💌  Diariamente </button>
+            <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
+        </div>
+
+        <p>Você aceita continuar com esse seu cantinho aqui? </p>
 
         <div class="botoes-area">
             <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
@@ -288,25 +516,90 @@
 
         <div id="mensagem-surpresa">
             Yeeeei! Sabia que você ia dizer que sim! 
+        </div>
+
+        <div class="footer-note">
+            Feito com todo o amor do mundo para você.
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-carta1">
+        <div class="modal-conteudo">
+            <h4>Para dias tristes </h4>
+            <p>Por mais que o dia que esteja ruim hoje. Lembre-se que Jesus te ama e ta com voce todos os dias, E humanamente voce tem á eu, que vou sempre está aqui pra te dar forças, apoiar, abraçar e consolar. </p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta1')">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-carta2">
+        <div class="modal-conteudo">
+            <h4>Diariamente </h4>
+            <p>Lembre-se todos os dias de quem voce é, da sua perfeição, e do quão maravilhosa és. </p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta2')">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-carta3">
+        <div class="modal-conteudo">
+            <h4>O que eu mais amo em você </h4>
+            <p>O seu sorriso, sua atenção, carinho e as briga. </p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta3')">Fechar</button>
+        </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO CONTADOR: Altere o Ano, Mês (0 a 11, onde 0 é janeiro) e Dia
-        var dataInicio = new Date(2026, 0, 8); 
+        const textoDeclaracao = "Fiz esse espacinho aqui só para te lembrar todos os dias, a sua importância nesse mundo. ";
+        let i = 0;
+        function digitarTexto() {
+            if (i < textoDeclaracao.length) {
+                document.getElementById("texto-maquina").innerHTML += textoDeclaracao.charAt(i);
+                i++;
+                setTimeout(digitarTexto, 35);
+            }
+        }
+        setTimeout(digitarTexto, 500);
 
+        var dataInicio = new Date(2026, 0, 1); 
         function atualizarContador() {
             var agora = new Date();
             var diferenca = agora - dataInicio;
             var dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-            
             document.getElementById("contador-tempo").innerHTML = 
-                "✨ Guardando memorias  <strong>" + dias + " dias</strong> contigo ";
+                "✨ Juntos há <strong>" + dias + " dias</strong> construindo sorrisos";
         }
         atualizarContador();
 
+        function abrirCarta(id) {
+            document.getElementById("modal-" + id).style.display = "flex";
+        }
+        function fecharCarta(id) {
+            document.getElementById("modal-" + id).style.display = "none";
+        }
+
+        function alternarAudio() {
+            var somFeliz = document.getElementById("som-feliz");
+            var somTriste = document.getElementById("som-triste");
+            var btnAudio = document.getElementById("btn-audio");
+
+            somTriste.pause();
+
+            if (somFeliz.paused) {
+                somFeliz.play();
+                btnAudio.innerHTML = "⏸";
+            } else {
+                somFeliz.pause();
+                btnAudio.innerHTML = "▶";
+            }
+        }
+
         function clicouNao() {
+            var somFeliz = document.getElementById("som-feliz");
+            somFeliz.pause();
+            document.getElementById("btn-audio").innerHTML = "▶";
+
             var somTriste = document.getElementById("som-triste");
             somTriste.play().catch(e => {});
+            
             alert("Ah, que peninha... Pense bem de novo! 🥺");
         }
 
@@ -314,9 +607,38 @@
             document.getElementById("som-triste").pause();
             var somFeliz = document.getElementById("som-feliz");
             somFeliz.play().catch(e => {});
+            document.getElementById("btn-audio").innerHTML = "⏸";
 
             document.getElementById("mensagem-surpresa").style.display = "block";
             document.getElementById("nao").style.display = "none";
+
+            dispararConfetes();
+        }
+
+        function dispararConfetes() {
+            var duracao = 3 * 1000;
+            var fim = Date.now() + duracao;
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff5c8a', '#ff3366', '#ffffff']
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff5c8a', '#ff3366', '#ffffff']
+                });
+
+                if (Date.now() < fim) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         }
     </script>
 
