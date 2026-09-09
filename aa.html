@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para você, com todo o meu amor 🖤✨</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #e1e1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+        .coracoes-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none;
+        }
+        .heart-float {
+            position: absolute; bottom: -50px; color: rgba(255, 92, 138, 0.2); font-size: 1.4rem; animation: subir 7s infinite linear;
+        }
+        @keyframes subir {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.9; }
+            100% { transform: translateY(-105vh) scale(1.4); opacity: 0; }
+        }
+        .music-player-flutuante {
+            position: fixed; top: 20px; right: 20px; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 92, 138, 0.3); padding: 8px 14px; border-radius: 50px; z-index: 10;
+            display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ff8fa3; box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+        }
+        .music-player-flutuante button {
+            background: #ff5c8a; border: none; color: white; width: 26px; height: 26px; border-radius: 50%;
+            cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+        }
+        .music-player-flutuante button:hover { transform: scale(1.1); }
+        .container {
+            max-width: 520px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
+            padding: 35px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08); position: relative; z-index: 2; margin: 40px 0;
+        }
+        .foto-wrapper { position: relative; width: 110px; height: 110px; margin: 0 auto 20px auto; }
+        .foto-perfil { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ff5c8a; box-shadow: 0px 0px 25px rgba(255, 92, 138, 0.5); }
+        .coracao-Badge { position: absolute; bottom: 0; right: 0; background: #16161e; border: 2px solid #ff5c8a; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+        h1 { color: #ff5c8a; font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
+        .maquina-escrever { font-size: 0.93rem; color: #a8a8b3; line-height: 1.6; margin-bottom: 20px; font-weight: 300; min-height: 70px; }
+        
+        /* Placar de Pontos */
+        .pontos-card {
+            background: linear-gradient(135deg, rgba(255, 92, 138, 0.15), rgba(120, 40, 90, 0.2));
+            border: 1px solid rgba(255, 92, 138, 0.4); padding: 12px 18px; border-radius: 16px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .pontos-card span { font-size: 0.85rem; color: #ff8fa3; font-weight: 500; }
+        .pontos-num { font-size: 1.1rem; color: #fff; font-weight: 600; background: #ff5c8a; padding: 2px 10px; border-radius: 10px; }
+
+        .contador-box { background: rgba(255, 92, 138, 0.06); border: 1px solid rgba(255, 92, 138, 0.2); padding: 12px 15px; border-radius: 16px; margin-bottom: 20px; font-size: 0.88rem; color: #ff8fa3; font-weight: 500; }
+        
+        .quiz-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 92, 138, 0.2); padding: 20px 15px; border-radius: 16px; margin-bottom: 25px; text-align: left; }
+        .quiz-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 12px; text-align: center; }
+        .quiz-pergunta { font-size: 0.85rem; color: #e1e1e6; margin-bottom: 10px; font-weight: 500; }
+        .quiz-opcoes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .btn-opcao { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: #c1c1c9; padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; transition: all 0.2s; }
+        .btn-opcao:hover { background: rgba(255, 92, 138, 0.15); border-color: rgba(255, 92, 138, 0.4); color: #ff8fa3; }
+        .quiz-feedback { font-size: 0.8rem; margin-top: 5px; font-weight: 500; display: none; }
+
+        /* Cupons direcionando para nova página */
+        .cupons-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); padding: 20px 15px; border-radius: 16px; margin-bottom: 25px; text-align: left; }
+        .cupons-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 5px; text-align: center; }
+        .cupons-sub { font-size: 0.75rem; color: #8a8a9e; text-align: center; margin-bottom: 15px; }
+        .cupons-grid { display: flex; flex-direction: column; gap: 10px; }
+        
+        .cupom-item {
+            background: rgba(255, 92, 138, 0.05); border: 1px dashed rgba(255, 92, 138, 0.3); padding: 12px 14px;
+            border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .cupom-item:hover { background: rgba(255, 92, 138, 0.15); border-color: #ff5c8a; }
+        .cupom-texto { font-size: 0.82rem; color: #d1d1d6; font-weight: 500; }
+        .cupom-custo { font-size: 0.72rem; color: #ff8fa3; background: rgba(255, 92, 138, 0.15); padding: 4px 8px; border-radius: 8px; font-weight: 600; }
+
+        .cartinhas-area { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .btn-carta {
+            background: rgba(255, 92, 138, 0.1); border: 1px solid rgba(255, 92, 138, 0.3); color: #ff8fa3;
+            padding: 8px 12px; border-radius: 12px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s;
+        }
+        .btn-carta:hover { background: rgba(255, 92, 138, 0.25); transform: translateY(-2px); }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .modal-conteudo { background: #1c1c28; border: 1px solid rgba(255, 92, 138, 0.4); padding: 25px; border-radius: 20px; max-width: 380px; width: 100%; text-align: left; }
+        .modal-conteudo h4 { color: #ff5c8a; margin-bottom: 10px; font-size: 1.05rem; }
+        .modal-conteudo p { font-size: 0.88rem; color: #d1d1d6; margin-bottom: 20px; }
+        .btn-fechar-modal { background: #ff5c8a; color: white; border: none; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; float: right; }
+
+        .botoes-area { position: relative; height: 55px; display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+        .btn { padding: 12px 28px; font-size: 0.95rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.25s ease; }
+        #sim { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: #fff; box-shadow: 0px 8px 20px rgba(255, 92, 138, 0.4); }
+        #nao { background-color: rgba(255, 255, 255, 0.06); color: #a8a8b3; border: 1px solid rgba(255, 255, 255, 0.08); }
+        #mensagem-surpresa { display: none; margin-top: 20px; font-size: 1.05rem; color: #ff5c8a; font-weight: 500; background: rgba(255, 92, 138, 0.08); padding: 15px; border-radius: 16px; border: 1px solid rgba(255, 92, 138, 0.2); }
+        .footer-note { margin-top: 25px; font-size: 0.75rem; color: #8a8a9e; }
+    </style>
+</head>
+<body>
+
+    <div class="coracoes-bg">
+        <div class="heart-float" style="left: 10%; animation-delay: 0s;">🖤</div>
+        <div class="heart-float" style="left: 45%; animation-delay: 1.5s;">✨</div>
+        <div class="heart-float" style="left: 85%; animation-delay: 2s;">🖤</div>
+    </div>
+
+    <!-- Músicas -->
+    <div class="music-player-flutuante">
+        <span>🎵 Trilha Sonora</span>
+        <button id="btn-audio" onclick="alternarAudio()">▶</button>
+    </div>
+
+    <audio id="som-triste"><source src="musica_triste.mp3" type="audio/mp3"></audio>
+    <audio id="som-feliz" loop><source src="musica_feliz.mp3" type="audio/mp3"></audio>
+
+    <div class="container">
+        <div class="foto-wrapper">
+            <img src="foto2.jpeg" alt="Foto" class="foto-perfil">
+            <div class="coracao-Badge">🖤</div>
+        </div>
+        
+        <h1>Para a BEBEAAAA</h1>
+        <div class="maquina-escrever" id="texto-maquina"></div>
+
+        <!-- Placar de Pontos -->
+        <div class="pontos-card">
+            <span>✨ Seus Pontos de conhecimento:</span>
+            <span class="pontos-num" id="contador-pontos">10</span>
+        </div>
+
+        <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
+
+        <div class="quiz-box">
+            <h3> Teste do conhecimento (+10 Pontos)</h3>
+            <div class="quiz-pergunta">Por onde começamos a se falar? </div>
+            <div class="quiz-opcoes">
+                <button class="btn-opcao" onclick="responderQuiz(false, this)">A) INSTA </button>
+                <button class="btn-opcao" onclick="responderQuiz(true, this)">B) Tik tok</button>
+                <button class="btn-opcao" onclick="responderQuiz(false, this)">C) facebook</button>
+            </div>
+            <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+
+        <!-- Cupons direcionados para vale.html -->
+        <div class="cupons-box">
+            <h3>🎟️ Resgate de Vales</h3>
+            <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
+            <div class="cupons-grid">
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 15)">
+                    <span class="cupom-texto">✨ Vale Um Abraço </span>
+                    <span class="cupom-custo">15 pts</span>
+                </a>
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar e Filme', 20)">
+                    <span class="cupom-texto">🍕 Vale encontro em algum canto </span>
+                    <span class="cupom-custo">20 pts</span>
+                </a>
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale Massagem sem reclamação', 25)">
+                    <span class="cupom-texto">💆‍♀️ voce escolher o que vale </span>
+                    <span class="cupom-custo">25 pts</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Cartinhas -->
+        <div class="cartinhas-area">
+            <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
+            <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Se sentir saudade</button>
+            <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
+        </div>
+
+        <p>Você aceita continuar com seu cantinho aqui? </p>
+
+        <div class="botoes-area">
+            <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
+            <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
+        </div>
+
+        <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
+        <div class="footer-note">Feito com todo o amor do mundo para você.</div>
+    </div>
+
+    <!-- Modais das Cartinhas -->
+    <div class="modal-overlay" id="modal-carta1">
+        <div class="modal-conteudo">
+            <h4>Para dias tristes 🖤</h4>
+            <p>Por mais que hoje nao tenha sido facil, lembre-se que Jesus te ama. E lembre-se que vc tem á eu para te ajudar, sempre estarei aquiii.</p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta1')">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-carta2">
+        <div class="modal-conteudo">
+            <h4>Diariamente </h4>
+            <p> Voce é incrivel, maravilhosa e nos ajuda todos os dias com sua humildade e atenção.</p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta2')">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-carta3">
+        <div class="modal-conteudo">
+            <h4>O que eu mais amo em você ✨</h4>
+            <p>O seu jeito único de iluminar qualquer ambiente, a sua risada contagiante e a paz que voce transmite, e a bondade, atenção e carinho.</p>
+            <button class="btn-fechar-modal" onclick="fecharCarta('carta3')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Pontos Insuficientes -->
+    <div class="modal-overlay" id="modal-pontos">
+        <div class="modal-conteudo">
+            <h4 style="color: #ff5c8a;">Ops! Pontos insuficientes 🥺</h4>
+            <p id="texto-aviso-pontos">Você ainda não tem pontos suficientes. Responda o quiz para ganhar mais!</p>
+            <button class="btn-fechar-modal" onclick="fecharModalPontos()">Entendi! 🥰</button>
+        </div>
+    </div>
+
+    <script>
+        let pontos = 10;
+        let quizRespondido = false;
+
+        const textoDeclaracao = "Fiz esse espacinho aqui só para te lembrar o quanto você é incrível. Ganhe pontos respondendo o quiz para resgatar vales secretos!";
+        let i = 0;
+        function digitarTexto() {
+            if (i < textoDeclaracao.length) {
+                document.getElementById("texto-maquina").innerHTML += textoDeclaracao.charAt(i);
+                i++;
+                setTimeout(digitarTexto, 35);
+            }
+        }
+        setTimeout(digitarTexto, 500);
+
+        var dataInicio = new Date(2026, 0, 1); 
+        function atualizarContador() {
+            var agora = new Date();
+            var diferenca = agora - dataInicio;
+            var dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            document.getElementById("contador-tempo").innerHTML = "✨ Juntos há <strong>" + dias + " dias</strong>";
+        }
+        atualizarContador();
+
+        function responderQuiz(correto, elemento) {
+            var feedback = document.getElementById("quiz-feedback");
+            feedback.style.display = "block";
+            if (correto) {
+                feedback.style.color = "#ff8fa3";
+                feedback.innerHTML = "Acertou em cheio! +10 pontos adicionados 🥰✨";
+                if(!quizRespondido) {
+                    pontos += 10;
+                    document.getElementById("contador-pontos").innerText = pontos;
+                    quizRespondido = true;
+                }
+                dispararConfetes();
+            } else {
+                feedback.style.color = "#b8b8c2";
+                feedback.innerHTML = "Opa, quase! Tenta de novo 🙈";
+            }
+        }
+
+        function tentarAbrirVale(idVale, nomeVale, custo) {
+            if (pontos >= custo) {
+                window.location.href = "vale.html?tipo=" + idVale + "&nome=" + encodeURIComponent(nomeVale);
+            } else {
+                document.getElementById("texto-aviso-pontos").innerHTML = "Você precisa de <strong>" + custo + " pontos</strong> para resgatar o '<strong>" + nomeVale + "</strong>'. Atualmente você tem " + pontos + " pontos. Acerte o quiz para ganhar mais!";
+                document.getElementById("modal-pontos").style.display = "flex";
+            }
+        }
+
+        function fecharModalPontos() {
+            document.getElementById("modal-pontos").style.display = "none";
+        }
+
+        function abrirCarta(id) { document.getElementById("modal-" + id).style.display = "flex"; }
+        function fecharCarta(id) { document.getElementById("modal-" + id).style.display = "none"; }
+
+        function alternarAudio() {
+            var somFeliz = document.getElementById("som-feliz");
+            var somTriste = document.getElementById("som-triste");
+            var btnAudio = document.getElementById("btn-audio");
+
+            somTriste.pause();
+            if (somFeliz.paused) { somFeliz.play(); btnAudio.innerHTML = "⏸"; } 
+            else { somFeliz.pause(); btnAudio.innerHTML = "▶"; }
+        }
+
+        function clicouNao() {
+            document.getElementById("som-feliz").pause();
+            document.getElementById("btn-audio").innerHTML = "▶";
+            document.getElementById("som-triste").play().catch(e => {});
+            alert("Essa opção não é permitida por aqui! Pense bem de novo 🙈");
+        }
+
+        function clicouSim() {
+            document.getElementById("som-triste").pause();
+            var somFeliz = document.getElementById("som-feliz");
+            somFeliz.play().catch(e => {});
+            document.getElementById("btn-audio").innerHTML = "⏸";
+
+            document.getElementById("mensagem-surpresa").style.display = "block";
+            document.getElementById("nao").style.display = "none";
+            dispararConfetes();
+        }
+
+        function dispararConfetes() {
+            confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupom Resgatado com Sucesso! 🎟️✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #e1e1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-vale {
+            max-width: 450px; width: 100%;
+            background: rgba(22, 22, 32, 0.9);
+            backdrop-filter: blur(16px);
+            padding: 40px 30px;
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .icone-cupom { font-size: 3rem; margin-bottom: 15px; }
+        h1 { color: #ff5c8a; font-size: 1.4rem; margin-bottom: 15px; }
+        .caixa-ticket {
+            background: rgba(255, 92, 138, 0.08);
+            border: 2px dashed #ff5c8a;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        p { font-size: 0.88rem; color: #a8a8b3; line-height: 1.5; margin-bottom: 25px; }
+        .btn-voltar {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: #fff; border: none; padding: 12px 25px;
+            border-radius: 50px; cursor: pointer; font-size: 0.9rem;
+            font-weight: 600; text-decoration: none; display: inline-block;
+            box-shadow: 0px 5px 15px rgba(255, 92, 138, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-voltar:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="container-vale">
+        <div class="icone-cupom">🎟️</div>
+        <h1>Parabéns! Cupom Destravado</h1>
+        
+        <p>Você utilizou seus pontos de amor com sucesso para resgatar:</p>
+        
+        <div class="caixa-ticket" id="nome-vale-exibido">
+            Carregando cupom...
+        </div>
+
+        <p>Tire um print desta tela ou mostre para mim para validar o seu prêmio pessoalmente! 😉✨</p>
+
+        <a href="index.html" class="btn-voltar">← Voltar para a Página Principal</a>
+    </div>
+
+    <script>
+        // Pega o nome do cupom que veio através do link (URL)
+        const parametros = new URLSearchParams(window.location.search);
+        const nomeVale = parametros.get('nome');
+
+        if (nomeVale) {
+            document.getElementById('nome-vale-exibido').innerText = decodeURIComponent(nomeVale);
+        } else {
+            document.getElementById('nome-vale-exibido').innerText = "Vale Surpresa Especial";
+        }
+
+        // Dispara confetes ao abrir a página do prêmio
+        window.onload = function() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        };
+    </script>
+</body>
+</html>
