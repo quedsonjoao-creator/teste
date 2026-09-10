@@ -27,95 +27,123 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none;
         }
         .heart-float {
-            position: absolute; bottom: -50px; color: rgba(255, 92, 138, 0.2); font-size: 1.4rem; animation: subir 7s infinite linear;
+            position: absolute; bottom: -50px; color: rgba(255, 92, 138, 0.25); font-size: 1.4rem; animation: subir 7s infinite linear;
         }
         @keyframes subir {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
             20% { opacity: 0.9; }
-            100% { transform: translateY(-105vh) scale(1.4); opacity: 0; }
+            100% { transform: translateY(-105vh) scale(1.4) rotate(360deg); opacity: 0; }
         }
         .music-player-flutuante {
-            position: fixed; top: 20px; right: 20px; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 92, 138, 0.3); padding: 8px 14px; border-radius: 50px; z-index: 10;
-            display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ff8fa3; box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+            position: fixed; top: 20px; right: 20px; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 92, 138, 0.4); padding: 8px 16px; border-radius: 50px; z-index: 10;
+            display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ff8fa3; box-shadow: 0px 5px 20px rgba(255, 92, 138, 0.15);
         }
         .music-player-flutuante button {
-            background: #ff5c8a; border: none; color: white; width: 26px; height: 26px; border-radius: 50%;
-            cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+            background: linear-gradient(135deg, #ff5c8a, #ff3366); border: none; color: white; width: 28px; height: 28px; border-radius: 50%;
+            cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0px 3px 10px rgba(255, 92, 138, 0.4);
         }
-        .music-player-flutuante button:hover { transform: scale(1.1); }
+        .music-player-flutuante button:hover { transform: scale(1.1); box-shadow: 0px 3px 15px rgba(255, 92, 138, 0.7); }
+        
         .container {
             max-width: 520px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
             padding: 35px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08); position: relative; z-index: 2; margin: 40px 0;
+            animation: fadeInContainer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .foto-wrapper { position: relative; width: 110px; height: 110px; margin: 0 auto 20px auto; }
-        .foto-perfil { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ff5c8a; box-shadow: 0px 0px 25px rgba(255, 92, 138, 0.5); }
-        .coracao-Badge { position: absolute; bottom: 0; right: 0; background: #16161e; border: 2px solid #ff5c8a; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
-        h1 { color: #ff5c8a; font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
+        @keyframes fadeInContainer {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .foto-wrapper { position: relative; width: 115px; height: 115px; margin: 0 auto 20px auto; }
+        .foto-perfil { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ff5c8a; box-shadow: 0px 0px 30px rgba(255, 92, 138, 0.6); }
+        .coracao-Badge { position: absolute; bottom: 0; right: 0; background: #16161e; border: 2px solid #ff5c8a; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; animation: pulsarBadge 2s infinite; }
+        @keyframes pulsarBadge {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); box-shadow: 0 0 12px rgba(255, 92, 138, 0.8); }
+            100% { transform: scale(1); }
+        }
+
+        h1 { color: #ff5c8a; font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(255, 92, 138, 0.2); }
         .maquina-escrever { font-size: 0.93rem; color: #a8a8b3; line-height: 1.6; margin-bottom: 20px; font-weight: 300; min-height: 70px; }
         
-        /* Placar de Pontos */
         .pontos-card {
-            background: linear-gradient(135deg, rgba(255, 92, 138, 0.15), rgba(120, 40, 90, 0.2));
-            border: 1px solid rgba(255, 92, 138, 0.4); padding: 12px 18px; border-radius: 16px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(135deg, rgba(255, 92, 138, 0.18), rgba(120, 40, 90, 0.25));
+            border: 1px solid rgba(255, 92, 138, 0.45); padding: 14px 20px; border-radius: 18px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center; box-shadow: inset 0 2px 5px rgba(255,255,255,0.05);
         }
-        .pontos-card span { font-size: 0.85rem; color: #ff8fa3; font-weight: 500; }
-        .pontos-num { font-size: 1.1rem; color: #fff; font-weight: 600; background: #ff5c8a; padding: 2px 10px; border-radius: 10px; }
+        .pontos-card span { font-size: 0.88rem; color: #ff8fa3; font-weight: 500; }
+        .pontos-num { font-size: 1.15rem; color: #fff; font-weight: 600; background: linear-gradient(135deg, #ff5c8a, #ff3366); padding: 3px 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,92,138,0.4); }
 
         .contador-box { background: rgba(255, 92, 138, 0.06); border: 1px solid rgba(255, 92, 138, 0.2); padding: 12px 15px; border-radius: 16px; margin-bottom: 20px; font-size: 0.88rem; color: #ff8fa3; font-weight: 500; }
         
-        .quiz-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 92, 138, 0.2); padding: 20px 15px; border-radius: 16px; margin-bottom: 25px; text-align: left; }
-        .quiz-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 12px; text-align: center; }
-        .quiz-pergunta { font-size: 0.85rem; color: #e1e1e6; margin-bottom: 10px; font-weight: 500; }
-        .quiz-opcoes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-        .btn-opcao { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: #c1c1c9; padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; transition: all 0.2s; }
-        .btn-opcao:hover { background: rgba(255, 92, 138, 0.15); border-color: rgba(255, 92, 138, 0.4); color: #ff8fa3; }
-        .quiz-feedback { font-size: 0.8rem; margin-top: 5px; font-weight: 500; display: none; }
+        .quiz-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 92, 138, 0.25); padding: 20px 16px; border-radius: 18px; margin-bottom: 25px; text-align: left; }
+        .quiz-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 4px; text-align: center; }
+        .quiz-progresso { font-size: 0.75rem; color: #a8a8b3; text-align: center; margin-bottom: 15px; font-weight: 500; letter-spacing: 0.5px; }
+        .quiz-pergunta { font-size: 0.88rem; color: #e1e1e6; margin-bottom: 14px; font-weight: 500; line-height: 1.5; }
+        .quiz-opcoes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .btn-opcao { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: #c1c1c9; padding: 10px 14px; border-radius: 12px; font-size: 0.82rem; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; transition: all 0.25s ease; }
+        .btn-opcao:hover { background: rgba(255, 92, 138, 0.18); border-color: rgba(255, 92, 138, 0.5); color: #ff8fa3; transform: translateX(3px); }
+        .quiz-feedback { font-size: 0.82rem; margin-top: 8px; font-weight: 500; text-align: center; min-height: 20px; }
 
-        /* Cupons direcionando para nova página */
-        .cupons-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); padding: 20px 15px; border-radius: 16px; margin-bottom: 25px; text-align: left; }
-        .cupons-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 5px; text-align: center; }
+        .cupons-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 16px; border-radius: 18px; margin-bottom: 25px; text-align: left; }
+        .cupons-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 4px; text-align: center; }
         .cupons-sub { font-size: 0.75rem; color: #8a8a9e; text-align: center; margin-bottom: 15px; }
         .cupons-grid { display: flex; flex-direction: column; gap: 10px; }
         
         .cupom-item {
-            background: rgba(255, 92, 138, 0.05); border: 1px dashed rgba(255, 92, 138, 0.3); padding: 12px 14px;
-            border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.2s; text-decoration: none;
+            background: rgba(255, 92, 138, 0.05); border: 1px dashed rgba(255, 92, 138, 0.35); padding: 13px 15px;
+            border-radius: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.25s; text-decoration: none;
         }
-        .cupom-item:hover { background: rgba(255, 92, 138, 0.15); border-color: #ff5c8a; }
-        .cupom-texto { font-size: 0.82rem; color: #d1d1d6; font-weight: 500; }
-        .cupom-custo { font-size: 0.72rem; color: #ff8fa3; background: rgba(255, 92, 138, 0.15); padding: 4px 8px; border-radius: 8px; font-weight: 600; }
+        .cupom-item:hover { background: rgba(255, 92, 138, 0.15); border-color: #ff5c8a; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,92,138,0.15); }
+        .cupom-texto { font-size: 0.83rem; color: #d1d1d6; font-weight: 500; }
+        .cupom-custo { font-size: 0.72rem; color: #ff8fa3; background: rgba(255, 92, 138, 0.18); padding: 4px 9px; border-radius: 10px; font-weight: 600; }
+
+        /* Botão Galeria de Fotos */
+        .galeria-btn-wrapper { margin-bottom: 20px; }
+        .btn-galeria {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+            background: linear-gradient(135deg, rgba(255, 92, 138, 0.2), rgba(255, 51, 102, 0.2));
+            border: 1px solid rgba(255, 92, 138, 0.5); color: #ff8fa3; padding: 12px; border-radius: 14px;
+            font-size: 0.88rem; font-weight: 600; text-decoration: none; font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(255, 92, 138, 0.15);
+        }
+        .btn-galeria:hover { background: linear-gradient(135deg, rgba(255, 92, 138, 0.35), rgba(255, 51, 102, 0.35)); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 92, 138, 0.3); }
 
         .cartinhas-area { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
         .btn-carta {
-            background: rgba(255, 92, 138, 0.1); border: 1px solid rgba(255, 92, 138, 0.3); color: #ff8fa3;
-            padding: 8px 12px; border-radius: 12px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s;
+            background: rgba(255, 92, 138, 0.1); border: 1px solid rgba(255, 92, 138, 0.35); color: #ff8fa3;
+            padding: 9px 14px; border-radius: 14px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.25s;
+            box-shadow: 0 2px 8px rgba(255,92,138,0.1);
         }
-        .btn-carta:hover { background: rgba(255, 92, 138, 0.25); transform: translateY(-2px); }
+        .btn-carta:hover { background: rgba(255, 92, 138, 0.25); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(255,92,138,0.25); }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
-        .modal-conteudo { background: #1c1c28; border: 1px solid rgba(255, 92, 138, 0.4); padding: 25px; border-radius: 20px; max-width: 380px; width: 100%; text-align: left; }
-        .modal-conteudo h4 { color: #ff5c8a; margin-bottom: 10px; font-size: 1.05rem; }
-        .modal-conteudo p { font-size: 0.88rem; color: #d1d1d6; margin-bottom: 20px; }
-        .btn-fechar-modal { background: #ff5c8a; color: white; border: none; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; float: right; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .modal-conteudo { background: #1c1c28; border: 1px solid rgba(255, 92, 138, 0.5); padding: 25px; border-radius: 22px; max-width: 380px; width: 100%; text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        .modal-conteudo h4 { color: #ff5c8a; margin-bottom: 10px; font-size: 1.1rem; }
+        .modal-conteudo p { font-size: 0.88rem; color: #d1d1d6; margin-bottom: 20px; line-height: 1.5; }
+        .btn-fechar-modal { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; font-weight: 600; float: right; box-shadow: 0 4px 12px rgba(255,92,138,0.4); }
 
         .botoes-area { position: relative; height: 55px; display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
         .btn { padding: 12px 28px; font-size: 0.95rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.25s ease; }
         #sim { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: #fff; box-shadow: 0px 8px 20px rgba(255, 92, 138, 0.4); }
+        #sim:hover { transform: translateY(-2px); box-shadow: 0px 10px 25px rgba(255, 92, 138, 0.6); }
         #nao { background-color: rgba(255, 255, 255, 0.06); color: #a8a8b3; border: 1px solid rgba(255, 255, 255, 0.08); }
-        #mensagem-surpresa { display: none; margin-top: 20px; font-size: 1.05rem; color: #ff5c8a; font-weight: 500; background: rgba(255, 92, 138, 0.08); padding: 15px; border-radius: 16px; border: 1px solid rgba(255, 92, 138, 0.2); }
-        .footer-note { margin-top: 25px; font-size: 0.75rem; color: #8a8a9e; }
+        
+        #mensagem-surpresa { display: none; margin-top: 20px; font-size: 1.05rem; color: #ff5c8a; font-weight: 500; background: rgba(255, 92, 138, 0.08); padding: 15px; border-radius: 16px; border: 1px solid rgba(255, 92, 138, 0.25); animation: fadeInContainer 0.5s ease; }
+        .footer-note { margin-top: 25px; font-size: 0.75rem; color: #8a8a9e; letter-spacing: 0.3px; }
     </style>
 </head>
 <body>
 
     <div class="coracoes-bg">
-        <div class="heart-float" style="left: 10%; animation-delay: 0s;">🖤</div>
-        <div class="heart-float" style="left: 45%; animation-delay: 1.5s;">✨</div>
-        <div class="heart-float" style="left: 85%; animation-delay: 2s;">🖤</div>
+        <div class="heart-float" style="left: 8%; animation-delay: 0s;">🖤</div>
+        <div class="heart-float" style="left: 30%; animation-delay: 2s;">✨</div>
+        <div class="heart-float" style="left: 65%; animation-delay: 1s;">🖤</div>
+        <div class="heart-float" style="left: 88%; animation-delay: 3s;">✨</div>
     </div>
 
     <!-- Músicas -->
@@ -133,25 +161,24 @@
             <div class="coracao-Badge">🖤</div>
         </div>
         
-        <h1>Para a BEBEAAAA</h1>
+        <h1>Para a BEBEA.</h1>
         <div class="maquina-escrever" id="texto-maquina"></div>
 
         <!-- Placar de Pontos -->
         <div class="pontos-card">
-            <span>✨ Seus Pontos de conhecimento:</span>
-            <span class="pontos-num" id="contador-pontos">10</span>
+            <span>✨ Seus Pontos de Amor:</span>
+            <span class="pontos-num" id="contador-pontos">0</span>
         </div>
 
         <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
 
+        <!-- Quiz Interativo de 10 Perguntas -->
         <div class="quiz-box">
-            <h3> Teste do conhecimento (+10 Pontos)</h3>
-            <div class="quiz-pergunta">Por onde começamos a se falar? </div>
-            <div class="quiz-opcoes">
-                <button class="btn-opcao" onclick="responderQuiz(false, this)">A) INSTA </button>
-                <button class="btn-opcao" onclick="responderQuiz(true, this)">B) Tik tok</button>
-                <button class="btn-opcao" onclick="responderQuiz(false, this)">C) facebook</button>
-            </div>
+            <h3> Teste (10 Perguntas)</h3>
+            <div class="quiz-progresso" id="quiz-progresso">Pergunta 1 de 10</div>
+            
+            <div class="quiz-pergunta" id="quiz-pergunta-texto">Carregando pergunta...</div>
+            <div class="quiz-opcoes" id="quiz-opcoes-container"></div>
             <div class="quiz-feedback" id="quiz-feedback"></div>
         </div>
 
@@ -160,29 +187,34 @@
             <h3>🎟️ Resgate de Vales</h3>
             <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
             <div class="cupons-grid">
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 15)">
-                    <span class="cupom-texto">✨ Vale Um Abraço </span>
-                    <span class="cupom-custo">15 pts</span>
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 30)">
+                    <span class="cupom-texto">✨ Vale Um Abraço Apertado</span>
+                    <span class="cupom-custo">30 pts</span>
                 </a>
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar e Filme', 20)">
-                    <span class="cupom-texto">🍕 Vale encontro em algum canto </span>
-                    <span class="cupom-custo">20 pts</span>
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar, filme ou algo do tipo', 60)">
+                    <span class="cupom-texto">🍕 Vale Escolher Jantar, filme ou algo do tipo</span>
+                    <span class="cupom-custo">50 pts</span>
                 </a>
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale Massagem sem reclamação', 25)">
-                    <span class="cupom-texto">💆‍♀️ voce escolher o que vale </span>
-                    <span class="cupom-custo">25 pts</span>
+                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale ESCOLHA O QUE VOCE QUISER', 90)">
+                    <span class="cupom-texto">💆‍♀️ Vale ESCOLHA O QUE VOCE QUISER</span>
+                    <span class="cupom-custo">70 pts</span>
                 </a>
             </div>
+        </div>
+
+        <!-- Botão para a Nova Aba de Fotos -->
+        <div class="galeria-btn-wrapper">
+            <a href="fotos.html" class="btn-galeria">📸 Ver Sua Galeria de Fotos </a>
         </div>
 
         <!-- Cartinhas -->
         <div class="cartinhas-area">
             <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
-            <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Se sentir saudade</button>
+            <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Leia diariamente</button>
             <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
         </div>
 
-        <p>Você aceita continuar com seu cantinho aqui? </p>
+        <p>Você aceita continuar com seu cantinho?</p>
 
         <div class="botoes-area">
             <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
@@ -190,22 +222,22 @@
         </div>
 
         <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
-        <div class="footer-note">Feito com todo o amor do mundo para você.</div>
+        <div class="footer-note">Feito com todo o amor do mundo para você. </div>
     </div>
 
     <!-- Modais das Cartinhas -->
     <div class="modal-overlay" id="modal-carta1">
         <div class="modal-conteudo">
             <h4>Para dias tristes 🖤</h4>
-            <p>Por mais que hoje nao tenha sido facil, lembre-se que Jesus te ama. E lembre-se que vc tem á eu para te ajudar, sempre estarei aquiii.</p>
+            <p>Independente do dia difícil que você tenha tido, lembre-se de que Cristo te ama, e que voce tem a mim. Você nunca está sozinha.</p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta1')">Fechar</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-carta2">
         <div class="modal-conteudo">
-            <h4>Diariamente </h4>
-            <p> Voce é incrivel, maravilhosa e nos ajuda todos os dias com sua humildade e atenção.</p>
+            <h4> Leia diariamente 🥺</h4>
+            <p> Lembre-se todos os dias o quão maravilho, perfeita e incrivel voce é!!</p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta2')">Fechar</button>
         </div>
     </div>
@@ -213,7 +245,7 @@
     <div class="modal-overlay" id="modal-carta3">
         <div class="modal-conteudo">
             <h4>O que eu mais amo em você ✨</h4>
-            <p>O seu jeito único de iluminar qualquer ambiente, a sua risada contagiante e a paz que voce transmite, e a bondade, atenção e carinho.</p>
+            <p>O seu jeito único de iluminar qualquer ambiente, o seu sorriso, seus olhos, a paz que voce transmite, sua atenção e disponbilidade para ajudar.</p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta3')">Fechar</button>
         </div>
     </div>
@@ -222,16 +254,69 @@
     <div class="modal-overlay" id="modal-pontos">
         <div class="modal-conteudo">
             <h4 style="color: #ff5c8a;">Ops! Pontos insuficientes 🥺</h4>
-            <p id="texto-aviso-pontos">Você ainda não tem pontos suficientes. Responda o quiz para ganhar mais!</p>
+            <p id="texto-aviso-pontos">Você ainda não tem pontos suficientes. Continue respondendo o quiz para ganhar mais!</p>
             <button class="btn-fechar-modal" onclick="fecharModalPontos()">Entendi! 🥰</button>
         </div>
     </div>
 
     <script>
-        let pontos = 10;
-        let quizRespondido = false;
+        let pontos = 0;
+        let perguntaAtual = 0;
 
-        const textoDeclaracao = "Fiz esse espacinho aqui só para te lembrar o quanto você é incrível. Ganhe pontos respondendo o quiz para resgatar vales secretos!";
+        const perguntasQuiz = [
+            {
+                pergunta: "1. Por onde começamos a se falar? ",
+                opcoes: ["Whatsaap", "instagram", "tik tok"],
+                correta: 2
+            },
+            {
+                pergunta: "2. Qual é a minha cor favorita?",
+                opcoes: ["Preto ", "Azul", "Verde"],
+                correta: 1
+            },
+            {
+                pergunta: "3. Primeiro vez que se viu? ",
+                opcoes: ["IGREJA", "Rua", "shopping"],
+                correta: 0
+            },
+            {
+                pergunta: "4. Quando a gente se viu a primeira vez, qual era o plano inical?",
+                opcoes: ["Ir no MC donalds", "ir andar ", " ir no shopping "],
+                correta: 0
+            },
+            {
+                pergunta: " 5. Qual foi a primeira lembrancinha que te levei? ",
+                opcoes: ["Blusa", "balinha", "Chocolate"],
+                correta: 2
+            },
+            {
+                pergunta: "6. O que eu mais te elogio?",
+                opcoes: ["Seu sorriso ", " Seus olhos ", " Seus dedos"],
+                correta: 0
+            },
+            {
+                pergunta: "7. Como foi a primeira mensagem que te mandei?",
+                opcoes: ["oi", "Oi, tudo bem? ", " Oi, voce é da onde?"],
+                correta: 1
+            },
+            {
+                pergunta: "8. O que mais me estressa? ",
+                opcoes: ["Sao Paulo ", "Trabalho", "barulho"],
+                correta: 0
+            },
+            {
+            pergunta: "9. Quantas vezes a gente ja se encontrou? ",
+                opcoes: ["8 vezes", "5 vezes ", "10 vezes"],
+                correta: 2
+            },
+            {
+                pergunta: "10. Quem falou amou primeirou? ?",
+                opcoes: [" EU ", " Voce ", "Ninguém" ],
+                correta: 1
+            }
+        ];
+
+        const textoDeclaracao = "Fiz esse espacinho aqui só para te lembrar o quanto você é incrível. Responda as 10 perguntas do quiz para acumular pontos e resgatar vales secretos!";
         let i = 0;
         function digitarTexto() {
             if (i < textoDeclaracao.length) {
@@ -242,7 +327,7 @@
         }
         setTimeout(digitarTexto, 500);
 
-        var dataInicio = new Date(2026, 0, 1); 
+        var dataInicio = new Date(2026, 0, 10); 
         function atualizarContador() {
             var agora = new Date();
             var diferenca = agora - dataInicio;
@@ -251,29 +336,61 @@
         }
         atualizarContador();
 
-        function responderQuiz(correto, elemento) {
-            var feedback = document.getElementById("quiz-feedback");
-            feedback.style.display = "block";
-            if (correto) {
+        function carregarPergunta() {
+            if (perguntaAtual < perguntasQuiz.length) {
+                let p = perguntasQuiz[perguntaAtual];
+                document.getElementById("quiz-progresso").innerText = "Pergunta " + (perguntaAtual + 1) + " de 10";
+                document.getElementById("quiz-pergunta-texto").innerText = p.pergunta;
+                
+                let containerOpcoes = document.getElementById("quiz-opcoes-container");
+                containerOpcoes.innerHTML = "";
+                document.getElementById("quiz-feedback").innerText = "";
+
+                p.opcoes.forEach((opcao, index) => {
+                    let btn = document.createElement("button");
+                    btn.className = "btn-opcao";
+                    btn.innerText = String.fromCharCode(65 + index) + ") " + opcao;
+                    btn.onclick = function() { responderQuiz(index); };
+                    containerOpcoes.appendChild(btn);
+                });
+            } else {
+                document.getElementById("quiz-progresso").innerText = "Parabéns! Quiz Concluído 🎉";
+                document.getElementById("quiz-pergunta-texto").innerText = "Você respondeu todas as perguntas e provou que sabe tudooooo!";
+                document.getElementById("quiz-opcoes-container").innerHTML = "";
+                document.getElementById("quiz-feedback").style.color = "#ff8fa3";
+                document.getElementById("quiz-feedback").innerText = "Você acumulou " + pontos + " pontos de amor! Já pode resgatar seus vales lá embaixo ✨";
+                dispararConfetes();
+            }
+        }
+
+        function responderQuiz(indiceEscolhido) {
+            let p = perguntasQuiz[perguntaAtual];
+            let feedback = document.getElementById("quiz-feedback");
+
+            if (indiceEscolhido === p.correta) {
                 feedback.style.color = "#ff8fa3";
-                feedback.innerHTML = "Acertou em cheio! +10 pontos adicionados 🥰✨";
-                if(!quizRespondido) {
-                    pontos += 10;
-                    document.getElementById("contador-pontos").innerText = pontos;
-                    quizRespondido = true;
-                }
+                feedback.innerHTML = "Acertou em cheio! +10 pontos 🥰✨";
+                pontos += 10;
+                document.getElementById("contador-pontos").innerText = pontos;
                 dispararConfetes();
             } else {
                 feedback.style.color = "#b8b8c2";
-                feedback.innerHTML = "Opa, quase! Tenta de novo 🙈";
+                feedback.innerHTML = "Opa, errou essa! Mas sem problemas, vamos para a próxima 🙈";
             }
+
+            perguntaAtual++;
+            setTimeout(carregarPergunta, 1500);
         }
+
+        window.onload = function() {
+            carregarPergunta();
+        };
 
         function tentarAbrirVale(idVale, nomeVale, custo) {
             if (pontos >= custo) {
                 window.location.href = "vale.html?tipo=" + idVale + "&nome=" + encodeURIComponent(nomeVale);
             } else {
-                document.getElementById("texto-aviso-pontos").innerHTML = "Você precisa de <strong>" + custo + " pontos</strong> para resgatar o '<strong>" + nomeVale + "</strong>'. Atualmente você tem " + pontos + " pontos. Acerte o quiz para ganhar mais!";
+                document.getElementById("texto-aviso-pontos").innerHTML = "Você precisa de <strong>" + custo + " pontos</strong> para resgatar o '<strong>" + nomeVale + "</strong>'. Atualmente você tem " + pontos + " pontos. Continue respondendo o quiz para avançar!";
                 document.getElementById("modal-pontos").style.display = "flex";
             }
         }
