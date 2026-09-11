@@ -34,7 +34,7 @@
         }
 
         .container {
-            max-width: 600px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
+            max-width: 650px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
             padding: 30px 20px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08); position: relative; z-index: 2;
         }
@@ -45,35 +45,69 @@
         /* Grid de Fotos */
         .galeria-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
             margin-bottom: 30px;
+            text-align: left;
         }
         .foto-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 92, 138, 0.3);
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
-            padding: 8px;
+            padding: 12px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .foto-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: #ff5c8a;
-            box-shadow: 0 10px 25px rgba(255, 92, 138, 0.3);
+            box-shadow: 0 10px 25px rgba(255, 92, 138, 0.25);
         }
         .foto-card img {
             width: 100%;
-            height: 140px;
+            height: 200px;
             object-fit: cover;
             border-radius: 12px;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: opacity 0.2s;
         }
-        .foto-legenda {
-            font-size: 0.78rem;
-            color: #d1d1d6;
-            font-weight: 400;
+        .foto-card img:hover { opacity: 0.9; }
+        
+        .foto-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .foto-legenda { font-size: 0.85rem; color: #d1d1d6; font-weight: 500; }
+        
+        /* Botão interativo de cartinha da foto */
+        .btn-declaracao-foto {
+            width: 100%;
+            background: rgba(255, 92, 138, 0.08);
+            border: 1px dashed rgba(255, 92, 138, 0.4);
+            color: #ff8fa3;
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+            text-align: center;
         }
+        .btn-declaracao-foto:hover {
+            background: rgba(255, 92, 138, 0.2);
+            border-color: #ff5c8a;
+            color: #fff;
+        }
+
+        /* Modal / Lightbox para ver a foto grande e a cartinha */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .modal-conteudo { background: #1c1c28; border: 1px solid rgba(255, 92, 138, 0.5); padding: 22px; border-radius: 22px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); animation: fadeInModal 0.3s ease; }
+        @keyframes fadeInModal { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        .modal-conteudo img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 14px; margin-bottom: 12px; border: 2px solid #ff5c8a; }
+        .modal-conteudo h4 { color: #ff5c8a; margin-bottom: 8px; font-size: 1rem; }
+        .modal-conteudo p { font-size: 0.85rem; color: #d1d1d6; margin-bottom: 20px; line-height: 1.5; }
+        
+        .btn-fechar-modal { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; border: none; padding: 8px 22px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 12px rgba(255,92,138,0.4); }
 
         .btn-voltar {
             display: inline-block;
@@ -87,10 +121,7 @@
             box-shadow: 0px 8px 20px rgba(255, 92, 138, 0.4);
             transition: all 0.25s ease;
         }
-        .btn-voltar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0px 10px 25px rgba(255, 92, 138, 0.6);
-        }
+        .btn-voltar:hover { transform: translateY(-2px); box-shadow: 0px 10px 25px rgba(255, 92, 138, 0.6); }
         .footer-note { margin-top: 25px; font-size: 0.75rem; color: #8a8a9e; }
     </style>
 </head>
@@ -103,34 +134,82 @@
     </div>
 
     <div class="container">
-        <h1>Nossa Galeria de Momentos ✨</h1>
-        <div class="sub">Um pouquinho dos nossos melhores registros juntos (ou fotos dela que eu mais amo).</div>
+        <h1>SUA Galeria de Momentos ✨</h1>
+        <div class="sub">Clique em qualquer foto para ampliar ou descubra a cartinha escondida de cada momento!</div>
 
         <div class="galeria-grid">
             <!-- Foto 1 -->
             <div class="foto-card">
-                <img src="foto.jpeg" alt="fotos 1">
-                <div class="foto-legenda"> Um dos dias mais aleatorios, e que deu pra aproveitar um bom tempo. Ou seja, muito bomm!! </div>
+                <img src="foto1.jpeg" alt="Momento 1" onclick="abrirFotoGrande('foto1.jpeg', 'O dia em que...', 'Eu lembro perfeitamente daquele dia. Você estava radiante e meu coração disparou todinho.')">
+                <div class="foto-info">
+                    <span class="foto-legenda">a Momemto muito importante</span>
+                </div>
+                <button class="btn-declaracao-foto" onclick="abrirCartinhaFoto('Momento muito importante: ', 'Pois fui muito ajudado por voces.')">💌 O que eu pensei...</button>
             </div>
+
             <!-- Foto 2 -->
             <div class="foto-card">
-                <img src="foto2.jpeg" alt="fotos 2">
-                <div class="foto-legenda"> My favorite sorriso </div>
+                <img src="foto2.jpeg" alt="Momento 2" onclick="abrirFotoGrande('foto2.jpeg', 'Sempre linda ✨', 'Não importa o ângulo ou o momento, você sempre consegue me impressionar com o seu sorriso.')">
+                <div class="foto-info">
+                    <span class="foto-legenda">Sorrisso mais perfeito </span>
+                </div>
+                <button class="btn-declaracao-foto" onclick="abrirCartinhaFoto('Sempre sorrindo', 'Quero ver voce sempre assim com o sorriso mais bonito em seu rosto.')">💌 O que eu pensei...</button>
             </div>
+
             <!-- Foto 3 -->
             <div class="foto-card">
-                <img src="foto1.jpeg" alt="fotos 3">
-                <div class="foto-legenda"> A very special moment </div>
+                <img src="foto.jpeg" alt="Momento 3" onclick="abrirFotoGrande('foto3.jpeg', 'Meu sorriso favorito 🥰', 'Essa foto resume exatamente o motivo de eu ser tão apaixonado por você. Sua risada é minha paz.')">
+                <div class="foto-info">
+                    <span class="foto-legenda">Momentinho Espcial </span>
+                </div>
+                <button class="btn-declaracao-foto" onclick="abrirCartinhaFoto(' Um dos momentos mais legais ', 'pois foi tudo aleatorio e do nada, deu de conversar um tiquin. ')">💌 O que eu pensei...</button>
             </div>
+
             <!-- Foto 4 -->
             <div class="foto-card">
-                <img src="foto4.jpeg" alt="fotos 4">
-                <div class="foto-legenda">My favorite olhos </div>
+                <img src="foto4.jpeg" alt="Momento 4" onclick="abrirFotoGrande('foto4.jpeg', 'Nossa vibe 🖤', 'Nós dois juntos combinamos de um jeito único que eu nunca imaginei que fosse possível.')">
+                <div class="foto-info">
+                    <span class="foto-legenda">Olhos perfeitos</span>
+                </div>
+                <button class="btn-declaracao-foto" onclick="abrirCartinhaFoto('Olhos perfeitos: ', 'Pois eles sao branquinhos, brilham e tem o brilho do Espirito santo.')">💌 O que eu pensei...</button>
             </div>
         </div>
 
         <a href="index.html" class="btn-voltar">← Voltar para a Página Principal</a>
-        <div class="footer-note"> Voce é incrivel. </div>
+        <div class="footer-note">Te amo infinitamente. 🖤✨</div>
     </div>
+
+    <!-- Modal Dinâmico de Cartinha / Foto -->
+    <div class="modal-overlay" id="modal-interativo">
+        <div class="modal-conteudo">
+            <div id="conteudo-modal-dinamico"></div>
+            <button class="btn-fechar-modal" onclick="fecharModal()">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        function abrirCartinhaFoto(titulo, texto) {
+            let html = `
+                <h4 style="color: #ff5c8a; margin-bottom: 10px;">${titulo} 🖤</h4>
+                <p>${texto}</p>
+            `;
+            document.getElementById("conteudo-modal-dinamico").innerHTML = html;
+            document.getElementById("modal-interativo").style.display = "flex";
+        }
+
+        function abrirFotoGrande(srcImg, titulo, texto) {
+            let html = `
+                <img src="${srcImg}" alt="Foto Ampliada">
+                <h4 style="color: #ff5c8a; margin-bottom: 6px;">${titulo}</h4>
+                <p style="font-size: 0.8rem; color: #a8a8b3;">${texto}</p>
+            `;
+            document.getElementById("conteudo-modal-dinamico").innerHTML = html;
+            document.getElementById("modal-interativo").style.display = "flex";
+        }
+
+        function fecharModal() {
+            document.getElementById("modal-interativo").style.display = "none";
+        }
+    </script>
 </body>
 </html>
