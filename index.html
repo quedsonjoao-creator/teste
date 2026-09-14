@@ -34,6 +34,36 @@
             20% { opacity: 0.9; }
             100% { transform: translateY(-105vh) scale(1.4) rotate(360deg); opacity: 0; }
         }
+
+        /* TELA DE LOGIN SECRETA INICIAL */
+        #tela-login {
+            max-width: 400px; width: 100%; background: rgba(22, 22, 32, 0.95); backdrop-filter: blur(16px);
+            padding: 40px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.3); position: relative; z-index: 10; text-align: center;
+            animation: fadeInContainer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        #tela-login h2 { color: #ff5c8a; font-size: 1.4rem; margin-bottom: 10px; }
+        #tela-login p { font-size: 0.85rem; color: #a8a8b3; margin-bottom: 25px; line-height: 1.5; }
+        .input-login { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 92, 138, 0.4); padding: 12px 16px; border-radius: 14px; color: #fff; font-size: 0.9rem; width: 100%; text-align: center; outline: none; margin-bottom: 12px; font-family: 'Poppins', sans-serif; }
+        .input-login:focus { border-color: #ff5c8a; box-shadow: 0 0 12px rgba(255,92,138,0.4); }
+        .btn-login { width: 100%; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: #fff; border: none; padding: 12px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; box-shadow: 0 4px 15px rgba(255,92,138,0.4); transition: all 0.2s; margin-bottom: 15px; }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,92,138,0.6); }
+        
+        .btn-dica { background: none; border: none; color: #ff8fa3; font-size: 0.8rem; cursor: pointer; font-family: 'Poppins', sans-serif; text-decoration: underline; transition: color 0.2s; }
+        .btn-dica:hover { color: #ff5c8a; }
+        
+        .dica-box { display: none; margin-top: 15px; font-size: 0.82rem; color: #ffb3c1; background: rgba(255, 92, 138, 0.08); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 92, 138, 0.3); line-height: 1.4; animation: fadeInContainer 0.4s ease; text-align: left; }
+        .login-erro { font-size: 0.78rem; color: #ff6b6b; margin-top: 10px; min-height: 18px; font-weight: 500; }
+
+        /* CONTEÚDO PRINCIPAL DO SITE */
+        #conteudo-site { 
+            display: none; 
+            width: 100%; 
+            justify-content: center; 
+            position: relative;
+            z-index: 5;
+        }
+
         .music-player-flutuante {
             position: fixed; top: 20px; right: 20px; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 92, 138, 0.4); padding: 8px 16px; border-radius: 50px; z-index: 10;
@@ -49,7 +79,7 @@
         .container {
             max-width: 520px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
             padding: 35px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08); position: relative; z-index: 2; margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08); position: relative; margin: 40px auto;
             animation: fadeInContainer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes fadeInContainer {
@@ -102,7 +132,6 @@
         .cupom-texto { font-size: 0.83rem; color: #d1d1d6; font-weight: 500; }
         .cupom-custo { font-size: 0.72rem; color: #ff8fa3; background: rgba(255, 92, 138, 0.18); padding: 4px 9px; border-radius: 10px; font-weight: 600; }
 
-        /* Botão Galeria de Fotos */
         .galeria-btn-wrapper { margin-bottom: 20px; }
         .btn-galeria {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
@@ -146,98 +175,115 @@
         <div class="heart-float" style="left: 88%; animation-delay: 3s;">✨</div>
     </div>
 
-    <!-- Músicas -->
-    <div class="music-player-flutuante">
-        <span>🎵 Trilha Sonora</span>
-        <button id="btn-audio" onclick="alternarAudio()">▶</button>
+    <!-- TELA DE LOGIN SECRETA COM 3 DICAS PROGRESSIVAS -->
+    <div id="tela-login">
+        <h2>🔒 Área Restrita</h2>
+        <p>Digite a senha secreta para entrar no seu cantinho especial:</p>
+        
+        <input type="password" id="input-senha-login" class="input-login" placeholder="Sua senha..." onkeypress="teclouEnter(event)">
+        <button class="btn-login" onclick="fazerLogin()">Entrar ✨</button>
+        
+        <!-- Botão e Caixa de Dicas Progressivas -->
+        <button class="btn-dica" onclick="proximaDica()">💡 Ver Dica (<span id="contador-dica-num">1</span>/3)</button>
+        <div id="caixa-dica" class="dica-box"></div>
+
+        <div id="login-erro" class="login-erro"></div>
     </div>
 
-    <audio id="som-triste"><source src="musica_triste.mp3" type="audio/mp3"></audio>
-    <audio id="som-feliz" loop><source src="musica_feliz.mp3" type="audio/mp3"></audio>
+    <!-- CONTEÚDO PRINCIPAL DO SITE -->
+    <div id="conteudo-site">
 
-    <div class="container">
-        <div class="foto-wrapper">
-            <img src="foto2.jpeg" alt="Foto" class="foto-perfil">
-            <div class="coracao-Badge">🖤</div>
-        </div>
-        
-        <h1>Para a BEBEA.</h1>
-        <div class="maquina-escrever" id="texto-maquina"></div>
-
-        <!-- Placar de Pontos -->
-        <div class="pontos-card">
-            <span>✨ Seus Pontos de Amor:</span>
-            <span class="pontos-num" id="contador-pontos">0</span>
+        <div class="music-player-flutuante">
+            <span>🎵 Trilha Sonora</span>
+            <button id="btn-audio" onclick="alternarAudio()">▶</button>
         </div>
 
-        <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
+        <audio id="som-triste"><source src="musica_triste.mp3" type="audio/mp3"></audio>
+        <audio id="som-feliz" loop><source src="musica_feliz.mp3" type="audio/mp3"></audio>
 
-        <!-- Quiz Interativo de 10 Perguntas -->
-        <div class="quiz-box">
-            <h3> Teste (10 Perguntas)</h3>
-            <div class="quiz-progresso" id="quiz-progresso">Pergunta 1 de 10</div>
-            
-            <div class="quiz-pergunta" id="quiz-pergunta-texto">Carregando pergunta...</div>
-            <div class="quiz-opcoes" id="quiz-opcoes-container"></div>
-            <div class="quiz-feedback" id="quiz-feedback"></div>
-        </div>
-
-        <!-- Cupons direcionados para vale.html -->
-        <div class="cupons-box">
-            <h3>🎟️ Resgate de Vales</h3>
-            <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
-            <div class="cupons-grid">
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 30)">
-                    <span class="cupom-texto">✨ Vale Um Abraço Apertado</span>
-                    <span class="cupom-custo">30 pts</span>
-                </a>
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar, filme ou algo do tipo', 60)">
-                    <span class="cupom-texto">🍕 Vale Escolher Jantar, filme ou algo do tipo</span>
-                    <span class="cupom-custo">50 pts</span>
-                </a>
-                <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale ESCOLHA O QUE VOCE QUISER', 90)">
-                    <span class="cupom-texto">💆‍♀️ Vale ESCOLHA O QUE VOCE QUISER</span>
-                    <span class="cupom-custo">70 pts</span>
-                </a>
+        <div class="container">
+            <div class="foto-wrapper">
+                <img src="foto.jpeg" alt="Foto" class="foto-perfil">
+                <div class="coracao-Badge">🖤</div>
             </div>
+            
+            <h1>Para a Bebea </h1>
+            <div class="maquina-escrever" id="texto-maquina"></div>
+
+            <div class="pontos-card">
+                <span>✨ Seus Pontos de Amor:</span>
+                <span class="pontos-num" id="contador-pontos">0</span>
+            </div>
+
+            <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
+
+            <!-- Quiz Interativo -->
+            <div class="quiz-box">
+                <h3> Teste (10 Perguntas)</h3>
+                <div class="quiz-progresso" id="quiz-progresso">Pergunta 1 de 10</div>
+                
+                <div class="quiz-pergunta" id="quiz-pergunta-texto">Carregando pergunta...</div>
+                <div class="quiz-opcoes" id="quiz-opcoes-container"></div>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+            </div>
+
+            <!-- Cupons direcionados para vale.html -->
+            <div class="cupons-box">
+                <h3>🎟️ Resgate de Vales</h3>
+                <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
+                <div class="cupons-grid">
+                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 30)">
+                        <span class="cupom-texto">✨ Vale Um Abraço Apertado</span>
+                        <span class="cupom-custo">30 pts</span>
+                    </a>
+                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar, Filme ou algo do tipo', 60)">
+                        <span class="cupom-texto">🍕 Vale Escolher Jantar, Filme ou algo do tipo</span>
+                        <span class="cupom-custo">60 pts</span>
+                    </a>
+                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale ESCOLHA O QUE VOCE QUISER', 90)">
+                        <span class="cupom-texto">💆‍♀️ Vale ESCOLHA O QUE VOCE QUISER </span>
+                        <span class="cupom-custo">90 pts</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Botão para a Nova Aba de Fotos -->
+            <div class="galeria-btn-wrapper">
+                <a href="fotos.html" class="btn-galeria">📸 Ver Nossa Galeria de Fotos ✨</a>
+            </div>
+
+            <!-- Cartinhas -->
+            <div class="cartinhas-area">
+                <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
+                <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Diariamente </button>
+                <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
+            </div>
+
+            <p>Você aceita continuar colecionando memórias comigo?</p>
+
+            <div class="botoes-area">
+                <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
+                <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
+            </div>
+
+            <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
+            <div class="footer-note">Feito com todo o amor do mundo para você. ✨🖤</div>
         </div>
-
-        <!-- Botão para a Nova Aba de Fotos -->
-        <div class="galeria-btn-wrapper">
-            <a href="fotos.html" class="btn-galeria">📸 Ver Sua Galeria de Fotos </a>
-        </div>
-
-        <!-- Cartinhas -->
-        <div class="cartinhas-area">
-            <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
-            <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Leia diariamente</button>
-            <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
-        </div>
-
-        <p>Você aceita continuar com seu cantinho?</p>
-
-        <div class="botoes-area">
-            <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
-            <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
-        </div>
-
-        <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
-        <div class="footer-note">Feito com todo o amor do mundo para você. </div>
     </div>
 
     <!-- Modais das Cartinhas -->
     <div class="modal-overlay" id="modal-carta1">
         <div class="modal-conteudo">
             <h4>Para dias tristes 🖤</h4>
-            <p>Independente do dia difícil que você tenha tido, lembre-se de que Cristo te ama, e que voce tem a mim. Você nunca está sozinha.</p>
+            <p>Independente do dia difícil que voce tenha tido, lembr-se que eu estou aqui para voce.</p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta1')">Fechar</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-carta2">
         <div class="modal-conteudo">
-            <h4> Leia diariamente 🥺</h4>
-            <p> Lembre-se todos os dias o quão maravilho, perfeita e incrivel voce é!!</p>
+            <h4>Diariamente </h4>
+            <p> Lembre-se todos os dias que voce é incriver, perfeita e maravilhosa..</p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta2')">Fechar</button>
         </div>
     </div>
@@ -245,7 +291,7 @@
     <div class="modal-overlay" id="modal-carta3">
         <div class="modal-conteudo">
             <h4>O que eu mais amo em você ✨</h4>
-            <p>O seu jeito único de iluminar qualquer ambiente, o seu sorriso, seus olhos, a paz que voce transmite, sua atenção e disponbilidade para ajudar.</p>
+            <p>O seu jeito único de iluminar qualquer ambiente, a sua risada contagiante, seus olhos, sua humildade, as broncas e etc... </p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta3')">Fechar</button>
         </div>
     </div>
@@ -260,74 +306,126 @@
     </div>
 
     <script>
+        // Defina aqui a senha principal do site
+        const SENHA_CORRETA = "Beatrizsorrisoperfeito"; 
+
+        // Defina aqui as 3 dicas que vão aparecer progressivamente
+        const listaDicas = [
+            "<strong>Dica 1 (Mais geral):</strong> Nome de uma pessoa incrivel, perfeita e maravilhosa",
+            "<strong>Dica 2 (Tamanho):</strong>  é a parte que eu amo em voce ",
+            "<strong>Dica 3 (Quase a resposta):</strong> Começa com a letra <b>'B'</b> e termina com a palavra <b> 'perfeito' 👀"
+        ];
+        
+        let indiceDicaAtual = 0;
+
+        function proximaDica() {
+            let caixaDica = document.getElementById("caixa-dica");
+            let spanNum = document.getElementById("contador-dica-num");
+
+            // Mostra a caixa se estiver oculta
+            caixaDica.style.display = "block";
+            
+            // Exibe a dica correspondente ao índice atual
+            caixaDica.innerHTML = listaDicas[indiceDicaAtual];
+            
+            // Atualiza o número exibido no botão (ciclando de 1 a 3)
+            indiceDicaAtual = (indiceDicaAtual + 1) % listaDicas.length;
+            spanNum.innerText = indiceDicaAtual + 1;
+        }
+
+        function fazerLogin() {
+            let digitada = document.getElementById("input-senha-login").value.trim().toLowerCase();
+            let erroDiv = document.getElementById("login-erro");
+
+            if (digitada === SENHA_CORRETA) {
+                document.getElementById("tela-login").style.display = "none";
+                document.getElementById("conteudo-site").style.display = "flex";
+                
+                dispararConfetes();
+                carregarPergunta();
+                iniciarMaquinaEscrever();
+            } else {
+                erroDiv.innerText = "Senha incorreta, bebea! Tente de novo ";
+                document.getElementById("input-senha-login").style.borderColor = "#ff6b6b";
+                setTimeout(() => {
+                    document.getElementById("input-senha-login").style.borderColor = "rgba(255, 92, 138, 0.4)";
+                }, 1500);
+            }
+        }
+
+        function teclouEnter(e) {
+            if (e.key === "Enter") {
+                fazerLogin();
+            }
+        }
+
         let pontos = 0;
         let perguntaAtual = 0;
 
         const perguntasQuiz = [
             {
-                pergunta: "1. Quantos lados tem um quadrado? ",
-                opcoes: ["3", "4", "5"],
-                correta: 1
-            },
-            {
-                pergunta: "2. Quanto é 1+2 ?",
-                opcoes: ["3", "4", "5"],
+                pergunta: "1. Quanto é 30x2?",
+                opcoes: ["60", "50", "70"],
                 correta: 0
             },
             {
-                pergunta: "3. Quanto é 5x4? ",
-                opcoes: ["20", "25", "30"],
+                pergunta: "2. Qual é a minha cor favorita?",
+                opcoes: ["Azul", "Preto / Vermelho", "Verde"],
                 correta: 0
             },
             {
-                pergunta: "4.Qual musica que vc me indicou que eu mais gosto?",
-                opcoes: ["Reacende a Chama", "Permanecerei  ", " So TU ES SANTO  "],
+                pergunta: "3. Qual é a nossa música ou estilo musical favorito?",
+                opcoes: ["Funk ", "Gospel", "Eletrônica/Rock"],
                 correta: 1
             },
             {
-                pergunta: " 5. Qual a primeira  msc q te vi cantando? ",
-                opcoes: ["Diante de TI", "UMA ESTILO REGGAE", "em ti"],
-                correta: 1
-            },
-            {
-                pergunta: "6. qUANTO É 7X10? ",
-                opcoes: ["70", "80", "90"],
+                pergunta: "4. Quem aqui não é cantor gospel  ?",
+                opcoes: ["Safadao", "Alessando Villas Boas", " Bruna Karla  "],
                 correta: 0
             },
             {
-                pergunta: "7. Qual a voz mais perfeita ?",
-                opcoes: ["SuA", "da bebea? ", "Todas as alternatvias estao corretas"],
+                pergunta: "5. Quem matou Golias ",
+                opcoes: ["Sansão ", " EU ", "Davi "],
+                correta: 1
+            },
+            {
+                pergunta: "6. Quem abriu o mar vermelho ?",
+                opcoes: ["Moises ", "Paulo", " judas"],
+                correta: 0
+            },
+            {
+                pergunta: "7. Qual era o nome de Paulo?",
+                opcoes: ["Messi", "Josué", "Saulo"],
                 correta: 2
             },
             {
-                pergunta: "8. QUEM DESCOBRIU O BRASIL ? ",
-                opcoes: ["Pedro Álvares Cabral", "Trabalho", "barulho"],
+                pergunta: "8. Quem era filho na fé de Paulo?",
+                opcoes: ["Saulo", "tito", "timóteo"],
+                correta: 2
+            },
+            {
+                pergunta: "9. Quantos livros tem a biblia? ",
+                opcoes: ["66", "59", "60"],
                 correta: 0
             },
             {
-            pergunta: "9. Quanto é 10x10? ",
-                opcoes: ["100", "50 ", "10 "],
-                correta: 0
-            },
-            {
-                pergunta: "10. Qual a capital do Brasil ?",
-                opcoes: ["Brasília", "São Paulo", "Rio de Janeiro"],
-                correta: 0
+                pergunta: "10. Quem negou Jesus 3 vezes?",
+                opcoes: ["Lucas", "Judas", "Pedro"],
+                correta: 2
             }
         ];
 
         const textoDeclaracao = "Fiz esse espacinho aqui só para te lembrar o quanto você é incrível. Responda as 10 perguntas do quiz para acumular pontos e resgatar vales secretos!";
         let i = 0;
-        function digitarTexto() {
+        function iniciarMaquinaEscrever() {
             if (i < textoDeclaracao.length) {
                 document.getElementById("texto-maquina").innerHTML += textoDeclaracao.charAt(i);
                 i++;
-                setTimeout(digitarTexto, 35);
+                setTimeout(iniciarMaquinaEscrever, 35);
             }
         }
-        setTimeout(digitarTexto, 500);
 
-        var dataInicio = new Date(2026, 0, 10); 
+        var dataInicio = new Date(2026, 10, 1); 
         function atualizarContador() {
             var agora = new Date();
             var diferenca = agora - dataInicio;
@@ -355,7 +453,7 @@
                 });
             } else {
                 document.getElementById("quiz-progresso").innerText = "Parabéns! Quiz Concluído 🎉";
-                document.getElementById("quiz-pergunta-texto").innerText = "Você respondeu todas as perguntas e provou que sabe tudooooo!";
+                document.getElementById("quiz-pergunta-texto").innerText = "Você respondeu todas as perguntas e provou que sabe tudo sobre nós!";
                 document.getElementById("quiz-opcoes-container").innerHTML = "";
                 document.getElementById("quiz-feedback").style.color = "#ff8fa3";
                 document.getElementById("quiz-feedback").innerText = "Você acumulou " + pontos + " pontos de amor! Já pode resgatar seus vales lá embaixo ✨";
@@ -381,10 +479,6 @@
             perguntaAtual++;
             setTimeout(carregarPergunta, 1500);
         }
-
-        window.onload = function() {
-            carregarPergunta();
-        };
 
         function tentarAbrirVale(idVale, nomeVale, custo) {
             if (pontos >= custo) {
