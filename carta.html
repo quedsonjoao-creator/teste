@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Biografia 🖤</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #e1e1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 420px; width: 100%; background: rgba(22, 22, 32, 0.95); backdrop-filter: blur(16px);
+            padding: 35px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4); text-align: left;
+            position: relative;
+        }
+        h1 { color: #ff5c8a; font-size: 1.2rem; margin-bottom: 20px; text-align: center; letter-spacing: 0.5px; }
+        
+        /* Player de Música Discreto */
+        .music-player {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 92, 138, 0.1);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 0.78rem;
+            color: #ff8fa3;
+        }
+        .music-player button {
+            background: #ff5c8a;
+            border: none;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Caixa do Texto com Efeito de Máquina de Escrever */
+        .biografia-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 0.88rem;
+            color: #d1d1d6;
+            line-height: 1.6;
+            min-height: 200px;
+            margin-bottom: 25px;
+            white-space: pre-line;
+        }
+
+        .btn-voltar {
+            display: block; width: 100%; background: transparent; color: #a8a8b3; border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px; border-radius: 14px; font-size: 0.85rem; text-align: center; cursor: pointer;
+            text-decoration: none; font-family: 'Poppins', sans-serif; transition: all 0.2s;
+        }
+        .btn-voltar:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <!-- ELEMENTO DE ÁUDIO (Troque 'musica.mp3' pelo nome exato do seu arquivo de música) -->
+    <audio id="audio-biografia" loop>
+        <source src="musica_triste.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="container">
+        <h1>THE Biografia</h1>
+        
+        <!-- Barra de controle da música -->
+        <div class="music-player">
+            <span>🎵</span>
+            <button id="btn-tocar" onclick="alternarMusica()">Pausar</button>
+        </div>
+        
+        <!-- O texto da biografia -->
+        <div class="biografia-box" id="texto-maquina"></div>
+
+        <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
+    </div>
+
+    <script>
+        // ESCREVA A SUA HISTÓRIA AQUI:
+        const textoDeclaracao = `Bom, minha parte favortia a de escrever, então começarei a falar sobre o incio. Em janeiro, eu estava no tico teco, e dai apareceu uma publicação sua com um monte de foto, dai eu fui
+    e segui voce, so que eu falei "mó cara de rica " pelas fotos que ce tinha postado, dai fui mandei mensagem, dai lembro que eu tava no onibus quando ce respondeu, dai foi e foi, dai foi pro insta e dai foi conversando, e eu 
+    fui notando que voce era atenciosa, tinha um coração muito bom. Dai foi passando o tempo, ai teve a piora do meu vô, e voce mesmo sem me conhecer muito, voce me escutou, ajudou muitoooooo, das pessoas proximas á mim, voce foi a que mais
+    foi humilde e soube entender minha chatura, e dai veio a morte a do meu VÔ, ai nesse periodo a gente se afastou tanto por seu querer e por meu também, pois na época eu me afastei de celular e todos,
+    só que nesse periodo eu senti sua falta, pq de fato dentre todas as amizades vocÊ era a unica que me entendia e nao falava "SEI COMO É". E pós esse periodo a gente se "resolveu" e voltou a se falar, a se ver
+    e você foi também uma dos principais pessoas que me fez melhorar do que eu estava passando, entao sla se isso tem a ver com biografia, mas é algo que faz parte e me ajudou mt a minha pessoa e vida.
+    Então saiba que o carinho que eu tenho por voce é muito grande, e que da mesma forma que vc se colocou a disposição para me ajudar, eu irei me colocar a sua o maximo para sempre te ajudar e ser uma pessoa
+    que vai te ajudar, dá força, apoiar, escutar e sempre acrescentar em sua vida. 
+        `;
+        
+    
+    let i = 0;
+        function iniciarMaquinaEscrever() {
+            if (i < textoDeclaracao.length) {
+                document.getElementById("texto-maquina").innerHTML += textoDeclaracao.charAt(i);
+                i++;
+                setTimeout(iniciarMaquinaEscrever, 30);
+            }
+        }
+
+        // Tenta tocar a música automaticamente e inicia a máquina de escrever ao carregar a página
+        window.onload = function() {
+            const musica = document.getElementById("audio-biografia");
+            musica.volume = 0.5; // Deixa o volume em 50% para ficar bem suave de fundo
+            musica.play().catch(error => {
+                // Navegadores modernos as vezes bloqueiam autoplay sem interação prévia, 
+                // caso aconteça, o botão muda para "Tocar" para ela ativar manualmente se quiser
+                document.getElementById("btn-tocar").innerText = "Tocar 🎵";
+            });
+            
+            iniciarMaquinaEscrever();
+        };
+
+        // Função do botão de ligar/desligar a música
+        function alternarMusica() {
+            const musica = document.getElementById("audio-biografia");
+            const botao = document.getElementById("btn-tocar");
+            
+            if (musica.paused) {
+                musica.play();
+                botao.innerText = "Pausar";
+            } else {
+                musica.pause();
+                botao.innerText = "Tocar ";
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Calendário 🖤</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #e1e1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 420px; width: 100%; background: rgba(22, 22, 32, 0.95); backdrop-filter: blur(16px);
+            padding: 30px 20px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+        }
+        h1 { color: #ff5c8a; font-size: 1.2rem; margin-bottom: 20px; letter-spacing: 1px; }
+
+        /* Grade do Calendário */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        .day-name {
+            font-size: 0.75rem;
+            color: #ff8fa3;
+            font-weight: 700;
+            padding-bottom: 5px;
+        }
+        .day {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border-radius: 8px;
+            color: #a8a8b3;
+        }
+        .day.empty { border: none; background: transparent; }
+        
+        /* Dia Especial marcado */
+        .day.special {
+            background: rgba(255, 92, 138, 0.2);
+            border: 1px solid #ff5c8a;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 92, 138, 0.4);
+            position: relative;
+        }
+        .day.special::after {
+            content: '♥';
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.55rem;
+            color: #ff5c8a;
+        }
+
+        /* Caixa de Mensagem do Dia */
+        .mensagem-dia {
+            background: rgba(255, 92, 138, 0.1);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: #e1e1e6;
+            margin-bottom: 20px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-voltar {
+            display: block; width: 100%; background: transparent; color: #a8a8b3; border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px; border-radius: 14px; font-size: 0.85rem; text-align: center; cursor: pointer;
+            text-decoration: none; font-family: 'Poppins', sans-serif; transition: all 0.2s;
+        }
+        .btn-voltar:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>CALENDÁRIO 2026</h1>
+        <h2 style="color: #fff; font-size: 1rem; margin-bottom: 15px;"> SETEMBRO </h2>
+
+        <!-- Caixa onde aparece a mensagem quando clica no dia especial -->
+        <div class="mensagem-dia" id="texto-aviso">
+            Clique nos dias marcados com coração para ver nossa lembrança! ✨
+        </div>
+
+        <!-- Grade estilo a imagem (Domingo a Sábado) -->
+        <div class="calendar-grid">
+            <!-- Cabeçalho dos Dias da Semana -->
+            <div class="day-name">D</div>
+            <div class="day-name">S</div>
+            <div class="day-name">T</div>
+            <div class="day-name">Q</div>
+            <div class="day-name">Q</div>
+            <div class="day-name">S</div>
+            <div class="day-name">S</div>
+
+            <!-- Dias vazios do começo do mês (Maio de 2026 começa na sexta-feira) -->
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty">01</div>
+            <div class="day empty">02</div>
+            <div class="day empty">03</div>
+            <div class="day">04</div>
+            <div class="day">05</div>
+
+            <!-- Semana 2 -->
+            <div class="day">06</div>
+            <div class="day">07</div>
+            <div class="day">08</div>
+            <div class="day">09</div>
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+
+            <!-- Semana 3 (Exemplo de dia especial no dia 12) -->
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day special" onclick="mostrarMensagem('Dia 19: Deixei só de exemplo pra voce ver a funcionalidade!')">19</div>
+
+            <!-- Semana 4 -->
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+
+            <!-- Semana 5 (Exemplo de dia especial no dia 25 - Nosso mês) -->
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+
+            <!-- Semana 6 -->
+            <div class="day"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+        </div>
+
+        <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
+    </div>
+
+    <script>
+        function mostrarMensagem(texto) {
+            document.getElementById("texto-aviso").innerText = texto;
+            // Se tiver o efeito de confetti carregado, pode soltar aqui se quiser:
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 40, spread: 60, origin: { y: 0.7 } });
+            }
+        }
+    </script>
+
+</body>
+</html>

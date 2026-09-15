@@ -7,7 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -203,7 +203,7 @@
 
         <div class="container">
             <div class="foto-wrapper">
-                <img src="foto.jpeg" alt="Foto" class="foto-perfil">
+                <img src="foto2.jpeg" alt="Foto" class="foto-perfil">
                 <div class="coracao-Badge">🖤</div>
             </div>
             
@@ -216,7 +216,7 @@
             </div>
 
             <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
-
+                <a href="calendario.html" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255,92,138,0.4);">📅 Nosso Calendário</a>
             <!-- Quiz Interativo -->
             <div class="quiz-box">
                 <h3> Teste (10 Perguntas)</h3>
@@ -250,7 +250,10 @@
             <!-- Botão para a Nova Aba de Fotos -->
             <div class="galeria-btn-wrapper">
                 <a href="fotos.html" class="btn-galeria">📸 Ver Nossa Galeria de Fotos ✨</a>
+                
+                <a href="carta.html" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255,92,138,0.4);">📖 Nossa Biografia</a>
             </div>
+
 
             <!-- Cartinhas -->
             <div class="cartinhas-area">
@@ -425,7 +428,7 @@
             }
         }
 
-        var dataInicio = new Date(2026, 10, 1); 
+        var dataInicio = new Date(2026, 1 , 10); 
         function atualizarContador() {
             var agora = new Date();
             var diferenca = agora - dataInicio;
