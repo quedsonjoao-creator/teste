@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para você, com todo o meu amor 🖤✨</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Special+Elite&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
             font-family: 'Poppins', sans-serif;
@@ -23,149 +30,625 @@
             overflow-y: auto;
             position: relative;
         }
+
         .coracoes-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
         }
+
         .heart-float {
-            position: absolute; bottom: -50px; color: rgba(255, 92, 138, 0.25); font-size: 1.4rem; animation: subir 7s infinite linear;
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 92, 138, 0.25);
+            font-size: 1.4rem;
+            animation: subir 7s infinite linear;
         }
+
         @keyframes subir {
-            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.9; }
-            100% { transform: translateY(-105vh) scale(1.4) rotate(360deg); opacity: 0; }
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translateY(-105vh) scale(1.4) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* TELA DE LOGIN SECRETA INICIAL */
         #tela-login {
-            max-width: 400px; width: 100%; background: rgba(22, 22, 32, 0.95); backdrop-filter: blur(16px);
-            padding: 40px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 92, 138, 0.3); position: relative; z-index: 10; text-align: center;
+            max-width: 400px;
+            width: 100%;
+            background: rgba(22, 22, 32, 0.95);
+            backdrop-filter: blur(16px);
+            padding: 40px 25px;
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            position: relative;
+            z-index: 10;
+            text-align: center;
             animation: fadeInContainer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        #tela-login h2 { color: #ff5c8a; font-size: 1.4rem; margin-bottom: 10px; }
-        #tela-login p { font-size: 0.85rem; color: #a8a8b3; margin-bottom: 25px; line-height: 1.5; }
-        .input-login { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 92, 138, 0.4); padding: 12px 16px; border-radius: 14px; color: #fff; font-size: 0.9rem; width: 100%; text-align: center; outline: none; margin-bottom: 12px; font-family: 'Poppins', sans-serif; }
-        .input-login:focus { border-color: #ff5c8a; box-shadow: 0 0 12px rgba(255,92,138,0.4); }
-        .btn-login { width: 100%; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: #fff; border: none; padding: 12px; border-radius: 14px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; box-shadow: 0 4px 15px rgba(255,92,138,0.4); transition: all 0.2s; margin-bottom: 15px; }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,92,138,0.6); }
-        
-        .btn-dica { background: none; border: none; color: #ff8fa3; font-size: 0.8rem; cursor: pointer; font-family: 'Poppins', sans-serif; text-decoration: underline; transition: color 0.2s; }
-        .btn-dica:hover { color: #ff5c8a; }
-        
-        .dica-box { display: none; margin-top: 15px; font-size: 0.82rem; color: #ffb3c1; background: rgba(255, 92, 138, 0.08); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255, 92, 138, 0.3); line-height: 1.4; animation: fadeInContainer 0.4s ease; text-align: left; }
-        .login-erro { font-size: 0.78rem; color: #ff6b6b; margin-top: 10px; min-height: 18px; font-weight: 500; }
+
+        #tela-login h2 {
+            color: #ff5c8a;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        #tela-login p {
+            font-size: 0.85rem;
+            color: #a8a8b3;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .input-login {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 12px 16px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.9rem;
+            width: 100%;
+            text-align: center;
+            outline: none;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-login:focus {
+            border-color: #ff5c8a;
+            box-shadow: 0 0 12px rgba(255, 92, 138, 0.4);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(255, 92, 138, 0.4);
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 92, 138, 0.6);
+        }
+
+        .btn-dica {
+            background: none;
+            border: none;
+            color: #ff8fa3;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .btn-dica:hover {
+            color: #ff5c8a;
+        }
+
+        .dica-box {
+            display: none;
+            margin-top: 15px;
+            font-size: 0.82rem;
+            color: #ffb3c1;
+            background: rgba(255, 92, 138, 0.08);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 92, 138, 0.3);
+            line-height: 1.4;
+            animation: fadeInContainer 0.4s ease;
+            text-align: left;
+        }
+
+        .login-erro {
+            font-size: 0.78rem;
+            color: #ff6b6b;
+            margin-top: 10px;
+            min-height: 18px;
+            font-weight: 500;
+        }
 
         /* CONTEÚDO PRINCIPAL DO SITE */
-        #conteudo-site { 
-            display: none; 
-            width: 100%; 
-            justify-content: center; 
+        #conteudo-site {
+            display: none;
+            width: 100%;
+            justify-content: center;
             position: relative;
             z-index: 5;
         }
 
         .music-player-flutuante {
-            position: fixed; top: 20px; right: 20px; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 92, 138, 0.4); padding: 8px 16px; border-radius: 50px; z-index: 10;
-            display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #ff8fa3; box-shadow: 0px 5px 20px rgba(255, 92, 138, 0.15);
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(22, 22, 32, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 8px 16px;
+            border-radius: 50px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #ff8fa3;
+            box-shadow: 0px 5px 20px rgba(255, 92, 138, 0.15);
         }
+
         .music-player-flutuante button {
-            background: linear-gradient(135deg, #ff5c8a, #ff3366); border: none; color: white; width: 28px; height: 28px; border-radius: 50%;
-            cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0px 3px 10px rgba(255, 92, 138, 0.4);
         }
-        .music-player-flutuante button:hover { transform: scale(1.1); box-shadow: 0px 3px 15px rgba(255, 92, 138, 0.7); }
-        
+
+        .music-player-flutuante button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 3px 15px rgba(255, 92, 138, 0.7);
+        }
+
         .container {
-            max-width: 520px; width: 100%; background: rgba(22, 22, 32, 0.85); backdrop-filter: blur(16px);
-            padding: 35px 25px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08); position: relative; margin: 40px auto;
+            max-width: 520px;
+            width: 100%;
+            background: rgba(22, 22, 32, 0.85);
+            backdrop-filter: blur(16px);
+            padding: 35px 25px;
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            margin: 40px auto;
             animation: fadeInContainer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
         @keyframes fadeInContainer {
-            from { opacity: 0; transform: translateY(20px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        .foto-wrapper { position: relative; width: 115px; height: 115px; margin: 0 auto 20px auto; }
-        .foto-perfil { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ff5c8a; box-shadow: 0px 0px 30px rgba(255, 92, 138, 0.6); }
-        .coracao-Badge { position: absolute; bottom: 0; right: 0; background: #16161e; border: 2px solid #ff5c8a; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; animation: pulsarBadge 2s infinite; }
+        .foto-wrapper {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 20px auto;
+        }
+
+        .foto-perfil {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff5c8a;
+            box-shadow: 0px 0px 30px rgba(255, 92, 138, 0.6);
+        }
+
+        .coracao-Badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #16161e;
+            border: 2px solid #ff5c8a;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            animation: pulsarBadge 2s infinite;
+        }
+
         @keyframes pulsarBadge {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.12); box-shadow: 0 0 12px rgba(255, 92, 138, 0.8); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+                box-shadow: 0 0 12px rgba(255, 92, 138, 0.8);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
-        h1 { color: #ff5c8a; font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(255, 92, 138, 0.2); }
-        .maquina-escrever { font-size: 0.93rem; color: #a8a8b3; line-height: 1.6; margin-bottom: 20px; font-weight: 300; min-height: 70px; }
-        
+        h1 {
+            color: #ff5c8a;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 92, 138, 0.2);
+        }
+
+        .maquina-escrever {
+            font-size: 0.93rem;
+            color: #a8a8b3;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 300;
+            min-height: 70px;
+        }
+
         .pontos-card {
             background: linear-gradient(135deg, rgba(255, 92, 138, 0.18), rgba(120, 40, 90, 0.25));
-            border: 1px solid rgba(255, 92, 138, 0.45); padding: 14px 20px; border-radius: 18px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center; box-shadow: inset 0 2px 5px rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 92, 138, 0.45);
+            padding: 14px 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.05);
         }
-        .pontos-card span { font-size: 0.88rem; color: #ff8fa3; font-weight: 500; }
-        .pontos-num { font-size: 1.15rem; color: #fff; font-weight: 600; background: linear-gradient(135deg, #ff5c8a, #ff3366); padding: 3px 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255,92,138,0.4); }
 
-        .contador-box { background: rgba(255, 92, 138, 0.06); border: 1px solid rgba(255, 92, 138, 0.2); padding: 12px 15px; border-radius: 16px; margin-bottom: 20px; font-size: 0.88rem; color: #ff8fa3; font-weight: 500; }
-        
-        .quiz-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 92, 138, 0.25); padding: 20px 16px; border-radius: 18px; margin-bottom: 25px; text-align: left; }
-        .quiz-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 4px; text-align: center; }
-        .quiz-progresso { font-size: 0.75rem; color: #a8a8b3; text-align: center; margin-bottom: 15px; font-weight: 500; letter-spacing: 0.5px; }
-        .quiz-pergunta { font-size: 0.88rem; color: #e1e1e6; margin-bottom: 14px; font-weight: 500; line-height: 1.5; }
-        .quiz-opcoes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-        .btn-opcao { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: #c1c1c9; padding: 10px 14px; border-radius: 12px; font-size: 0.82rem; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; transition: all 0.25s ease; }
-        .btn-opcao:hover { background: rgba(255, 92, 138, 0.18); border-color: rgba(255, 92, 138, 0.5); color: #ff8fa3; transform: translateX(3px); }
-        .quiz-feedback { font-size: 0.82rem; margin-top: 8px; font-weight: 500; text-align: center; min-height: 20px; }
+        .pontos-card span {
+            font-size: 0.88rem;
+            color: #ff8fa3;
+            font-weight: 500;
+        }
 
-        .cupons-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 16px; border-radius: 18px; margin-bottom: 25px; text-align: left; }
-        .cupons-box h3 { color: #ff5c8a; font-size: 0.95rem; margin-bottom: 4px; text-align: center; }
-        .cupons-sub { font-size: 0.75rem; color: #8a8a9e; text-align: center; margin-bottom: 15px; }
-        .cupons-grid { display: flex; flex-direction: column; gap: 10px; }
-        
+        .pontos-num {
+            font-size: 1.15rem;
+            color: #fff;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            padding: 3px 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(255, 92, 138, 0.4);
+        }
+
+        .contador-box {
+            background: rgba(255, 92, 138, 0.06);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            padding: 12px 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: #ff8fa3;
+            font-weight: 500;
+        }
+
+        .quiz-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 92, 138, 0.25);
+            padding: 20px 16px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .quiz-box h3 {
+            color: #ff5c8a;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .quiz-progresso {
+            font-size: 0.75rem;
+            color: #a8a8b3;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .quiz-pergunta {
+            font-size: 0.88rem;
+            color: #e1e1e6;
+            margin-bottom: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .quiz-opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-opcao {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #c1c1c9;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease;
+        }
+
+        .btn-opcao:hover {
+            background: rgba(255, 92, 138, 0.18);
+            border-color: rgba(255, 92, 138, 0.5);
+            color: #ff8fa3;
+            transform: translateX(3px);
+        }
+
+        .quiz-feedback {
+            font-size: 0.82rem;
+            margin-top: 8px;
+            font-weight: 500;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .cupons-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 16px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .cupons-box h3 {
+            color: #ff5c8a;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .cupons-sub {
+            font-size: 0.75rem;
+            color: #8a8a9e;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .cupons-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .cupom-item {
-            background: rgba(255, 92, 138, 0.05); border: 1px dashed rgba(255, 92, 138, 0.35); padding: 13px 15px;
-            border-radius: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.25s; text-decoration: none;
+            background: rgba(255, 92, 138, 0.05);
+            border: 1px dashed rgba(255, 92, 138, 0.35);
+            padding: 13px 15px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s;
+            text-decoration: none;
         }
-        .cupom-item:hover { background: rgba(255, 92, 138, 0.15); border-color: #ff5c8a; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,92,138,0.15); }
-        .cupom-texto { font-size: 0.83rem; color: #d1d1d6; font-weight: 500; }
-        .cupom-custo { font-size: 0.72rem; color: #ff8fa3; background: rgba(255, 92, 138, 0.18); padding: 4px 9px; border-radius: 10px; font-weight: 600; }
 
-        .galeria-btn-wrapper { margin-bottom: 20px; }
+        .cupom-item:hover {
+            background: rgba(255, 92, 138, 0.15);
+            border-color: #ff5c8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 92, 138, 0.15);
+        }
+
+        .cupom-texto {
+            font-size: 0.83rem;
+            color: #d1d1d6;
+            font-weight: 500;
+        }
+
+        .cupom-custo {
+            font-size: 0.72rem;
+            color: #ff8fa3;
+            background: rgba(255, 92, 138, 0.18);
+            padding: 4px 9px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .galeria-btn-wrapper {
+            margin-bottom: 20px;
+        }
+
         .btn-galeria {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
             background: linear-gradient(135deg, rgba(255, 92, 138, 0.2), rgba(255, 51, 102, 0.2));
-            border: 1px solid rgba(255, 92, 138, 0.5); color: #ff8fa3; padding: 12px; border-radius: 14px;
-            font-size: 0.88rem; font-weight: 600; text-decoration: none; font-family: 'Poppins', sans-serif;
-            transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(255, 92, 138, 0.15);
+            border: 1px solid rgba(255, 92, 138, 0.5);
+            color: #ff8fa3;
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 92, 138, 0.15);
         }
-        .btn-galeria:hover { background: linear-gradient(135deg, rgba(255, 92, 138, 0.35), rgba(255, 51, 102, 0.35)); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 92, 138, 0.3); }
 
-        .cartinhas-area { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .btn-galeria:hover {
+            background: linear-gradient(135deg, rgba(255, 92, 138, 0.35), rgba(255, 51, 102, 0.35));
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 92, 138, 0.3);
+        }
+
+        .cartinhas-area {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
         .btn-carta {
-            background: rgba(255, 92, 138, 0.1); border: 1px solid rgba(255, 92, 138, 0.35); color: #ff8fa3;
-            padding: 9px 14px; border-radius: 14px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.25s;
-            box-shadow: 0 2px 8px rgba(255,92,138,0.1);
+            background: rgba(255, 92, 138, 0.1);
+            border: 1px solid rgba(255, 92, 138, 0.35);
+            color: #ff8fa3;
+            padding: 9px 14px;
+            border-radius: 14px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s;
+            box-shadow: 0 2px 8px rgba(255, 92, 138, 0.1);
         }
-        .btn-carta:hover { background: rgba(255, 92, 138, 0.25); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(255,92,138,0.25); }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
-        .modal-conteudo { background: #1c1c28; border: 1px solid rgba(255, 92, 138, 0.5); padding: 25px; border-radius: 22px; max-width: 380px; width: 100%; text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-        .modal-conteudo h4 { color: #ff5c8a; margin-bottom: 10px; font-size: 1.1rem; }
-        .modal-conteudo p { font-size: 0.88rem; color: #d1d1d6; margin-bottom: 20px; line-height: 1.5; }
-        .btn-fechar-modal { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-size: 0.8rem; font-weight: 600; float: right; box-shadow: 0 4px 12px rgba(255,92,138,0.4); }
+        .btn-carta:hover {
+            background: rgba(255, 92, 138, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(255, 92, 138, 0.25);
+        }
 
-        .botoes-area { position: relative; height: 55px; display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
-        .btn { padding: 12px 28px; font-size: 0.95rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.25s ease; }
-        #sim { background: linear-gradient(135deg, #ff5c8a, #ff3366); color: #fff; box-shadow: 0px 8px 20px rgba(255, 92, 138, 0.4); }
-        #sim:hover { transform: translateY(-2px); box-shadow: 0px 10px 25px rgba(255, 92, 138, 0.6); }
-        #nao { background-color: rgba(255, 255, 255, 0.06); color: #a8a8b3; border: 1px solid rgba(255, 255, 255, 0.08); }
-        
-        #mensagem-surpresa { display: none; margin-top: 20px; font-size: 1.05rem; color: #ff5c8a; font-weight: 500; background: rgba(255, 92, 138, 0.08); padding: 15px; border-radius: 16px; border: 1px solid rgba(255, 92, 138, 0.25); animation: fadeInContainer 0.5s ease; }
-        .footer-note { margin-top: 25px; font-size: 0.75rem; color: #8a8a9e; letter-spacing: 0.3px; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-conteudo {
+            background: #1c1c28;
+            border: 1px solid rgba(255, 92, 138, 0.5);
+            padding: 25px;
+            border-radius: 22px;
+            max-width: 380px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-conteudo h4 {
+            color: #ff5c8a;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .modal-conteudo p {
+            font-size: 0.88rem;
+            color: #d1d1d6;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-fechar-modal {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            float: right;
+            box-shadow: 0 4px 12px rgba(255, 92, 138, 0.4);
+        }
+
+        .botoes-area {
+            position: relative;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease;
+        }
+
+        #sim {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: #fff;
+            box-shadow: 0px 8px 20px rgba(255, 92, 138, 0.4);
+        }
+
+        #sim:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 10px 25px rgba(255, 92, 138, 0.6);
+        }
+
+        #nao {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: #a8a8b3;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        #mensagem-surpresa {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.05rem;
+            color: #ff5c8a;
+            font-weight: 500;
+            background: rgba(255, 92, 138, 0.08);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 92, 138, 0.25);
+            animation: fadeInContainer 0.5s ease;
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #8a8a9e;
+            letter-spacing: 0.3px;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="coracoes-bg">
@@ -179,10 +662,11 @@
     <div id="tela-login">
         <h2>🔒 Área Restrita</h2>
         <p>Digite a senha secreta para entrar no seu cantinho especial:</p>
-        
-        <input type="password" id="input-senha-login" class="input-login" placeholder="Sua senha..." onkeypress="teclouEnter(event)">
+
+        <input type="password" id="input-senha-login" class="input-login" placeholder="Sua senha..."
+            onkeypress="teclouEnter(event)">
         <button class="btn-login" onclick="fazerLogin()">Entrar ✨</button>
-        
+
         <!-- Botão e Caixa de Dicas Progressivas -->
         <button class="btn-dica" onclick="proximaDica()">💡 Ver Dica (<span id="contador-dica-num">1</span>/3)</button>
         <div id="caixa-dica" class="dica-box"></div>
@@ -198,15 +682,19 @@
             <button id="btn-audio" onclick="alternarAudio()">▶</button>
         </div>
 
-        <audio id="som-triste"><source src="musica_triste.mp3" type="audio/mp3"></audio>
-        <audio id="som-feliz" loop><source src="musica_feliz.mp3" type="audio/mp3"></audio>
+        <audio id="som-triste">
+            <source src="musica_triste.mp3" type="audio/mp3">
+        </audio>
+        <audio id="som-feliz" loop>
+            <source src="musica_feliz.mp3" type="audio/mp3">
+        </audio>
 
         <div class="container">
             <div class="foto-wrapper">
                 <img src="foto2.jpeg" alt="Foto" class="foto-perfil">
                 <div class="coracao-Badge">🖤</div>
             </div>
-            
+
             <h1>Para a Bebea </h1>
             <div class="maquina-escrever" id="texto-maquina"></div>
 
@@ -216,62 +704,71 @@
             </div>
 
             <div class="contador-box" id="contador-tempo">⏳ Calculando nossos momentos...</div>
-                <a href="calendario.html" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255,92,138,0.4);">📅 Nosso Calendário</a>
-            <!-- Quiz Interativo -->
-            <div class="quiz-box">
-                <h3> Teste (10 Perguntas)</h3>
-                <div class="quiz-progresso" id="quiz-progresso">Pergunta 1 de 10</div>
-                
-                <div class="quiz-pergunta" id="quiz-pergunta-texto">Carregando pergunta...</div>
-                <div class="quiz-opcoes" id="quiz-opcoes-container"></div>
-                <div class="quiz-feedback" id="quiz-feedback"></div>
-            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+    <a href="calendario.html" class="btn-guia" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; text-align: center;">📅 Nosso Calendário</a>
+    <a href="cacapalavras.html" class="btn-guia" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; text-align: center;">🔍 Caça-Palavras</a>
+    <a href="gostos.html" class="btn-guia" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; text-align: center;">💖 O Mundo Dela</a>
+    
+</div>
+        <div class="quiz-box">
+            <h3> Teste (10 Perguntas)</h3>
+            <div class="quiz-progresso" id="quiz-progresso">Pergunta 1 de 10</div>
 
-            <!-- Cupons direcionados para vale.html -->
-            <div class="cupons-box">
-                <h3>🎟️ Resgate de Vales</h3>
-                <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
-                <div class="cupons-grid">
-                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 30)">
-                        <span class="cupom-texto">✨ Vale Um Abraço Apertado</span>
-                        <span class="cupom-custo">30 pts</span>
-                    </a>
-                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar, Filme ou algo do tipo', 60)">
-                        <span class="cupom-texto">🍕 Vale Escolher Jantar, Filme ou algo do tipo</span>
-                        <span class="cupom-custo">60 pts</span>
-                    </a>
-                    <a class="cupom-item" href="javascript:void(0);" onclick="tentarAbrirVale('vale3', 'Vale ESCOLHA O QUE VOCE QUISER', 90)">
-                        <span class="cupom-texto">💆‍♀️ Vale ESCOLHA O QUE VOCE QUISER </span>
-                        <span class="cupom-custo">90 pts</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Botão para a Nova Aba de Fotos -->
-            <div class="galeria-btn-wrapper">
-                <a href="fotos.html" class="btn-galeria">📸 Ver Nossa Galeria de Fotos ✨</a>
-                
-                <a href="carta.html" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255,92,138,0.4);">📖 Nossa Biografia</a>
-            </div>
-
-
-            <!-- Cartinhas -->
-            <div class="cartinhas-area">
-                <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
-                <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Diariamente </button>
-                <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
-            </div>
-
-            <p>Você aceita continuar colecionando memórias comigo?</p>
-
-            <div class="botoes-area">
-                <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
-                <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
-            </div>
-
-            <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
-            <div class="footer-note">Feito com todo o amor do mundo para você. ✨🖤</div>
+            <div class="quiz-pergunta" id="quiz-pergunta-texto">Carregando pergunta...</div>
+            <div class="quiz-opcoes" id="quiz-opcoes-container"></div>
+            <div class="quiz-feedback" id="quiz-feedback"></div>
         </div>
+
+        <!-- Cupons direcionados para vale.html -->
+        <div class="cupons-box">
+            <h3>🎟️ Resgate de Vales</h3>
+            <div class="cupons-sub">Acumule pontos no quiz para destravar!</div>
+            <div class="cupons-grid">
+                <a class="cupom-item" href="javascript:void(0);"
+                    onclick="tentarAbrirVale('vale1', 'Vale Um Abraço Apertado', 30)">
+                    <span class="cupom-texto">✨ Vale Um Abraço Apertado</span>
+                    <span class="cupom-custo">30 pts</span>
+                </a>
+                <a class="cupom-item" href="javascript:void(0);"
+                    onclick="tentarAbrirVale('vale2', 'Vale Escolher Jantar, Filme ou algo do tipo', 60)">
+                    <span class="cupom-texto">🍕 Vale Escolher Jantar, Filme ou algo do tipo</span>
+                    <span class="cupom-custo">60 pts</span>
+                </a>
+                <a class="cupom-item" href="javascript:void(0);"
+                    onclick="tentarAbrirVale('vale3', 'Vale ESCOLHA O QUE VOCE QUISER', 90)">
+                    <span class="cupom-texto">💆‍♀️ Vale ESCOLHA O QUE VOCE QUISER </span>
+                    <span class="cupom-custo">90 pts</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Botão para a Nova Aba de Fotos -->
+        <div class="galeria-btn-wrapper">
+            <a href="fotos.html" class="btn-galeria">📸 Ver Nossa Galeria de Fotos ✨</a>
+
+            <a href="carta.html"
+                style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255,92,138,0.4);">📖
+                Nossa Biografia</a>
+        </div>
+
+
+        <!-- Cartinhas -->
+        <div class="cartinhas-area">
+            <button class="btn-carta" onclick="abrirCarta('carta1')">💌 Para dias tristes</button>
+            <button class="btn-carta" onclick="abrirCarta('carta2')">💌 Diariamente </button>
+            <button class="btn-carta" onclick="abrirCarta('carta3')">💌 O que eu amo em vc</button>
+        </div>
+
+        <p>Você aceita continuar colecionando memórias comigo?</p>
+
+        <div class="botoes-area">
+            <button class="btn" id="sim" onclick="clicouSim()">Sim! 🥰</button>
+            <button class="btn" id="nao" onclick="clicouNao()">Não 🙈</button>
+        </div>
+
+        <div id="mensagem-surpresa">Yeeeei! Sabia que você ia dizer que sim! </div>
+        <div class="footer-note">Feito com todo o amor do mundo para você. ✨🖤</div>
+    </div>
     </div>
 
     <!-- Modais das Cartinhas -->
@@ -294,7 +791,8 @@
     <div class="modal-overlay" id="modal-carta3">
         <div class="modal-conteudo">
             <h4>O que eu mais amo em você ✨</h4>
-            <p>O seu jeito único de iluminar qualquer ambiente, a sua risada contagiante, seus olhos, sua humildade, as broncas e etc... </p>
+            <p>O seu jeito único de iluminar qualquer ambiente, a sua risada contagiante, seus olhos, sua humildade, as
+                broncas e etc... </p>
             <button class="btn-fechar-modal" onclick="fecharCarta('carta3')">Fechar</button>
         </div>
     </div>
@@ -303,14 +801,15 @@
     <div class="modal-overlay" id="modal-pontos">
         <div class="modal-conteudo">
             <h4 style="color: #ff5c8a;">Ops! Pontos insuficientes 🥺</h4>
-            <p id="texto-aviso-pontos">Você ainda não tem pontos suficientes. Continue respondendo o quiz para ganhar mais!</p>
+            <p id="texto-aviso-pontos">Você ainda não tem pontos suficientes. Continue respondendo o quiz para ganhar
+                mais!</p>
             <button class="btn-fechar-modal" onclick="fecharModalPontos()">Entendi! 🥰</button>
         </div>
     </div>
 
     <script>
         // Defina aqui a senha principal do site
-        const SENHA_CORRETA = "beatrizsorrisoperfeito"; 
+        const SENHA_CORRETA = "beatrizsorrisoperfeito";
 
         // Defina aqui as 3 dicas que vão aparecer progressivamente
         const listaDicas = [
@@ -318,7 +817,7 @@
             "<strong>Dica 2 (Tamanho):</strong>  é a parte que eu amo em voce ",
             "<strong>Dica 3 (Quase a resposta):</strong> Começa com a letra <b>'B'</b> e termina com a palavra <b> 'perfeito' 👀"
         ];
-        
+
         let indiceDicaAtual = 0;
 
         function proximaDica() {
@@ -327,10 +826,10 @@
 
             // Mostra a caixa se estiver oculta
             caixaDica.style.display = "block";
-            
+
             // Exibe a dica correspondente ao índice atual
             caixaDica.innerHTML = listaDicas[indiceDicaAtual];
-            
+
             // Atualiza o número exibido no botão (ciclando de 1 a 3)
             indiceDicaAtual = (indiceDicaAtual + 1) % listaDicas.length;
             spanNum.innerText = indiceDicaAtual + 1;
@@ -343,7 +842,7 @@
             if (digitada === SENHA_CORRETA) {
                 document.getElementById("tela-login").style.display = "none";
                 document.getElementById("conteudo-site").style.display = "flex";
-                
+
                 dispararConfetes();
                 carregarPergunta();
                 iniciarMaquinaEscrever();
@@ -428,7 +927,7 @@
             }
         }
 
-        var dataInicio = new Date(2026, 1 , 10); 
+        var dataInicio = new Date(2026, 1, 10);
         function atualizarContador() {
             var agora = new Date();
             var diferenca = agora - dataInicio;
@@ -442,7 +941,7 @@
                 let p = perguntasQuiz[perguntaAtual];
                 document.getElementById("quiz-progresso").innerText = "Pergunta " + (perguntaAtual + 1) + " de 10";
                 document.getElementById("quiz-pergunta-texto").innerText = p.pergunta;
-                
+
                 let containerOpcoes = document.getElementById("quiz-opcoes-container");
                 containerOpcoes.innerHTML = "";
                 document.getElementById("quiz-feedback").innerText = "";
@@ -451,7 +950,7 @@
                     let btn = document.createElement("button");
                     btn.className = "btn-opcao";
                     btn.innerText = String.fromCharCode(65 + index) + ") " + opcao;
-                    btn.onclick = function() { responderQuiz(index); };
+                    btn.onclick = function () { responderQuiz(index); };
                     containerOpcoes.appendChild(btn);
                 });
             } else {
@@ -505,21 +1004,21 @@
             var btnAudio = document.getElementById("btn-audio");
 
             somTriste.pause();
-            if (somFeliz.paused) { somFeliz.play(); btnAudio.innerHTML = "⏸"; } 
+            if (somFeliz.paused) { somFeliz.play(); btnAudio.innerHTML = "⏸"; }
             else { somFeliz.pause(); btnAudio.innerHTML = "▶"; }
         }
 
         function clicouNao() {
             document.getElementById("som-feliz").pause();
             document.getElementById("btn-audio").innerHTML = "▶";
-            document.getElementById("som-triste").play().catch(e => {});
+            document.getElementById("som-triste").play().catch(e => { });
             alert("Essa opção não é permitida por aqui! Pense bem de novo 🙈");
         }
 
         function clicouSim() {
             document.getElementById("som-triste").pause();
             var somFeliz = document.getElementById("som-feliz");
-            somFeliz.play().catch(e => {});
+            somFeliz.play().catch(e => { });
             document.getElementById("btn-audio").innerHTML = "⏸";
 
             document.getElementById("mensagem-surpresa").style.display = "block";
@@ -532,4 +1031,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça-Palavras Difícil 🖤</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #e1e1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 450px; width: 100%; background: rgba(22, 22, 32, 0.95); backdrop-filter: blur(16px);
+            padding: 20px; border-radius: 32px; box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4); position: relative;
+        }
+        h1 { color: #ff5c8a; font-size: 1.1rem; margin-bottom: 5px; }
+        p.sub { font-size: 0.75rem; color: #a8a8b3; margin-bottom: 12px; }
+
+        /* Grade 10x10 */
+        .grid-cacapalavras {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 3px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 92, 138, 0.2);
+        }
+        .celula {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #e1e1e6;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s;
+        }
+        .celula.selecionada { background: #ff5c8a; color: white; border-color: #ff3366; box-shadow: 0 0 8px rgba(255,92,138,0.5); }
+        .celula.encontrada-cel { background: #2ecc71 !important; color: white !important; border-color: #27ae60 !important; box-shadow: 0 0 10px rgba(46,204,113,0.4); }
+
+        /* Lista de Palavras */
+        .lista-palavras {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .palavra-item {
+            font-size: 0.75rem;
+            background: rgba(255, 92, 138, 0.08);
+            border: 1px solid rgba(255, 92, 138, 0.25);
+            color: #ff8fa3;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .palavra-item.encontrada {
+            background: rgba(46, 204, 113, 0.15);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            text-decoration: line-through;
+        }
+
+        /* Mensagem de parabéns */
+        .mensagem-vitoria {
+            display: none;
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid #2ecc71;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .mensagem-vitoria h2 { color: #2ecc71; font-size: 0.95rem; margin-bottom: 3px; }
+        .mensagem-vitoria p { color: #d1d1d6; font-size: 0.75rem; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-voltar {
+            display: block; width: 100%; background: transparent; color: #a8a8b3; border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px; border-radius: 12px; font-size: 0.8rem; text-align: center;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-voltar:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔍 Caça-Palavras Nível Difícil</h1>
+        <p class="sub">Encontre as qualidades dela em qualquer direção!</p>
+
+        <div class="mensagem-vitoria" id="vitoria-box">
+            <h2> Parabéns, minha bebeaa!</h2>
+            <p>Você encontrou todas as características que fazem você ser a pessoa mais incrível do mundo! 🖤✨</p>
+        </div>
+
+        <div class="grid-cacapalavras" id="grid"></div>
+
+        <div class="lista-palavras" id="lista">
+            <span class="palavra-item" data-palavra="LINDA">LINDA</span>
+            <span class="palavra-item" data-palavra="CARINHOSA">CARINHOSA</span>
+            <span class="palavra-item" data-palavra="FOFA">FOFA</span>
+            <span class="palavra-item" data-palavra="RISO">RISO</span>
+            <span class="palavra-item" data-palavra="ESPECIAL">ESPECIAL</span>
+            <span class="palavra-item" data-palavra="DOCURA">DOCURA</span>
+            <span class="palavra-item" data-palavra="AMOR">AMOR</span>
+            <span class="palavra-item" data-palavra="PERFEITA">PERFEITA</span>
+        </div>
+
+        <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
+    </div>
+
+    <script>
+        const tamanho = 10;
+        const palavras = ["LINDA", "CARINHOSA", "FOFA", "RISO", "ESPECIAL", "DOCURA", "AMOR", "PERFEITA"];
+        let grade = Array(tamanho).fill(null).map(() => Array(tamanho).fill(""));
+        let posicoesDasPalavras = [];
+        let palavrasEncontradasContador = 0;
+
+        function colocarPalavras() {
+            palavras.forEach(palavra => {
+                let colocada = false;
+                while (!colocada) {
+                    let direcao = Math.floor(Math.random() * 3); // 0: H, 1: V, 2: D
+                    let linha = Math.floor(Math.random() * tamanho);
+                    let coluna = Math.floor(Math.random() * tamanho);
+
+                    let coordsTemp = [];
+                    let cabe = true;
+
+                    if (direcao === 0 && coluna + palavra.length <= tamanho) {
+                        for (let i = 0; i < palavra.length; i++) {
+                            if (grade[linha][coluna + i] !== "" && grade[linha][coluna + i] !== palavra[i]) cabe = false;
+                            coordsTemp.push(`${linha}-${coluna + i}`);
+                        }
+                        if (cabe) {
+                            for (let i = 0; i < palavra.length; i++) grade[linha][coluna + i] = palavra[i];
+                            posicoesDasPalavras.push({ palavra: palavra, coords: coordsTemp, achou: false });
+                            colocada = true;
+                        }
+                    } else if (direcao === 1 && linha + palavra.length <= tamanho) {
+                        for (let i = 0; i < palavra.length; i++) {
+                            if (grade[linha + i][coluna] !== "" && grade[linha + i][coluna] !== palavra[i]) cabe = false;
+                            coordsTemp.push(`${linha + i}-${coluna}`);
+                        }
+                        if (cabe) {
+                            for (let i = 0; i < palavra.length; i++) grade[linha + i][coluna] = palavra[i];
+                            posicoesDasPalavras.push({ palavra: palavra, coords: coordsTemp, achou: false });
+                            colocada = true;
+                        }
+                    } else if (direcao === 2 && linha + palavra.length <= tamanho && coluna + palavra.length <= tamanho) {
+                        for (let i = 0; i < palavra.length; i++) {
+                            if (grade[linha + i][coluna + i] !== "" && grade[linha + i][coluna + i] !== palavra[i]) cabe = false;
+                            coordsTemp.push(`${linha + i}-${coluna + i}`);
+                        }
+                        if (cabe) {
+                            for (let i = 0; i < palavra.length; i++) grade[linha + i][coluna + i] = palavra[i];
+                            posicoesDasPalavras.push({ palavra: palavra, coords: coordsTemp, achou: false });
+                            colocada = true;
+                        }
+                    }
+                }
+            });
+
+            const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÇ";
+            for (let r = 0; r < tamanho; r++) {
+                for (let c = 0; c < tamanho; c++) {
+                    if (grade[r][c] === "") {
+                        grade[r][c] = alfabeto[Math.floor(Math.random() * alfabeto.length)];
+                    }
+                }
+            }
+        }
+
+        function desenharGrade() {
+            const containerGrid = document.getElementById("grid");
+            containerGrid.innerHTML = "";
+            for (let r = 0; r < tamanho; r++) {
+                for (let c = 0; c < tamanho; c++) {
+                    const div = document.createElement("div");
+                    div.className = "celula";
+                    div.innerText = grade[r][c];
+                    div.dataset.r = r;
+                    div.dataset.c = c;
+                    div.onclick = () => selecionarCelula(div);
+                    containerGrid.appendChild(div);
+                }
+            }
+        }
+
+        function selecionarCelula(div) {
+            div.classList.toggle("selecionada");
+            verificarSelecaoAtual();
+        }
+
+        function verificarSelecaoAtual() {
+            posicoesDasPalavras.forEach(obj => {
+                if (!obj.achou) {
+                    // Verifica se TODAS as coordenadas dessa palavra estão selecionadas ao mesmo tempo
+                    let todasMarcadas = obj.coords.every(coord => {
+                        let [r, c] = coord.split('-');
+                        let cel = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+                        return cel && cel.classList.contains("selecionada");
+                    });
+
+                    if (todasMarcadas) {
+                        obj.achou = true;
+                        palavrasEncontradasContador++;
+
+                        // Pinta de verde definitivo
+                        obj.coords.forEach(coord => {
+                            let [r, c] = coord.split('-');
+                            let cel = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+                            if (cel) {
+                                cel.classList.remove("selecionada");
+                                cel.classList.add("encontrada-cel");
+                            }
+                        });
+
+                        // Risca o nome na lista lá embaixo
+                        let itemLista = document.querySelector(`[data-palavra="${obj.palavra}"]`);
+                        if (itemLista) itemLista.classList.add("encontrada");
+
+                        // Se achou todas
+                        if (palavrasEncontradasContador === palavras.length) {
+                            dispararConfetes();
+                            document.getElementById("vitoria-box").style.display = "block";
+                        }
+                    }
+                }
+            });
+        }
+
+        function dispararConfetes() {
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff5c8a', '#2ecc71', '#ffffff', '#ff3366']
+            });
+        }
+
+        colocarPalavras();
+        desenharGrade();
+    </script>
+</body>
+</html>
