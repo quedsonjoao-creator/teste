@@ -1,1 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantinho Devocional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 26px;
+            color: #d47a94;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 14px;
+            color: #777;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #d47a94;
+            font-weight: 500;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            color: #b55c76;
+        }
+        .versiculo-card {
+            background: #fdf2f4;
+            border-left: 4px solid #d47a94;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+        .versiculo-card h3 {
+            font-size: 15px;
+            color: #b55c76;
+            margin-bottom: 6px;
+        }
+        .versiculo-card p {
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+            background: #fafafa;
+        }
+        .form-control:focus {
+            border-color: #d47a94;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(212, 122, 148, 0.15);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 110px;
+        }
+        .btn-salvar {
+            background: linear-gradient(135deg, #e89bb0, #d47a94);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(212, 122, 148, 0.3);
+        }
+        .btn-salvar:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+        .historico-section {
+            margin-top: 35px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .historico-section h2 {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .devocional-item {
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .devocional-item h4 {
+            font-size: 15px;
+            color: #d47a94;
+            margin-bottom: 4px;
+        }
+        .devocional-item .data-tag {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .devocional-item p {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        .empty-msg {
+            text-align: center;
+            color: #aaa;
+            font-size: 13px;
+            font-style: italic;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar para a Página Inicial</a>
+        
+        <div class="header">
+            <h1>✨ Cantinho Devocional</h1>
+            <p>Guarde aqui as tuas anotações, orações e o que Deus falar ao teu coração.</p>
+        </div>
+
+        <div class="versiculo-card">
+            <h3>Versículo do Dia</h3>
+            <p>"Entrega o teu caminho ao Senhor; confia nele, e ele o fará." — Salmos 37:5</p>
+        </div>
+
+        <form id="devocionalForm">
+            <div class="form-group">
+                <label for="titulo">Título / Tema do Dia</label>
+                <input type="text" id="titulo" class="form-control" placeholder="Ex: Confiança e Paz" required>
+            </div>
+
+            <div class="form-group">
+                <label for="versiculo">Versículo Chave</label>
+                <input type="text" id="versiculo" class="form-control" placeholder="Ex: Filipenses 4:6-7" required>
+            </div>
+
+            <div class="form-group">
+                <label for="anotacao">O que Deus falou ao meu coração?</label>
+                <textarea id="anotacao" class="form-control" placeholder="Escreve as tuas reflexões e anotações aqui..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="oracao">Motivos de Oração / Gratidão</label>
+                <textarea id="oracao" class="form-control" placeholder="Pedidos, intercessões e agradecimentos..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-salvar">Salvar Devocional 📖</button>
+        </form>
+
+        <div class="historico-section">
+            <h2>Meus Devocionais Salvos</h2>
+            <div id="listaDevocionais">
+                <!-- Os devocionais salvos aparecem aqui automaticamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", carregarDevocionais);
+
+        const form = document.getElementById("devocionalForm");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const titulo = document.getElementById("titulo").value;
+            const versiculo = document.getElementById("versiculo").value;
+            const anotacao = document.getElementById("anotacao").value;
+            const oracao = document.getElementById("oracao").value;
+            
+            const hoje = new Date();
+            const dataFormatada = hoje.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            const novoDevocional = {
+                id: Date.now(),
+                titulo,
+                versiculo,
+                anotacao,
+                oracao,
+                data: dataFormatada
+            };
+
+            let devocionais = JSON.parse(localStorage.getItem("meus_devocionais")) || [];
+            devocionais.unshift(novoDevocional); // Adiciona no início da lista
+            localStorage.setItem("meus_devocionais", JSON.stringify(devocionais));
+
+            form.reset();
+            carregarDevocionais();
+        });
+
+        function carregarDevocionais() {
+            const lista = document.getElementById("listaDevocionais");
+            let devocionais = JSON.parse(localStorage.getItem("meus_devocionais")) || [];
+
+            if (devocionais.length === 0) {
+                lista.innerHTML = '<div class="empty-msg">Nenhum devocional salvo ainda. Escreve o teu primeiro acima!</div>';
+                return;
+            }
+
+            lista.innerHTML = "";
+            devocionais.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "devocional-item";
+                div.innerHTML = `
+                    <h4>${item.titulo}</h4>
+                    <span class="data-tag">📅 ${item.data} | 📖 ${item.versiculo}</span>
+                    <p><strong>Reflexão:</strong> ${item.anotacao}</p>
+                    ${item.oracao ? `<p><strong>Oração/Gratidão:</strong> ${item.oracao}</p>` : ''}
+                `;
+                lista.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
+```eof
+
+***
+
+### Como colocar no teu projeto:
+
+1. No teu **VS Code**, cria um novo arquivo chamado **`devocional.html`** e cola todo o código acima lá dentro. Salva o arquivo!
+2. Na tua página inicial (`index.html`), adiciona o botão de atalho para ela junto com os outros botões que a gente viu agorinha pouco:
+
+```html
+<a href="devocional.html" class="btn-guia" style="display: block; background: linear-gradient(135deg, #ff5c8a, #ff3366); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; text-align: center;">📖 Cantinho Devocional</a>
