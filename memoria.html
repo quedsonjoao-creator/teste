@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória do Amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            color: #e1e1e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(22, 22, 32, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 24px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 15px;
+        }
+        .header h1 {
+            font-size: 1.2rem;
+            color: #ff5c8a;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .header p {
+            font-size: 0.75rem;
+            color: #a8a8b3;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #a8a8b3;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            color: #fff;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-size: 0.75rem;
+            color: #c7c7cf;
+        }
+        .stats span b {
+            color: #ff5c8a;
+        }
+        /* Grelha do Jogo da Memória */
+        .grid-memoria {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .carta {
+            aspect-ratio: 1;
+            background: rgba(255, 92, 138, 0.1);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            border-radius: 12px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            user-select: none;
+        }
+        .carta:hover {
+            background: rgba(255, 92, 138, 0.2);
+        }
+        .carta.virada, .carta.encontrada {
+            background: rgba(255, 255, 255, 0.9);
+            transform: rotateY(180deg);
+        }
+        .carta.encontrada {
+            border-color: #28a745;
+            opacity: 0.8;
+            cursor: default;
+        }
+        /* Mensagem de Parabéns Final */
+        .vitoria-box {
+            display: none;
+            background: rgba(255, 92, 138, 0.15);
+            border: 1px solid #ff5c8a;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .vitoria-box h2 {
+            color: #ff5c8a;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .vitoria-box p {
+            font-size: 0.75rem;
+            color: #d1d1d6;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .btn-reiniciar {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-reiniciar:hover {
+            opacity: 0.9;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar</a>
+        <div style="clear: both;"></div>
+        
+        <div class="header">
+            <h1>🧩 Jogo da Memória</h1>
+            <p>Encontra todos os pares que representam o nosso amor!</p>
+        </div>
+
+        <div class="stats">
+            <span>Cliques: <b id="contadorCliques">0</b></span>
+            <span>Pares: <b id="contadorPares">0</b> / 6</span>
+        </div>
+
+        <div class="grid-memoria" id="gridMemoria">
+            <!-- As cartas são geradas dinamicamente via JavaScript -->
+        </div>
+
+        <div class="vitoria-box" id="vitoriaBox">
+            <h2>💖 Parabéns, beba!</h2>
+            <p>Conseguiste juntar todos os pares! Assim como completaste este jogo, completas a minha vida todos os dias. Te amo muito!</p>
+            <button class="btn-reiniciar" onclick="iniciarJogo()">Jogar de Novo</button>
+        </div>
+    </div>
+
+    <!-- Script de Confetes para a vitória -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // Ícones que representam vocês / os gostos dela (podem ser duplicados para formar os pares)
+        const icones = ['💖', '🎹', '🎤', '⚽', '🎬', '📖'];
+        let cartasArray = [...icones, ...icones]; // 12 cartas no total (6 pares)
+
+        let primeiraCarta = null;
+        let segundaCarta = null;
+        let bloqueioTabuleiro = false;
+        let cliques = 0;
+        let paresEncontrados = 0;
+
+        const grid = document.getElementById("gridMemoria");
+        const contadorCliquesElem = document.getElementById("contadorCliques");
+        const contadorParesElem = document.getElementById("contadorPares");
+        const vitoriaBox = document.getElementById("vitoriaBox");
+
+        function iniciarJogo() {
+            grid.innerHTML = "";
+            vitoriaBox.style.display = "none";
+            primeiraCarta = null;
+            segundaCarta = null;
+            bloqueioTabuleiro = false;
+            cliques = 0;
+            paresEncontrados = 0;
+            contadorCliquesElem.innerText = cliques;
+            contadorParesElem.innerText = paresEncontrados;
+
+            // Embaralhar cartas aleatoriamente
+            cartasArray.sort(() => Math.random() - 0.5);
+
+            cartasArray.forEach(icone => {
+                const carta = document.createElement("div");
+                carta.className = "carta";
+                carta.dataset.icone = icone;
+                carta.innerText = "❓"; // Face oculta
+                carta.addEventListener("click", virarCarta);
+                grid.appendChild(carta);
+            });
+        }
+
+        function virarCarta() {
+            if (bloqueioTabuleiro) return;
+            if (this === primeiraCarta) return;
+            if (this.classList.contains("encontrada")) return;
+
+            this.classList.add("virada");
+            this.innerText = this.dataset.icone;
+
+            if (!primeiraCarta) {
+                primeiraCarta = this;
+                return;
+            }
+
+            segundaCarta = this;
+            cliques++;
+            contadorCliquesElem.innerText = cliques;
+            verificarPar();
+        }
+
+        function verificarPar() {
+            const ehPar = primeiraCarta.dataset.icone === segundaCarta.dataset.icone;
+
+            if (ehPar) {
+                desativarCartas();
+            } else {
+                desvirarCartas();
+            }
+        }
+
+        function desativarCartas() {
+            primeiraCarta.classList.add("encontrada");
+            segundaCarta.classList.add("encontrada");
+            
+            paresEncontrados++;
+            contadorParesElem.innerText = paresEncontrados;
+
+            resetarTabuleiro();
+
+            // Se encontrou todos os 6 pares
+            if (paresEncontrados === 6) {
+                setTimeout(() => {
+                    vitoriaBox.style.display = "block";
+                    confetti({
+                        particleCount: 120,
+                        spread: 80,
+                        origin: { y: 0.6 }
+                    });
+                }, 400);
+            }
+        }
+
+        function desvirarCartas() {
+            bloqueioTabuleiro = true;
+            setTimeout(() => {
+                primeiraCarta.classList.remove("virada");
+                primeiraCarta.innerText = "❓";
+                segundaCarta.classList.remove("virada");
+                segundaCarta.innerText = "❓";
+
+                resetarTabuleiro();
+            }, 900); // Tempo para ela ver o ícone antes de fechar
+        }
+
+        function resetarTabuleiro() {
+            [primeiraCarta, segundaCarta] = [null, null];
+            bloqueioTabuleiro = false;
+        }
+
+        // Iniciar o jogo ao carregar a página
+        iniciarJogo();
+    </script>
+</body>
+</html>

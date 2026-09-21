@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> mAPINHAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Importando o Leaflet.js para o mapa interativo -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            color: #e1e1e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(22, 22, 32, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 24px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.2rem;
+            color: #ff5c8a;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 0.75rem;
+            color: #a8a8b3;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #a8a8b3;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            text-align: left;
+        }
+        .back-btn:hover {
+            color: #fff;
+        }
+        /* Caixa do Mapa */
+        #map {
+            width: 100%;
+            height: 320px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+        /* Lista de Lugares abaixo do mapa */
+        .lugares-lista {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .lugar-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            border-radius: 16px;
+            padding: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lugar-card:hover {
+            background: rgba(255, 92, 138, 0.08);
+            border-color: #ff5c8a;
+        }
+        .lugar-card h3 {
+            font-size: 0.85rem;
+            color: #ff5c8a;
+            margin-bottom: 3px;
+        }
+        .lugar-card span {
+            font-size: 0.68rem;
+            color: #9898a6;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .lugar-card p {
+            font-size: 0.75rem;
+            color: #c7c7cf;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar</a>
+        <div style="clear: both;"></div>
+        
+        <div class="header">
+            <h1>Lugares Marcantes com Você</h1>
+            <p> Locais de encontro nosso </p>
+        </div>
+
+        <!-- Onde o mapa interativo será renderizado -->
+        <div id="map"></div>
+
+        <div class="lugares-lista" id="listaLugares">
+            <!-- Os cards dos lugares serão carregados aqui automaticamente -->
+        </div>
+    </div>
+
+    <!-- Script do Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // 1. Defina aqui os vossos lugares especiais (Latitude, Longitude, Título, Subtítulo e História)
+        // Dica: Podes procurar as coordenadas reais no Google Maps clicando com o botão direito num local e copiando os números.
+        const meusLugares = [
+            {
+                lat: -16.075338, 
+                lng: -47.991978, 
+                titulo: "Momento especial, pois é aqui o ponto de encontro nos cultos", 
+                sub: "IGREJAAA", 
+                historia: ""
+            },
+            {
+                lat: -16.077194, 
+                lng: -47.992233, 
+                titulo: "Encontro aleatorio", 
+                sub: " Hamburgeria ", 
+                historia: ""
+            },
+            {
+                lat: -16.056339, 
+                lng: -47.982148, 
+                titulo: "Onde eu te vi a primeira vez ", 
+                sub: "CN", 
+                historia: ""
+            }
+        ];
+
+        // 2. Inicializar o mapa centrado no primeiro ponto (ou ajuste as coordenadas iniciais)
+        const map = L.map('map').setView([meusLugares[0].lat, meusLugares[0].lng], 13);
+
+        // Adicionando o design escuro ao mapa (CartoDB Dark Matter) para combinar perfeitamente com o site
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        const listaContainer = document.getElementById("listaLugares");
+
+        // 3. Adicionar marcadores e gerar os cards interativos
+        meusLugares.forEach((lugar, index) => {
+            // Cria o marcador no mapa
+            const marker = L.marker([lugar.lat, lugar.lng]).addTo(map);
+            marker.bindPopup(`<b>${lugar.titulo}</b><br>${lugar.sub}`);
+
+            // Cria o card visual na lista
+            const card = document.createElement("div");
+            card.className = "lugar-card";
+            card.innerHTML = `
+                <h3>📍 ${lugar.titulo}</h3>
+                <span>${lugar.sub}</span>
+                <p>${lugar.historia}</p>
+            `;
+
+            // Ao clicar no card, o mapa centra-se automaticamente no local e abre o popup!
+            card.addEventListener("click", () => {
+                map.setView([lugar.lat, lugar.lng], 15);
+                marker.openPopup();
+            });
+
+            listaContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
