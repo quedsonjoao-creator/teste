@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Tempo do Amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            color: #e1e1e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(22, 22, 32, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 24px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 1.2rem;
+            color: #ff5c8a;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .header p {
+            font-size: 0.75rem;
+            color: #a8a8b3;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #a8a8b3;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            color: #fff;
+        }
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .search-box input:focus {
+            border-color: #ff5c8a;
+            box-shadow: 0 0 0 3px rgba(255, 92, 138, 0.15);
+        }
+        .search-box button {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .search-box button:hover {
+            opacity: 0.9;
+        }
+        /* Cartão de Previsão */
+        .weather-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            display: none;
+        }
+        .weather-card.ativo {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        .cidade-nome {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .temp-principal {
+            font-size: 2.5rem;
+            color: #ff5c8a;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .descricao-clima {
+            font-size: 0.85rem;
+            color: #c7c7cf;
+            text-transform: capitalize;
+            margin-bottom: 15px;
+        }
+        .detalhes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .detalhe-item {
+            font-size: 0.75rem;
+            color: #9898a6;
+        }
+        .detalhe-item b {
+            display: block;
+            color: #d1d1d6;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+        /* Frase fofa personalizada com base no clima */
+        .frase-romantica {
+            margin-top: 15px;
+            background: rgba(255, 92, 138, 0.08);
+            border-left: 3px solid #ff5c8a;
+            padding: 10px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.75rem;
+            color: #ff8fa3;
+            font-style: italic;
+            text-align: left;
+        }
+        .erro-msg {
+            color: #ff5c8a;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            display: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar</a>
+        <div style="clear: both;"></div>
+        
+        <div class="header">
+            <h1>🌤️ Previsão do Tempo</h1>
+            <p>Como está o clima onde tu estás hoje?</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="cidadeInput" placeholder="Digite a cidade (Ex: São Paulo, Lisboa)...">
+            <button onclick="buscarClima()">🔍</button>
+        </div>
+
+        <p class="erro-msg" id="erroMsg">Cidade não encontrada. Tenta novamente!</p>
+
+        <div class="weather-card" id="weatherCard">
+            <div class="cidade-nome" id="cidadeNome">--</div>
+            <div class="temp-principal" id="tempPrincipal">--°C</div>
+            <div class="descricao-clima" id="descricaoClima">--</div>
+            
+            <div class="detalhes-grid">
+                <div class="detalhe-item">
+                    Humidade
+                    <b id="humidade">--%</b>
+                </div>
+                <div class="detalhe-item">
+                    Vento
+                    <b id="vento">-- km/h</b>
+                </div>
+            </div>
+
+            <div class="frase-romantica" id="fraseRomantica">
+                "Não importa se faz sol ou chuva, o meu dia melhora só de falar contigo."
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Usamos a API pública e gratuita Open-Meteo (não precisa de chave secreta nem cadastro!)
+        async function buscarClima() {
+            const cidade = document.getElementById("cidadeInput").value.trim();
+            const erroMsg = document.getElementById("erroMsg");
+            const weatherCard = document.getElementById("weatherCard");
+
+            if (!cidade) return;
+
+            erroMsg.style.display = "none";
+            weatherCard.classList.remove("ativo");
+
+            try {
+                // 1. Descobrir as coordenadas da cidade usando a API de geocodificação gratuita
+                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`);
+                const geoData = await geoRes.json();
+
+                if (!geoData.results || geoData.results.length === 0) {
+                    erroMsg.style.display = "block";
+                    return;
+                }
+
+                const local = geoData.results[0];
+                const lat = local.latitude;
+                const lon = local.longitude;
+                const nomeFormatado = `${local.name}, ${local.admin1 || local.country || ''}`;
+
+                // 2. Buscar o clima atual usando as coordenadas obtidas
+                const climaRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m`);
+                const climaData = await climaRes.json();
+
+                const temp = Math.round(climaData.current_weather.temperature);
+                const vento = climaData.current_weather.windspeed;
+                const codigoClima = climaData.current_weather.weathercode;
+                
+                // Pegar a umidade aproximada da primeira hora
+                const humidade = climaData.hourly.relativehumidity_2m[0];
+
+                // Traduzir o código do clima para texto amigável
+                const textoClima = traduzirClima(codigoClima);
+
+                // Preencher os dados na tela
+                document.getElementById("cidadeNome").innerText = nomeFormatado;
+                document.getElementById("tempPrincipal").innerText = `${temp}°C`;
+                document.getElementById("descricaoClima").innerText = textoClima;
+                document.getElementById("humidade").innerText = `${humidade}%`;
+                document.getElementById("vento").innerText = `${vento} km/h`;
+
+                // Frase fofa adaptada ao clima
+                const fraseElem = document.getElementById("fraseRomantica");
+                if (codigoClima >= 51 && codigoClima <= 67) {
+                    fraseElem.innerText = "🌧️ Está a chover lá fora... ";
+                } else if (codigoClima === 0 || codigoClima === 1) {
+                    fraseElem.innerText = "☀️ Céu limpo por aí! ";
+                } else {
+                    fraseElem.innerText = "☁️ O tempo está nublado.";
+                }
+
+                weatherCard.classList.add("ativo");
+
+            } catch (error) {
+                console.error(error);
+                erroMsg.style.display = "block";
+            }
+        }
+
+        function traduzirClima(codigo) {
+            // Códigos padrão WMO usados pela Open-Meteo
+            const codigos = {
+                0: "Céu limpo",
+                1: "Principalmente limpo",
+                2: "Parcialmente nublado",
+                3: "Nublado",
+                45: "Nevoeiro",
+                51: "Chuvisco leve",
+                61: "Chuva fraca",
+                63: "Chuva moderada",
+                80: "Pancadas de chuva",
+                95: "Trovoada"
+            };
+            return codigos[codigo] || "Condições agradáveis";
+        }
+
+        // Permitir buscar ao pressionar a tecla "Enter"
+        document.getElementById("cidadeInput").addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') {
+                buscarClima();
+            }
+        });
+    </script>
+</body>
+</html>
