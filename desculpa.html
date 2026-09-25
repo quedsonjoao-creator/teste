@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Pedido de Desculpas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at center, #181824 0%, #09090c 100%);
+            color: #e1e1e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(22, 22, 32, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.4);
+            padding: 24px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 1.2rem;
+            color: #ff5c8a;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 0.75rem;
+            color: #a8a8b3;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #a8a8b3;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            color: #fff;
+        }
+        .carta-card {
+            background: rgba(255, 92, 138, 0.05);
+            border: 1px solid rgba(255, 92, 138, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 25px;
+            min-height: 150px;
+        }
+        .carta-card p {
+            font-size: 0.8rem;
+            color: #d1d1d6;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            white-space: pre-wrap; /* Mantém as quebras de linha da máquina de escrever */
+        }
+        /* Cursor piscando da máquina de escrever */
+        .cursor-escrever {
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background-color: #ff5c8a;
+            animation: piscar 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes piscar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .botoes-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+            min-height: 50px;
+        }
+        .btn-perdao {
+            background: linear-gradient(135deg, #ff5c8a, #ff3366);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 92, 138, 0.3);
+        }
+        .btn-perdao:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+        .btn-nao {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9898a6;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            position: absolute;
+            right: 0;
+        }
+        /* Ecrã de Aceite (Surpresa) */
+        .sucesso-box {
+            display: none;
+            background: rgba(40, 167, 69, 0.15);
+            border: 1px solid #28a745;
+            border-radius: 20px;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        .sucesso-box h2 {
+            color: #28a745;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .sucesso-box p {
+            font-size: 0.8rem;
+            color: #d1d1d6;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .btn-whatsapp {
+            display: inline-block;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        .btn-whatsapp:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar</a>
+        <div style="clear: both;"></div>
+        
+        <div class="header">
+            <h1>Um Pedido Sincero</h1>
+            <p>De coração aberto para ti.</p>
+        </div>
+
+        <!-- O texto da carta onde a máquina de escrever vai atuar -->
+        <div class="carta-card">
+            <p id="textoMaquina"></p><span class="cursor-escrever" id="cursor"></span>
+        </div>
+
+        <!-- Pergunta e Botões interativos -->
+        <div id="interacaoArea" style="display: none;">
+            <p style="font-size: 0.8rem; color: #a8a8b3; margin-bottom: 15px;">Será que me consegues desculpar?</p>
+            <div class="botoes-container">
+                <button class="btn-perdao" onclick="aceitarPerdao()">Sim, eu desculpo 💖</button>
+                <button class="btn-nao" id="btnNao" onmouseover="fugirBotao()" onclick="fugirBotao()">Ainda chateada 😤</button>
+            </div>
+        </div>
+
+        <!-- Mensagem de Resposta ao Aceitar + WhatsApp -->
+        <div class="sucesso-box" id="sucessoBox">
+            <h2>❤️ Obrigado por me entenderes!</h2>
+            <p>Prometo cuidar sempre de ti . Clica no botão abaixo para me mandares um sinal no WhatsApp!</p>
+            <!-- Substitui o número abaixo pelo teu número de telemóvel real (com DDI e DDD, ex: 5511999999999) -->
+            <a href="https://wa.me/5561991181653?text=Oie!%20Eu%20já%20te%20desculpei,%20quero%20o%20meu%20abraço!%20❤️" target="_blank" class="btn-whatsapp">
+                💬 Enviar Mensagem no WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- Script de Confetes e Máquina de Escrever -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // Podes alterar o texto da carta aqui embaixo à vontade
+        const mensagemCarta = `Oi beba, como um programador aprendiz, assim vai ser um dos meus pedidos de desculpa. É perdão por ontem, perdao pela cara fecahada, por nao da atenção, por nao estar conseguindo nem olhar na sua cara direito ontem, pois isso é um fato. É, acabou que quando cheagamos lá, eu fui pego de surpresa, e nao consegui reagir bem, e com isso tomei decisoes preciptadas e fiz algo que eu sei que te magoou que foi ter falado para a ALINE, mas eu já te expliquei sobre e a gente conversou ontem, porem so a conversar nao me deixou bem, e eu confesso que fiqui enciumado, pq eu sou assim, porem como eu disse juntou tudo na minha cabeça e foi isso, mas perdão.`;
+
+        let i = 0;
+        const velocidade = 35; // Velocidade em milissegundos por letra
+        const elementoTexto = document.getElementById("textoMaquina");
+        const cursor = document.getElementById("cursor");
+        const interacaoArea = document.getElementById("interacaoArea");
+
+        function escreverMaquina() {
+            if (i < mensagemCarta.length) {
+                elementoTexto.innerHTML += mensagemCarta.charAt(i) === '\n' ? '<br>' : mensagemCarta.charAt(i);
+                i++;
+                setTimeout(escreverMaquina, velocidade);
+            } else {
+                // Quando terminar de escrever a carta, esconde o cursor e mostra os botões de sim/não
+                cursor.style.display = 'none';
+                interacaoArea.style.display = 'block';
+            }
+        }
+
+        // Iniciar o efeito de máquina de escrever logo que a página abre
+        window.onload = () => {
+            setTimeout(escreverMaquina, 500);
+        };
+
+        function fugirBotao() {
+            const btnNao = document.getElementById("btnNao");
+            const randomX = (Math.random() - 0.5) * 160;
+            const randomY = (Math.random() - 0.5) * 60;
+            btnNao.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function aceitarPerdao() {
+            document.getElementById("interacaoArea").style.display = "none";
+            document.getElementById("sucessoBox").style.display = "block";
+            
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
+</body>
+</html>
