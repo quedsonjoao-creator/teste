@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Previsão do Tempo do Amor</title>
+    <title>Frasco de Motivos para te mostrar o quao importante és 
+        </title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -35,7 +36,7 @@
             text-align: center;
         }
         .header {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .header h1 {
             font-size: 1.2rem;
@@ -55,107 +56,87 @@
             font-weight: 500;
             font-size: 0.8rem;
             transition: 0.2s;
+            float: left;
         }
         .back-btn:hover {
             color: #fff;
         }
-        .search-box {
+        /* Ilustração do Frasco */
+        .jarro-container {
+            position: relative;
+            width: 140px;
+            height: 180px;
+            margin: 20px auto;
+            background: rgba(255, 92, 138, 0.05);
+            border: 3px solid rgba(255, 92, 138, 0.4);
+            border-radius: 20px 20px 35px 35px;
             display: flex;
-            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: inset 0 0 20px rgba(255, 92, 138, 0.1);
+            transition: transform 0.2s;
+        }
+        .jarro-container:hover {
+            transform: scale(1.03);
+            border-color: #ff5c8a;
+        }
+        .jarro-tampa {
+            position: absolute;
+            top: -12px;
+            width: 70px;
+            height: 12px;
+            background: #ff5c8a;
+            border-radius: 6px;
+        }
+        .jarro-icone {
+            font-size: 3rem;
+            animation: flutuar 2s ease-in-out infinite;
+        }
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .instrucao {
+            font-size: 0.75rem;
+            color: #ff8fa3;
             margin-bottom: 20px;
         }
-        .search-box input {
-            flex: 1;
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 92, 138, 0.3);
-            border-radius: 12px;
+        /* Papelinho / Mensagem Sorteada */
+        .papelinho-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(255, 92, 138, 0.4);
+            border-radius: 16px;
+            padding: 18px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        .papelinho-card p {
+            font-size: 0.85rem;
             color: #fff;
-            font-size: 0.8rem;
-            outline: none;
+            line-height: 1.5;
+            font-style: italic;
         }
-        .search-box input:focus {
-            border-color: #ff5c8a;
-            box-shadow: 0 0 0 3px rgba(255, 92, 138, 0.15);
-        }
-        .search-box button {
+        .btn-tirar {
             background: linear-gradient(135deg, #ff5c8a, #ff3366);
             color: white;
             border: none;
-            padding: 0 16px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 92, 138, 0.3);
             transition: 0.2s;
         }
-        .search-box button:hover {
+        .btn-tirar:hover {
             opacity: 0.9;
-        }
-        /* Cartão de Previsão */
-        .weather-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 92, 138, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            display: none;
-        }
-        .weather-card.ativo {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        .cidade-nome {
-            font-size: 1.1rem;
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .temp-principal {
-            font-size: 2.5rem;
-            color: #ff5c8a;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-        .descricao-clima {
-            font-size: 0.85rem;
-            color: #c7c7cf;
-            text-transform: capitalize;
-            margin-bottom: 15px;
-        }
-        .detalhes-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-        .detalhe-item {
-            font-size: 0.75rem;
-            color: #9898a6;
-        }
-        .detalhe-item b {
-            display: block;
-            color: #d1d1d6;
-            font-size: 0.85rem;
-            margin-top: 2px;
-        }
-        /* Frase fofa personalizada com base no clima */
-        .frase-romantica {
-            margin-top: 15px;
-            background: rgba(255, 92, 138, 0.08);
-            border-left: 3px solid #ff5c8a;
-            padding: 10px;
-            border-radius: 0 10px 10px 0;
-            font-size: 0.75rem;
-            color: #ff8fa3;
-            font-style: italic;
-            text-align: left;
-        }
-        .erro-msg {
-            color: #ff5c8a;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            display: none;
+            transform: translateY(-2px);
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.95); }
@@ -170,128 +151,52 @@
         <div style="clear: both;"></div>
         
         <div class="header">
-            <h1>🌤️ Previsão do Tempo</h1>
-            <p>Como está o clima onde tu estás hoje?</p>
+            <h1>Frasco do Amor</h1>
+            <p>Um potinho cheio de razões pelas quais te tornam tão especial </p>
         </div>
 
-        <div class="search-box">
-            <input type="text" id="cidadeInput" placeholder="Digite a cidade (Ex: São Paulo, Lisboa)...">
-            <button onclick="buscarClima()">🔍</button>
+        <!-- Jarro Virtual -->
+        <div class="jarro-container" onclick="tirarPapelinho()">
+            <div class="jarro-tampa"></div>
+            <div class="jarro-icone">💖</div>
         </div>
 
-        <p class="erro-msg" id="erroMsg">Cidade não encontrada. Tenta novamente!</p>
+        <p class="instrucao">Clica no frasco ou no botão abaixo para tirar um papelinho!</p>
 
-        <div class="weather-card" id="weatherCard">
-            <div class="cidade-nome" id="cidadeNome">--</div>
-            <div class="temp-principal" id="tempPrincipal">--°C</div>
-            <div class="descricao-clima" id="descricaoClima">--</div>
-            
-            <div class="detalhes-grid">
-                <div class="detalhe-item">
-                    Humidade
-                    <b id="humidade">--%</b>
-                </div>
-                <div class="detalhe-item">
-                    Vento
-                    <b id="vento">-- km/h</b>
-                </div>
-            </div>
-
-            <div class="frase-romantica" id="fraseRomantica">
-                "Não importa se faz sol ou chuva, o meu dia melhora só de falar contigo."
-            </div>
+        <!-- Papelinho com a frase -->
+        <div class="papelinho-card">
+            <p id="mensagemPapel">"Clica para descobrires um motivo especial..."</p>
         </div>
+
+        <button class="btn-tirar" onclick="tirarPapelinho()">✨ Retirar Novo Papelinho</button>
     </div>
 
     <script>
-        // Usamos a API pública e gratuita Open-Meteo (não precisa de chave secreta nem cadastro!)
-        async function buscarClima() {
-            const cidade = document.getElementById("cidadeInput").value.trim();
-            const erroMsg = document.getElementById("erroMsg");
-            const weatherCard = document.getElementById("weatherCard");
+        // Podes adicionar, remover ou alterar os motivos aqui à vontade!
+        const motivos = [
+            " O seu sorriso.",
+            "A tua paciência e o teu carinho mesmo quando eu sou muito chato.",
+            "Seu estresse em determinadas situações.",
+            "O brilho que tens nos olhos quando falas daquilo que tu amas",
+            "A sua sabedoria com as palavras",
+            "A tua inteligência e a garra com que vais atrás dos teus objetivos.",
+            "A sua atenção .",
+            "O seu jeito de falar. ",
+            "Saber que posso contar contigo para absolutamente tudo.",
+        
+        ];
 
-            if (!cidade) return;
-
-            erroMsg.style.display = "none";
-            weatherCard.classList.remove("ativo");
-
-            try {
-                // 1. Descobrir as coordenadas da cidade usando a API de geocodificação gratuita
-                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`);
-                const geoData = await geoRes.json();
-
-                if (!geoData.results || geoData.results.length === 0) {
-                    erroMsg.style.display = "block";
-                    return;
-                }
-
-                const local = geoData.results[0];
-                const lat = local.latitude;
-                const lon = local.longitude;
-                const nomeFormatado = `${local.name}, ${local.admin1 || local.country || ''}`;
-
-                // 2. Buscar o clima atual usando as coordenadas obtidas
-                const climaRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m`);
-                const climaData = await climaRes.json();
-
-                const temp = Math.round(climaData.current_weather.temperature);
-                const vento = climaData.current_weather.windspeed;
-                const codigoClima = climaData.current_weather.weathercode;
-                
-                // Pegar a umidade aproximada da primeira hora
-                const humidade = climaData.hourly.relativehumidity_2m[0];
-
-                // Traduzir o código do clima para texto amigável
-                const textoClima = traduzirClima(codigoClima);
-
-                // Preencher os dados na tela
-                document.getElementById("cidadeNome").innerText = nomeFormatado;
-                document.getElementById("tempPrincipal").innerText = `${temp}°C`;
-                document.getElementById("descricaoClima").innerText = textoClima;
-                document.getElementById("humidade").innerText = `${humidade}%`;
-                document.getElementById("vento").innerText = `${vento} km/h`;
-
-                // Frase fofa adaptada ao clima
-                const fraseElem = document.getElementById("fraseRomantica");
-                if (codigoClima >= 51 && codigoClima <= 67) {
-                    fraseElem.innerText = "🌧️ Está a chover lá fora... ";
-                } else if (codigoClima === 0 || codigoClima === 1) {
-                    fraseElem.innerText = "☀️ Céu limpo por aí! ";
-                } else {
-                    fraseElem.innerText = "☁️ O tempo está nublado.";
-                }
-
-                weatherCard.classList.add("ativo");
-
-            } catch (error) {
-                console.error(error);
-                erroMsg.style.display = "block";
-            }
+        function tirarPapelinho() {
+            const indiceAleatorio = Math.floor(Math.random() * motivos.length);
+         const textoElemento = document.getElementById("mensagemPapel");
+            
+            // Pequeno efeito visual de transição
+            textoElemento.style.opacity = 0;
+            setTimeout(() => {
+                textoElemento.innerText = `"${motivos[indiceAleatorio]}"`;
+                textoElemento.style.opacity = 1;
+            }, 200);
         }
-
-        function traduzirClima(codigo) {
-            // Códigos padrão WMO usados pela Open-Meteo
-            const codigos = {
-                0: "Céu limpo",
-                1: "Principalmente limpo",
-                2: "Parcialmente nublado",
-                3: "Nublado",
-                45: "Nevoeiro",
-                51: "Chuvisco leve",
-                61: "Chuva fraca",
-                63: "Chuva moderada",
-                80: "Pancadas de chuva",
-                95: "Trovoada"
-            };
-            return codigos[codigo] || "Condições agradáveis";
-        }
-
-        // Permitir buscar ao pressionar a tecla "Enter"
-        document.getElementById("cidadeInput").addEventListener("keypress", function(e) {
-            if (e.key === 'Enter') {
-                buscarClima();
-            }
-        });
     </script>
 </body>
 </html>
