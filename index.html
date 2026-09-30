@@ -647,8 +647,20 @@
             letter-spacing: 0.3px;
         }
     </style>
+    </style>
+  </style>
+    
+    <!-- Script do OneSignal antes de fechar o head -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      window.OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "89049032007408885100211237724746",
+        });
+      });
+    </script>
 </head>
-
 <body>
 
     <div class="coracoes-bg">
@@ -823,14 +835,8 @@
             <button class="btn-fechar-modal" onclick="fecharModalPontos()">Entendi! 🥰</button>
         </div>
     </div>
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-          window.OneSignalDeferred = window.OneSignalDeferred || [];
-          window.OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-          appId: "89049032007408885100211237724746",
-    });
-  });
+   
+  
 </script>
 
     <script>
