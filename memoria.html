@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Memória do Amor</title>
+    <title>Frase do Dia 💌</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -19,272 +19,240 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 15px;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
-            width: 100%;
-            max-width: 440px;
-            background: rgba(22, 22, 32, 0.95);
+
+        /* Notificação simulada no topo */
+        .notificacao-banner {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(30, 30, 42, 0.95);
             backdrop-filter: blur(16px);
-            border-radius: 32px;
-            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 92, 138, 0.4);
-            padding: 24px;
-            margin-top: 15px;
-            margin-bottom: 30px;
-            text-align: center;
+            border: 1px solid rgba(255, 92, 138, 0.5);
+            padding: 14px 18px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            animation: deslizarNotificacao 5s ease forwards;
         }
-        .header {
-            margin-bottom: 15px;
+
+        @keyframes deslizarNotificacao {
+            0% { top: -80px; opacity: 0; }
+            15% { top: 20px; opacity: 1; }
+            85% { top: 20px; opacity: 1; }
+            100% { top: -80px; opacity: 0; }
         }
-        .header h1 {
-            font-size: 1.2rem;
+
+        .notif-icone {
+            font-size: 1.5rem;
+            background: rgba(255, 92, 138, 0.2);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .notif-texto h4 {
+            font-size: 0.8rem;
             color: #ff5c8a;
             font-weight: 600;
-            margin-bottom: 3px;
         }
-        .header p {
+
+        .notif-texto p {
             font-size: 0.75rem;
-            color: #a8a8b3;
+            color: #c7c7cf;
         }
+
+        /* Container Principal */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(22, 22, 32, 0.88);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 92, 138, 0.3);
+            padding: 30px 24px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeInScale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
         .back-btn {
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-decoration: none;
             color: #a8a8b3;
             font-weight: 500;
             font-size: 0.8rem;
             transition: 0.2s;
+            float: left;
         }
         .back-btn:hover {
             color: #fff;
         }
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 92, 138, 0.2);
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 20px;
-            font-size: 0.75rem;
-            color: #c7c7cf;
+
+        .header-icone {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: pulsar 2s infinite ease-in-out;
         }
-        .stats span b {
+
+        @keyframes pulsar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 1.3rem;
             color: #ff5c8a;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
-        /* Grelha do Jogo da Memória */
-        .grid-memoria {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .carta {
-            aspect-ratio: 1;
-            background: rgba(255, 92, 138, 0.1);
-            border: 1px solid rgba(255, 92, 138, 0.3);
-            border-radius: 12px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-            user-select: none;
-        }
-        .carta:hover {
-            background: rgba(255, 92, 138, 0.2);
-        }
-        .carta.virada, .carta.encontrada {
-            background: rgba(255, 255, 255, 0.9);
-            transform: rotateY(180deg);
-        }
-        .carta.encontrada {
-            border-color: #28a745;
-            opacity: 0.8;
-            cursor: default;
-        }
-        /* Mensagem de Parabéns Final */
-        .vitoria-box {
-            display: none;
-            background: rgba(255, 92, 138, 0.15);
-            border: 1px solid #ff5c8a;
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 15px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .vitoria-box h2 {
-            color: #ff5c8a;
-            font-size: 1rem;
-            margin-bottom: 6px;
-        }
-        .vitoria-box p {
+
+        .data-hoje {
             font-size: 0.75rem;
-            color: #d1d1d6;
-            line-height: 1.4;
-            margin-bottom: 12px;
+            color: #8e8e99;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .btn-reiniciar {
+
+        .frase-card {
+            background: rgba(255, 92, 138, 0.05);
+            border: 1px dashed rgba(255, 92, 138, 0.3);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .frase-card p {
+            font-size: 0.92rem;
+            color: #e1e1e6;
+            line-height: 1.7;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .btn-coracao {
             background: linear-gradient(135deg, #ff5c8a, #ff3366);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.75rem;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
+            box-shadow: 0 5px 20px rgba(255, 92, 138, 0.4);
         }
-        .btn-reiniciar:hover {
-            opacity: 0.9;
+
+        .btn-coracao:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+            box-shadow: 0 8px 25px rgba(255, 92, 138, 0.6);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+
+        .contador-dias {
+            margin-top: 15px;
+            font-size: 0.72rem;
+            color: #8e8e99;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="index.html" class="back-btn">← Voltar</a>
-        <div style="clear: both;"></div>
-        
-        <div class="header">
-            <h1>🧩 Jogo da Memória</h1>
-            <p>Encontra todos os pares que representam o nosso amor!</p>
-        </div>
-
-        <div class="stats">
-            <span>Cliques: <b id="contadorCliques">0</b></span>
-            <span>Pares: <b id="contadorPares">0</b> / 6</span>
-        </div>
-
-        <div class="grid-memoria" id="gridMemoria">
-            <!-- As cartas são geradas dinamicamente via JavaScript -->
-        </div>
-
-        <div class="vitoria-box" id="vitoriaBox">
-            <h2>💖 Parabéns, beba!</h2>
-            <p>Conseguiste juntar todos os pares! Assim como completaste este jogo, completas a minha vida todos os dias. Te amo muito!</p>
-            <button class="btn-reiniciar" onclick="iniciarJogo()">Jogar de Novo</button>
+    <!-- Banner simulando notificação push -->
+    <div class="notificacao-banner">
+        <div class="notif-icone">💌</div>
+        <div class="notif-texto">
+            <h4>Nova Mensagem de Amor</h4>
+            <p>Tens uma frase especial esperando por ti hoje!</p>
         </div>
     </div>
 
-    <!-- Script de Confetes para a vitória -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Voltar</a>
+        <div style="clear: both;"></div>
+
+        <div class="header-icone">✨</div>
+        <h1>Frase do Dia</h1>
+        <div class="data-hoje" id="dataAtual">Carregando data...</div>
+
+        <div class="frase-card">
+            <p id="fraseTexto">"A carregar o teu mimo de hoje..."</p>
+        </div>
+
+        <button class="btn-coracao" onclick="mostrarFraseAleatoria()">Sortear Outra Frase 💖</button>
+        
+        <div class="contador-dias" id="infoFrases">Mensagem única diária</div>
+    </div>
+
     <script>
-        // Ícones que representam vocês / os gostos dela (podem ser duplicados para formar os pares)
-        const icones = ['💖', '🎹', '🎤', '⚽', '🎬', '📖'];
-        let cartasArray = [...icones, ...icones]; // 12 cartas no total (6 pares)
-
-        let primeiraCarta = null;
-        let segundaCarta = null;
-        let bloqueioTabuleiro = false;
-        let cliques = 0;
-        let paresEncontrados = 0;
-
-        const grid = document.getElementById("gridMemoria");
-        const contadorCliquesElem = document.getElementById("contadorCliques");
-        const contadorParesElem = document.getElementById("contadorPares");
-        const vitoriaBox = document.getElementById("vitoriaBox");
-
-        function iniciarJogo() {
-            grid.innerHTML = "";
-            vitoriaBox.style.display = "none";
-            primeiraCarta = null;
-            segundaCarta = null;
-            bloqueioTabuleiro = false;
-            cliques = 0;
-            paresEncontrados = 0;
-            contadorCliquesElem.innerText = cliques;
-            contadorParesElem.innerText = paresEncontrados;
-
-            // Embaralhar cartas aleatoriamente
-            cartasArray.sort(() => Math.random() - 0.5);
-
-            cartasArray.forEach(icone => {
-                const carta = document.createElement("div");
-                carta.className = "carta";
-                carta.dataset.icone = icone;
-                carta.innerText = "❓"; // Face oculta
-                carta.addEventListener("click", virarCarta);
-                grid.appendChild(carta);
-            });
-        }
-
-        function virarCarta() {
-            if (bloqueioTabuleiro) return;
-            if (this === primeiraCarta) return;
-            if (this.classList.contains("encontrada")) return;
-
-            this.classList.add("virada");
-            this.innerText = this.dataset.icone;
-
-            if (!primeiraCarta) {
-                primeiraCarta = this;
-                return;
-            }
-
-            segundaCarta = this;
-            cliques++;
-            contadorCliquesElem.innerText = cliques;
-            verificarPar();
-        }
-
-        function verificarPar() {
-            const ehPar = primeiraCarta.dataset.icone === segundaCarta.dataset.icone;
-
-            if (ehPar) {
-                desativarCartas();
-            } else {
-                desvirarCartas();
-            }
-        }
-
-        function desativarCartas() {
-            primeiraCarta.classList.add("encontrada");
-            segundaCarta.classList.add("encontrada");
+        // Lista com várias frases e elogios fofos
+        const listaFrases = [
+            "Minha querida Bebea, lembra-te hoje (e sempre) que és a pessoa mais incrível, iluminada e importante na vida de todos.",
+            "Voce é uma obra prima que Deus planejou",
+            "O teu sorriso tem a capacidade de transfromar qualquer coisa ruim em boa. ",
+            "Os brilhos de seus olhos sao como a luz que enclarece qualquer lugar",
+            "Voce é perfeita aos olhos do Pai",
             
-            paresEncontrados++;
-            contadorParesElem.innerText = paresEncontrados;
+        ];
 
-            resetarTabuleiro();
-
-            // Se encontrou todos os 6 pares
-            if (paresEncontrados === 6) {
-                setTimeout(() => {
-                    vitoriaBox.style.display = "block";
-                    confetti({
-                        particleCount: 120,
-                        spread: 80,
-                        origin: { y: 0.6 }
-                    });
-                }, 400);
-            }
+        // Mostra a data formatada de hoje
+        function atualizarData() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const hoje = new Date();
+            document.getElementById("dataAtual").innerText = hoje.toLocaleDateString('pt-BR', options);
         }
 
-        function desvirarCartas() {
-            bloqueioTabuleiro = true;
+        // Seleciona a frase com base no dia do ano (muda automaticamente todos os dias)
+        function carregarFraseDoDia() {
+            const agora = new Date();
+            const inicioAno = new Date(agora.getFullYear(), 0, 0);
+            const diff = agora - inicioAno;
+            const umDia = 1000 * 60 * 60 * 24;
+            const diaDoAno = Math.floor(diff / umDia);
+
+            // Usa o dia do ano para escolher uma frase da lista de forma cíclica
+            const indiceFrase = diaDoAno % listaFrases.length;
+            document.getElementById("fraseTexto").innerText = `"${listaFrases[indiceFrase]}"`;
+        }
+
+        // Função caso ela queira clicar no botão para ver outra frase de surpresa
+        function mostrarFraseAleatoria() {
+            const randomIndex = Math.floor(Math.random() * listaFrases.length);
+            document.getElementById("fraseTexto").style.opacity = 0;
             setTimeout(() => {
-                primeiraCarta.classList.remove("virada");
-                primeiraCarta.innerText = "❓";
-                segundaCarta.classList.remove("virada");
-                segundaCarta.innerText = "❓";
-
-                resetarTabuleiro();
-            }, 900); // Tempo para ela ver o ícone antes de fechar
+                document.getElementById("fraseTexto").innerText = `"${listaFrases[randomIndex]}"`;
+                document.getElementById("fraseTexto").style.opacity = 1;
+            }, 200);
         }
 
-        function resetarTabuleiro() {
-            [primeiraCarta, segundaCarta] = [null, null];
-            bloqueioTabuleiro = false;
-        }
-
-        // Iniciar o jogo ao carregar a página
-        iniciarJogo();
+        window.onload = () => {
+            atualizarData();
+            carregarFraseDoDia();
+        };
     </script>
 </body>
-</html>
+</html> 
