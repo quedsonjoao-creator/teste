@@ -3,35 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Alguém Especial </title>
+    <title>Um Cantinho Especial </title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Poppins & Great Vibes para toque romântico) -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        rose: {
-                            50: '#fff1f2',
-                            100: '#ffe4e6',
-                            200: '#fecdd3',
-                            300: '#fda4af',
-                            400: '#fb7185',
-                            500: '#f43f5e',
-                            600: '#e11d48',
-                            700: '#be123c',
-                        }
+                        cream: '#FDFBF7',
+                        softPink: '#FBE4E8',
+                        warmLilac: '#E8E5F3',
+                        goldGlow: '#D4AF37',
+                        dustyRose: '#D9828A',
+                        deepRose: '#9E4B55'
                     },
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        cursive: ['Great Vibes', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        hand: ['Caveat', 'cursive'],
                     }
                 }
             }
@@ -39,534 +34,405 @@
     </script>
 
     <style>
-        /* Estilos personalizados e animações */
         body {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #ffe4e6 100%);
+            background: linear-gradient(135deg, #FDFBF7 0%, #FBE4E8 50%, #E8E5F3 100%);
+            min-height: 100vh;
             overflow-x: hidden;
+            color: #4A4A4A;
         }
 
-        /* Animação dos corações caindo/flutuando no fundo */
-        .heart-particle {
+        /* Efeito de Cursor de Máquina de Escrever */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #D9828A;
+            animation: blink 0.8s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Caderninho Aesthetic com Linhas Guia */
+        .notepad-paper {
+            background-color: #FFFFFF;
+            background-image: linear-gradient(#f1e6e8 1px, transparent 1px);
+            background-size: 100% 2rem;
+            box-shadow: 0 10px 30px -5px rgba(217, 130, 138, 0.15), 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Sparkles & partículas */
+        .sparkle-particle {
             position: fixed;
-            top: -10vh;
-            color: rgba(244, 63, 94, 0.4);
-            animation: fall linear infinite;
             pointer-events: none;
-            z-index: 0;
+            z-index: 50;
+            animation: fadeFloat 1.2s ease-out forwards;
         }
 
-        @keyframes fall {
+        @keyframes fadeFloat {
             0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.8;
+                opacity: 1;
+                transform: scale(0.5) translateY(0);
             }
             100% {
-                transform: translateY(110vh) rotate(360deg);
                 opacity: 0;
+                transform: scale(1.4) translateY(-20px);
             }
         }
 
-        /* Estilo do Flip Card */
-        .perspective-1000 {
-            perspective: 1000px;
+        /* Botões customizados */
+        .btn-aesthetic {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(217, 130, 138, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .transform-style-3d {
-            transform-style: preserve-3d;
-        }
-        .backface-hidden {
-            backface-visibility: hidden;
-        }
-        .rotate-y-180 {
-            transform: rotateY(180deg);
-        }
-
-        /* Efeito de brilho pulsante */
-        .glow-effect {
-            box-shadow: 0 0 25px rgba(244, 63, 94, 0.4);
+        .btn-aesthetic:hover {
+            background: rgba(251, 228, 232, 0.9);
+            border-color: rgba(217, 130, 138, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(217, 130, 138, 0.2);
         }
 
-        /* Barra de rolagem personalizada */
+        /* Estilo da barra de rolagem */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #fce7f3;
+            background: #FDFBF7;
         }
         ::-webkit-scrollbar-thumb {
-            background: #fb7185;
-            border-radius: 4px;
+            background: #FBE4E8;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body class="text-gray-800 font-sans relative min-h-screen selection:bg-rose-300 selection:text-rose-900">
+<body class="relative font-sans flex flex-col justify-between min-h-screen selection:bg-softPink selection:text-deepRose">
 
-    <!-- Fundo Interativo de Corações Flutuantes -->
-    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-0"></div>
+    <!-- Fundo de Brilhos Flutuantes -->
+    <div id="bg-sparkles" class="fixed inset-0 pointer-events-none z-0"></div>
 
-    <!-- NAVEGAÇÃO / CABEÇALHO -->
-    <nav class="fixed top-0 left-0 w-full bg-white/60 backdrop-blur-md z-40 border-b border-rose-100 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- NOME / LOGO - PERSONALIZE AQUI -->
-            <span class="font-cursive text-2xl md:text-3xl font-bold text-rose-600">Para a PRI</span>
-            <div class="space-x-4 text-sm font-medium text-gray-600">
-                <a href="#memories" class="hover:text-rose-500 transition">Memórias</a>
-                <a href="#reasons" class="hover:text-rose-500 transition">Motivos</a>
-                <a href="#playlist" class="hover:text-rose-500 transition">Música</a>
-                <a href="#proposal" class="hover:text-rose-500 transition">Convite</a>
+    <!-- CABEÇALHO DELICADO -->
+    <header class="pt-8 pb-4 text-center z-10 px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-dustyRose/20 text-xs font-medium text-deepRose shadow-sm mb-3">
+            <i class="fa-solid fa-sparkles text-goldGlow animate-pulse"></i>
+            <span>Um gesto simples pra adoçar seu dia</span>
+        </div>
+        <h1 class="font-serif text-3xl md:text-5xl text-deepRose font-normal tracking-wide">
+            Cantinho das Palavras ✨
+        </h1>
+    </header>
+
+    <!-- MÚSICA PLAYER MINIMALISTA (FIXO OU FLUTUANTE NO CANTO) -->
+    <div class="fixed bottom-5 right-5 z-40">
+        <div class="bg-white/80 backdrop-blur-md p-3 rounded-full border border-dustyRose/30 shadow-lg flex items-center gap-3 pr-5">
+            <button id="music-toggle" class="w-10 h-10 rounded-full bg-softPink text-deepRose flex items-center justify-center hover:scale-105 transition shadow-sm">
+                <i class="fa-solid fa-music text-sm" id="music-icon"></i>
+            </button>
+            <div class="text-left hidden sm:block">
+                <p class="text-xs font-bold text-gray-700 leading-tight">Melodia Suave</p>
+                <p class="text-[10px] text-gray-500" id="music-status">Clique para ouvir</p>
             </div>
         </div>
-    </nav>
+        <!-- Áudio em tom relaxante de piano sem copyright -->
+        <audio id="bg-music" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-piano-100-bpm-121529.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
-    <!-- 1. HERO SECTION / SEÇÃO DE BOAS-VINDAS -->
-    <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-16 relative z-10">
-        <div class="p-8 md:p-12 rounded-3xl bg-white/40 backdrop-blur-md border border-white/60 shadow-xl max-w-3xl w-full">
+    <!-- CONTEÚDO PRINCIPAL (ÁREA CENTRAL) -->
+    <main class="max-w-2xl w-full mx-auto px-4 py-6 z-10 flex-grow flex flex-col justify-center">
+
+        <!-- PAINEL DE SELEÇÃO DE FRASES -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button onclick="selectPreset(0)" class="btn-aesthetic text-xs py-2 px-4 rounded-full text-gray-700 font-medium">
+                🌸 Sorriso
+            </button>
+            <button onclick="selectPreset(1)" class="btn-aesthetic text-xs py-2 px-4 rounded-full text-gray-700 font-medium">
+                ✨ Inspiração
+            </button>
+            <button onclick="selectPreset(2)" class="btn-aesthetic text-xs py-2 px-4 rounded-full text-gray-700 font-medium">
+                ☕ Pausa no dia
+            </button>
+            <button onclick="toggleCustomEditor()" class="btn-aesthetic text-xs py-2 px-4 rounded-full text-deepRose font-semibold border-dustyRose/50">
+                ✏️ Escrever o Meu
+            </button>
+        </div>
+
+        <!-- EDITOR DE TEXTO PERSONALIZADO (INICIALMENTE OCULTO) -->
+        <div id="custom-editor" class="hidden mb-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-dustyRose/30 shadow-sm">
+            <label class="block text-xs font-bold text-gray-600 mb-2">Escreva sua própria mensagem para ela:</label>
+            <textarea id="custom-text-input" rows="3" class="w-full text-sm p-3 rounded-xl border border-rose-100 focus:outline-none focus:ring-2 focus:ring-dustyRose/40 text-gray-700" placeholder="Digite aqui o texto que a maquininha irá digitar..."></textarea>
+            <div class="flex justify-end gap-2 mt-2">
+                <button onclick="toggleCustomEditor()" class="text-xs text-gray-500 hover:text-gray-700 px-3 py-1.5">Cancelar</button>
+                <button onclick="applyCustomText()" class="text-xs bg-dustyRose text-white font-semibold px-4 py-1.5 rounded-lg shadow-sm hover:bg-deepRose transition">Digitar Mensagem</button>
+            </div>
+        </div>
+
+        <!-- CADERNINHO / CARTA DE MÁQUINA DE ESCREVER -->
+        <div class="notepad-paper rounded-3xl p-6 sm:p-10 border border-dustyRose/20 relative overflow-hidden">
             
-            <!-- Foto de Perfil ou Ícone Romântico -->
-            <div class="w-28 h-28 md:w-36 md:h-36 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white shadow-lg relative group">
-                <!-- SUBSTITUA O LINK DA IMAGEM ABAIXO PELA FOTO DELA OU DE VOCÊS -->
-                <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=600&auto=format&fit=crop" 
-                     alt="Foto Especial" 
-                     class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            <!-- Detalhe decorativo de clipe / selo -->
+            <div class="absolute top-4 right-6 text-dustyRose/40 text-xl">
+                <i class="fa-solid fa-paperclip"></i>
             </div>
 
-            <!-- Título Principal - PERSONALIZE O NOME DELA AQUI -->
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
-                Oi, <span class="text-rose-500 font-cursive text-5xl md:text-7xl drop-shadow-sm">Pri</span> ✨
-            </h1>
-
-            <!-- Efeito de Digitação Dinâmica -->
-            <div class="h-12 flex justify-center items-center mb-6">
-                <p id="typing-text" class="text-lg md:text-2xl text-rose-700 font-medium italic"></p>
-                <span class="animate-pulse text-rose-500 text-2xl">|</span>
-            </div>
-
-            <!-- Mensagem de Introdução -->
-            <p class="text-gray-600 max-w-xl mx-auto mb-8 text-sm md:text-base leading-relaxed">
-                Fiz este cantinho especial na internet só para te lembrar do quanto você é incrível.
-            </p>
-
-            <!-- Botão de Ação -->
-            <a href="#memories" class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold px-8 py-3.5 rounded-full shadow-lg hover:shadow-rose-300 hover:scale-105 active:scale-95 transition-all duration-300">
-                <span>Sua História</span>
-                <i class="fa-solid fa-heart animate-bounce"></i>
-            </a>
-        </div>
-    </section>
-
-
-    <!-- 2. MEMORY TIMELINE / LINHA DO TEMPO & GALERIA DE MEMÓRIAS -->
-    <section id="memories" class="py-20 px-4 max-w-5xl mx-auto relative z-10">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 font-cursive mb-2">Momentos Marcantes</h2>
-            <p class="text-gray-600">Algumas das lembranças com voce </p>
-            <div class="w-16 h-1 bg-rose-400 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- CARTÃO DE MEMÓRIA 1 - PERSONALIZE -->
-            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-rose-100 flex flex-col items-center">
-                <div class="w-full h-64 rounded-xl overflow-hidden mb-4 relative">
-                    <!-- Foto 1 -->
-                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop" 
-                         alt="Memória 1" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    <span class="absolute top-3 right-3 bg-white/80 backdrop-blur-md text-rose-600 text-xs font-bold px-3 py-1 rounded-full shadow">
-                        PRIMEIRO ENCONTRO
-                    </span>
-                </div>
-                <h3 class="text-lg font-bold text-gray-800 mb-1">Onde eu  notei que seu sorriso era perfeito.</h3>
-                <p class="text-xs text-rose-400 mb-2 font-medium"> Igreja• 18-10-2026</p>
-                <p class="text-gray-600 text-sm text-center">
-                    Aquele dia em que percebi que seu sorriso tinha o poder de mudar completamente tudo.
-                </p>
-            </div>
-
-            <!-- CARTÃO DE MEMÓRIA 2 - PERSONALIZE -->
-            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-rose-100 flex flex-col items-center">
-                <div class="w-full h-64 rounded-xl overflow-hidden mb-4 relative">
-                    <!-- Foto 2 -->
-                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=600&auto=format&fit=crop" 
-                         alt="Memória 2" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    <span class="absolute top-3 right-3 bg-white/80 backdrop-blur-md text-rose-600 text-xs font-bold px-3 py-1 rounded-full shadow">
-                        RISADAS
-                    </span>
-                </div>
-                <h3 class="text-lg font-bold text-gray-800 mb-1">=</h3>
-                <p class="text-xs text-rose-400 mb-2 font-medium"></p>
-                <p class="text-gray-600 text-sm text-center">
-                    Cada risada compartilhada e cada conversa boba me fizeram ter certeza de quão especial você é.
-                </p>
-            </div>
-
-            <!-- CARTÃO DE MEMÓRIA 3 - PERSONALIZE -->
-            <div class="bg-white p-4 rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-rose-100 flex flex-col items-center">
-                <div class="w-full h-64 rounded-xl overflow-hidden mb-4 relative">
-                    <!-- Foto 3 -->
-                    <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=600&auto=format&fit=crop" 
-                         alt="Memória 3" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    <span class="absolute top-3 right-3 bg-white/80 backdrop-blur-md text-rose-600 text-xs font-bold px-3 py-1 rounded-full shadow">
-                        DETALHES
-                    </span>
-                </div>
-                <h3 class="text-lg font-bold text-gray-800 mb-1"></h3>
-                <p class="text-xs text-rose-400 mb-2 font-medium">📍</p>
-                <p class="text-gray-600 text-sm text-center">
-                    
-                </p>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- 3. MOTIVOS PELOS QUAIS VOCÊ É ESPECIAL (FLIP CARDS INTERATIVOS) -->
-    <section id="reasons" class="py-20 px-4 bg-white/50 backdrop-blur-md border-y border-rose-100 relative z-10">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-800 font-cursive mb-2">Por Que Você É Especial?</h2>
-                <p class="text-gray-600">Clique nos cartões abaixo para descobrir!</p>
-                <div class="w-16 h-1 bg-rose-400 mx-auto mt-4 rounded-full"></div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- REZÃO 1 -->
-                <div class="h-48 perspective-1000 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-lg rounded-2xl">
-                        <!-- Frente -->
-                        <div class="absolute w-full h-full bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl p-6 text-white flex flex-col justify-center items-center backface-hidden">
-                            <i class="fa-solid fa-face-smile-beam text-4xl mb-3"></i>
-                            <h3 class="font-bold text-lg">Seu Sorriso</h3>
-                            <span class="text-xs mt-2 opacity-80">(Clique para virar)</span>
-                        </div>
-                        <!-- Verso -->
-                        <div class="absolute w-full h-full bg-white border-2 border-rose-300 rounded-2xl p-6 text-gray-700 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
-                            <p class="text-sm font-medium">Ele tem o dom de ilumina qualquer ambiente e deixar qualquer dia cinza totalmente colorido.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REZÃO 2 -->
-                <div class="h-48 perspective-1000 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-lg rounded-2xl">
-                        <div class="absolute w-full h-full bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl p-6 text-white flex flex-col justify-center items-center backface-hidden">
-                            <i class="fa-solid fa-heart text-4xl mb-3"></i>
-                            <h3 class="font-bold text-lg">Seu Coração</h3>
-                            <span class="text-xs mt-2 opacity-80">(Clique para virar)</span>
-                        </div>
-                        <div class="absolute w-full h-full bg-white border-2 border-rose-300 rounded-2xl p-6 text-gray-700 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
-                            <p class="text-sm font-medium">Sua gentileza e o jeito carinhoso como você trata as pessoas ao seu redor são admiráveis.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REZÃO 3 -->
-                <div class="h-48 perspective-1000 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-lg rounded-2xl">
-                        <div class="absolute w-full h-full bg-gradient-to-br from-rose-500 to-red-400 rounded-2xl p-6 text-white flex flex-col justify-center items-center backface-hidden">
-                            <i class="fa-solid fa-wand-magic-sparkles text-4xl mb-3"></i>
-                            <h3 class="font-bold text-lg">Sua Energia</h3>
-                            <span class="text-xs mt-2 opacity-80">(Clique para virar)</span>
-                        </div>
-                        <div class="absolute w-full h-full bg-white border-2 border-rose-300 rounded-2xl p-6 text-gray-700 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
-                            <p class="text-sm font-medium">Estar ao seu lado transmite uma paz única e faz com que qualquer tempo passe voando.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REZÃO 4 -->
-                <div class="h-48 perspective-1000 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="card-inner relative w-full h-full duration-500 transform-style-3d shadow-lg rounded-2xl">
-                        <div class="absolute w-full h-full bg-gradient-to-br from-pink-500 to-rose-400 rounded-2xl p-6 text-white flex flex-col justify-center items-center backface-hidden">
-                            <i class="fa-solid fa-star text-4xl mb-3"></i>
-                            <h3 class="font-bold text-lg">Você É Única</h3>
-                            <span class="text-xs mt-2 opacity-80">(Clique para virar)</span>
-                        </div>
-                        <div class="absolute w-full h-full bg-white border-2 border-rose-300 rounded-2xl p-6 text-gray-700 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
-                            <p class="text-sm font-medium">Não existe ninguém no mundo igual a você. Cada detalhe seu faz de você alguém especial.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- 4. SEÇÃO DE MÚSICA / PLAYLIST -->
-    <section id="playlist" class="py-20 px-4 max-w-3xl mx-auto relative z-10">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 font-cursive mb-2">Nossa Trilha Sonora</h2>
-            <p class="text-gray-600">A música que sempre me faz lembrar de você</p>
-            <div class="w-16 h-1 bg-rose-400 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        <!-- Player de Música Estético -->
-        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-rose-100 flex flex-col md:flex-row items-center gap-6">
-            <!-- Capa do Álbum -->
-            <div class="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-md flex-shrink-0 relative group">
-                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400&auto=format&fit=crop" 
-                     alt="Capa de Música" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                    <i class="fa-solid fa-music text-white text-2xl"></i>
+            <!-- Título da Carta -->
+            <div class="mb-4 pb-2 border-b border-dustyRose/20 flex items-center justify-between">
+                <span class="font-hand text-2xl text-deepRose font-bold" id="note-header">Pra te fazer sorrir...</span>
+                <div class="flex items-center gap-1 text-goldGlow text-xs">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
                 </div>
             </div>
 
-            <!-- Informações e Controles -->
-            <div class="w-full flex flex-col justify-between">
-                <div>
-                    <!-- PERSONALIZE NOME DA MÚSICA E ARTISTA -->
-                    <h3 class="text-xl font-bold text-gray-800 mb-1"></h3>
-                    <p class="text-rose-500 font-medium text-sm mb-4"></p>
-                </div>
+            <!-- ÁREA ONDE O TEXTO É DIGITADO -->
+            <div class="min-h-[160px] sm:min-h-[180px] flex items-start">
+                <p id="typewriter-output" class="font-serif text-lg sm:text-2xl text-gray-800 leading-relaxed tracking-wide font-normal"></p>
+                <span id="cursor" class="typewriter-cursor text-lg sm:text-2xl">&nbsp;</span>
+            </div>
 
-                <!-- Visualizador de Áudio Falso (Animação) -->
-                <div class="flex items-center gap-1 h-6 mb-4" id="visualizer">
-                    <div class="w-1 bg-rose-400 rounded-full h-2 transition-all duration-300"></div>
-                    <div class="w-1 bg-rose-500 rounded-full h-4 transition-all duration-300"></div>
-                    <div class="w-1 bg-rose-300 rounded-full h-6 transition-all duration-300"></div>
-                    <div class="w-1 bg-rose-600 rounded-full h-3 transition-all duration-300"></div>
-                    <div class="w-1 bg-rose-400 rounded-full h-5 transition-all duration-300"></div>
-                </div>
-
-                <!-- Barra de Progresso Simulado -->
-                <div class="w-full bg-rose-100 h-2 rounded-full mb-4 overflow-hidden cursor-pointer" id="progress-container">
-                    <div class="bg-rose-500 h-full w-1/3 rounded-full" id="progress-bar"></div>
-                </div>
-
-                <!-- Botões do Player -->
-                <div class="flex items-center justify-between">
-                    <button id="like-btn" class="text-gray-400 hover:text-rose-500 transition text-xl">
-                        <i class="fa-solid fa-heart"></i>
+            <!-- CONTROLES DA MÁQUINA DE ESCREVER -->
+            <div class="mt-6 pt-4 border-t border-dustyRose/10 flex items-center justify-between text-xs text-gray-500">
+                <div class="flex items-center gap-2">
+                    <button id="btn-pause" onclick="togglePause()" class="hover:text-deepRose transition p-1" title="Pausar/Continuar">
+                        <i class="fa-solid fa-pause" id="pause-icon"></i>
                     </button>
-                    
-                    <div class="flex items-center gap-4">
-                        <button class="text-gray-600 hover:text-rose-500 transition text-lg">
-                            <i class="fa-solid fa-backward-step"></i>
-                        </button>
-                        <button id="play-btn" class="w-12 h-12 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 transition">
-                            <i class="fa-solid fa-play" id="play-icon"></i>
-                        </button>
-                        <button class="text-gray-600 hover:text-rose-500 transition text-lg">
-                            <i class="fa-solid fa-forward-step"></i>
-                        </button>
-                    </div>
-
-                    <span class="text-xs text-gray-400 font-mono">01:24</span>
+                    <button onclick="restartTypewriter()" class="hover:text-deepRose transition p-1" title="Reiniciar Digitação">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
                 </div>
+                <span class="font-hand text-base text-dustyRose">Com carinho ✨</span>
             </div>
         </div>
-    </section>
 
-
-    <!-- 5. O CONVITE INTERATIVO (O BOTÃO QUE FOGE) -->
-    <section id="proposal" class="py-24 px-4 max-w-3xl mx-auto text-center relative z-10">
-        <div class="bg-white/80 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl border-2 border-rose-200 relative overflow-hidden">
-            
-            <i class="fa-solid fa-envelope-open-text text-5xl text-rose-500 mb-6 animate-pulse"></i>
-
-            <!-- Pergunta Principal -->
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 font-cursive">
-              
-            </h2>
-
-            <p class="text-xl md:text-2xl text-rose-600 font-semibold mb-8">
-                
+        <!-- CANTINHO INTERATIVO: MINI CARTAS OCULTAS -->
+        <div class="mt-10">
+            <p class="text-center text-xs font-bold uppercase tracking-wider text-deepRose/70 mb-4">
+                🎁 Pequenas surpresas para abrir
             </p>
-
-            <!-- Botões Sim e Não -->
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 min-h-[100px] relative" id="buttons-container">
-                
-                <!-- Botão SIM -->
-                <button id="yes-btn" onclick="celebrate()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg hover:shadow-emerald-200 hover:scale-110 active:scale-95 transition-all duration-300 z-20">
-                   
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onclick="openNote('elogio')" class="btn-aesthetic p-4 rounded-2xl text-left flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-softPink flex items-center justify-center text-dustyRose group-hover:scale-110 transition">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-800">Abra se precisar de um elogio</p>
+                        <p class="text-[11px] text-gray-500">Uma pequena verdade sobre você</p>
+                    </div>
                 </button>
 
-                <!-- Botão NÃO (Foge do Mouse) -->
-                <button id="no-btn" class="bg-gray-400 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition-all duration-200 z-20">
-                    
+                <button onclick="openNote('cansativo')" class="btn-aesthetic p-4 rounded-2xl text-left flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-warmLilac flex items-center justify-center text-deepRose group-hover:scale-110 transition">
+                        <i class="fa-solid fa-mug-hot"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-800">Abra se o dia estiver cansativo</p>
+                        <p class="text-[11px] text-gray-500">Um abraço em forma de mensagem</p>
+                    </div>
                 </button>
-
             </div>
         </div>
-    </section>
 
-    <!-- OVERLAY DE CELEBRAÇÃO / MENSAGEM FINAL (Aparece ao clicar em SIM) -->
-    <div id="celebration-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 md:p-12 max-w-lg w-full text-center shadow-2xl border-4 border-rose-300 transform scale-95 transition-all duration-300" id="modal-content">
-            
-            <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6 text-rose-500 text-4xl">
-                <i class="fa-solid fa-heart-circle-check animate-bounce"></i>
+    </main>
+
+    <!-- RODAPÉ SUTIL -->
+    <footer class="py-6 text-center text-xs text-gray-400 z-10">
+        <p>Feito para iluminar o seu dia • ✨</p>
+    </footer>
+
+    <!-- MODAL PARA EXIBIR AS MINI CARTAS OCULTAS -->
+    <div id="modal-note" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl border border-rose-100 transform scale-95 transition-all duration-300" id="modal-card">
+            <div class="w-12 h-12 bg-softPink text-dustyRose rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-heart" id="modal-icon"></i>
             </div>
-
-            <h3 class="text-3xl font-bold text-gray-800 mb-2 font-cursive">EU SABIA</h3>
-            <p class="text-rose-600 font-semibold text-lg mb-4"></p>
-            
-            <p class="text-gray-600 mb-6 text-sm md:text-base leading-relaxed">
-                
-            </p>
-
-            <button onclick="closeModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-8 py-3 rounded-full shadow-md transition">
-               
+            <h3 class="font-serif text-xl font-bold text-gray-800 mb-3" id="modal-title">Mensagem Secreta</h3>
+            <p class="text-sm text-gray-600 leading-relaxed mb-6 font-sans" id="modal-text"></p>
+            <button onclick="closeNote()" class="w-full bg-dustyRose hover:bg-deepRose text-white font-semibold py-2.5 rounded-xl shadow-md transition text-xs">
+                Guardar no coração ✨
             </button>
         </div>
     </div>
 
-
-    <!-- SCRIPTS JAVASCRIPT -->
+    <!-- JAVASCRIPT DOS EFEITOS E INTERAÇÕES -->
     <script>
-        // --- 1. Efeito de Corações Flutuantes no Fundo ---
-        function createHearts() {
-            const container = document.getElementById('hearts-container');
-            const heartIcons = ['❤️', '💖', '💕', '💗', '🌸'];
-            
-            for (let i = 0; i < 25; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart-particle');
-                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(heart);
+        // --- PRESETS DE FRASES LEVES E FLERTANTES (SEM PEDIDO DE NAMORO) ---
+        const presets = [
+            {
+                header: "Razões do meu sorriso...",
+                text: "Reparei que sempre que uma notificação sua chega, meu dia melhora instantaneamente uns 100%. Seu jeito leve é contagiante."
+            },
+            {
+                header: "Apenas um lembrete...",
+                text: "Não sei se já te disseram isso hoje, mas você tem uma energia incrível e um brilho único que é impossível não notar."
+            },
+            {
+                header: "Pausa ",
+                text: "Se o seu dia estiver corrido, respire fundo! Criei este cantinho só pra te lembrar de dar uma pausinha e sorrir, e te lembra que voce e incrivel."
             }
-        }
-        createHearts();
-
-        // --- 2. Efeito de Digitação ---
-        const phrases = [
-            "Você é a pessoa mais incrível que conheço...",
-            "Seu sorriso ilumina tudo ao redor...",
-            "voce é perfeita...",
-            "Tenho uma surpresa para você aqui embaixo 👇"
         ];
-        let phraseIndex = 0;
+
+        let currentText = presets[0].text;
         let charIndex = 0;
-        let isDeleting = false;
-        const typingSpeed = 100;
-        const erasingSpeed = 50;
-        const delayBetweenPhrases = 2000;
-        const typingTextElement = document.getElementById('typing-text');
+        let isTyping = false;
+        let isPaused = false;
+        let typingTimeout = null;
+        const speed = 55; // Velocidade da digitação em ms
 
-        function typeEffect() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+        const outputElement = document.getElementById('typewriter-output');
+        const headerElement = document.getElementById('note-header');
+        const pauseIcon = document.getElementById('pause-icon');
+
+        // --- MÁQUINA DE ESCREVER ---
+        function startTypewriter(text, header) {
+            clearTimeout(typingTimeout);
+            currentText = text;
+            if (header) headerElement.textContent = header;
+            outputElement.textContent = '';
+            charIndex = 0;
+            isTyping = true;
+            isPaused = false;
+            updatePauseIcon();
+            typeNextChar();
+        }
+
+        function typeNextChar() {
+            if (isPaused) return;
+
+            if (charIndex < currentText.length) {
+                outputElement.textContent += currentText.charAt(charIndex);
                 charIndex++;
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                setTimeout(typeEffect, delayBetweenPhrases);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(typeEffect, 500);
-            } else {
-                setTimeout(typeEffect, isDeleting ? erasingSpeed : typingSpeed);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', typeEffect);
-
-        // --- 3. Virar os Flip-Cards dos Motivos ---
-        function toggleCard(cardElement) {
-            const innerCard = cardElement.querySelector('.card-inner');
-            innerCard.classList.toggle('rotate-y-180');
-        }
-
-        // --- 4. Interatividade do Player de Música (Simulação) ---
-        const playBtn = document.getElementById('play-btn');
-        const playIcon = document.getElementById('play-icon');
-        const likeBtn = document.getElementById('like-btn');
-        let isPlaying = false;
-
-        playBtn.addEventListener('click', () => {
-            isPlaying = !isPlaying;
-            if (isPlaying) {
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-            } else {
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-            }
-        });
-
-        likeBtn.addEventListener('click', () => {
-            likeBtn.classList.toggle('text-rose-500');
-            likeBtn.classList.toggle('text-gray-400');
-        });
-
-        // --- 5. Lógica do Botão "Não" Fugitivo ---
-        const noBtn = document.getElementById('no-btn');
-
-        function moveButton() {
-            // Define posições aleatórias na tela mantendo margem
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 100);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${Math.max(20, x)}px`;
-            noBtn.style.top = `${Math.max(20, y)}px`;
-        }
-
-        // Foge ao passar o mouse ou ao tentar tocar no celular
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
-
-        // --- 6. Celebração ao clicar no "SIM" ---
-        function celebrate() {
-            // Dispara Animação de Confetes e Corações
-            const duration = 4 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 60 };
-
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                const particleCount = 50 * (timeLeft / duration);
                 
-                // Explosão de confete com cores românticas
-                confetti(Object.assign({}, defaults, { 
-                    particleCount, 
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                    colors: ['#f43f5e', '#fb7185', '#ffe4e6', '#ffffff'] 
-                }));
-                confetti(Object.assign({}, defaults, { 
-                    particleCount, 
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                    colors: ['#f43f5e', '#fb7185', '#ffe4e6', '#ffffff'] 
-                }));
-            }, 250);
+                // Adiciona um variação natural de velocidade na digitação
+                const randomSpeed = speed + Math.floor(Math.random() * 30) - 10;
+                typingTimeout = setTimeout(typeNextChar, randomSpeed);
+            } else {
+                isTyping = false;
+            }
+        }
 
-            // Exibe a modal de comemoração
-            const modal = document.getElementById('celebration-modal');
-            const modalContent = document.getElementById('modal-content');
+        function togglePause() {
+            if (!isTyping && charIndex >= currentText.length) return;
+            isPaused = !isPaused;
+            updatePauseIcon();
+            if (!isPaused) typeNextChar();
+        }
+
+        function updatePauseIcon() {
+            pauseIcon.className = isPaused ? "fa-solid fa-play" : "fa-solid fa-pause";
+        }
+
+        function restartTypewriter() {
+            startTypewriter(currentText);
+        }
+
+        function selectPreset(index) {
+            startTypewriter(presets[index].text, presets[index].header);
+        }
+
+        // --- EDITOR CUSTOMIZADO ---
+        function toggleCustomEditor() {
+            const editor = document.getElementById('custom-editor');
+            editor.classList.toggle('hidden');
+        }
+
+        function applyCustomText() {
+            const customInput = document.getElementById('custom-text-input').value.trim();
+            if (customInput) {
+                startTypewriter(customInput, "Sua Mensagem Especial ✨");
+                toggleCustomEditor();
+            }
+        }
+
+        // --- BRILHOS / SPARKLES AO MOVER O MOUSE ---
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.85) { // Controla a densidade das estrelinhas
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('i');
+            const icons = ['fa-star', 'fa-sparkles', 'fa-heart'];
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            
+            sparkle.className = `fa-solid ${randomIcon} sparkle-particle text-xs`;
+            sparkle.style.left = `${x + (Math.random() * 20 - 10)}px`;
+            sparkle.style.top = `${y + (Math.random() * 20 - 10)}px`;
+            
+            // Cores sutis e elegantes
+            const colors = ['#D4AF37', '#D9828A', '#FBE4E8', '#9E4B55'];
+            sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1200);
+        }
+
+        // --- CARTAS OCULTAS (MODAL) ---
+        const secretNotes = {
+            elogio: {
+                title: "Um elogio sincero 🌸",
+                text: "Você tem um senso de humor incrível e um jeito de conversar que deixa qualquer momento leve. É muito gostoso falar com você!",
+                icon: "fa-smile-beam"
+            },
+            cansativo: {
+                title: "Calma no coração ",
+                text: "Se o dia esteve difícil, lembre-se de que você já superou 100% dos seus dias ruins até hoje. Tire o resto da noite pra relaxar, você merece! E sempre estarei aqui. E lembre-se que Jesus te ama.",
+                icon: "fa-mug-hot"
+            }
+        };
+
+        function openNote(type) {
+            const note = secretNotes[type];
+            document.getElementById('modal-title').textContent = note.title;
+            document.getElementById('modal-text').textContent = note.text;
+            document.getElementById('modal-icon').className = `fa-solid ${note.icon}`;
+            
+            const modal = document.getElementById('modal-note');
+            const card = document.getElementById('modal-card');
             modal.classList.remove('hidden');
             setTimeout(() => {
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
             }, 10);
         }
 
-        function closeModal() {
-            const modal = document.getElementById('celebration-modal');
+        function closeNote() {
+            const modal = document.getElementById('modal-note');
             modal.classList.add('hidden');
         }
+
+        // --- CONTROLE DE MÚSICA ---
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const musicStatus = document.getElementById('music-status');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.className = "fa-solid fa-music";
+                musicStatus.textContent = "Clique para ouvir";
+            } else {
+                audio.play();
+                musicIcon.className = "fa-solid fa-pause";
+                musicStatus.textContent = "Tocando melodia suave...";
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Inicializar a primeira frase ao carregar
+        window.onload = () => {
+            startTypewriter(presets[0].text, presets[0].header);
+        };
     </script>
 </body>
 </html>
