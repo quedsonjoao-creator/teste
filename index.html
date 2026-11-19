@@ -1,2288 +1,661 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>TáticaPro Fut6 — Prancheta Tática & Escalação Society 6x6</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            obsidian: '#09090b',
-            graphite: '#121216',
-            surface: '#18181f',
-            surfaceHover: '#22222c'
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite VIP - Acesso Exclusivo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti para efeitos visuais de celebração -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Estilos personalizados para efeitos 3D, brilho holográfico e animações */
+        :root {
+            --bg-deep: #09090b;
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
         }
-      }
-    };
-  </script>
-  <style>
-    body {
-      background-color: #09090b;
-      color: #f4f4f5;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
 
-    .glass-panel {
-      background: rgba(24, 24, 31, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: #f8fafc;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 45%);
+        }
 
-    /* Padrões de Gramado Sintético Fut6 */
-    .pitch-emerald {
-      background: repeating-linear-gradient(
-        0deg,
-        #065f46 0%,
-        #065f46 8.333%,
-        #047857 8.333%,
-        #047857 16.666%
-      );
-    }
-    .pitch-classic {
-      background: repeating-linear-gradient(
-        0deg,
-        #155d30 0%,
-        #155d30 8.333%,
-        #196b38 8.333%,
-        #196b38 16.666%
-      );
-    }
-    .pitch-dark {
-      background: repeating-linear-gradient(
-        0deg,
-        #111916 0%,
-        #111916 10%,
-        #15201c 10%,
-        #15201c 20%
-      );
-    }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
 
-    /* Token de Jogador */
-    .player-token {
-      touch-action: none;
-      user-select: none;
-      z-index: 20;
-      will-change: left, top;
-    }
-    .player-token.smooth-move {
-      transition: left 0.42s cubic-bezier(0.22, 1, 0.36, 1), top 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .player-token:active {
-      cursor: grabbing;
-      z-index: 40;
-    }
+        /* Container com perspectiva para o efeito 3D do ingresso */
+        .ticket-perspective {
+            perspective: 1200px;
+        }
 
-    /* Scrollbar discreta */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #121216;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #2e2e3a;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #7c3aed;
-    }
-  </style>
+        /* Cartão VIP com transição suave */
+        .vip-card {
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            position: relative;
+            background: linear-gradient(145deg, rgba(24, 24, 27, 0.92), rgba(15, 15, 18, 0.98));
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.15);
+        }
+
+        .vip-card:hover {
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.85), 0 0 45px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Reflexo holográfico dinâmico */
+        .holo-glare {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.14) 0%,
+                rgba(168, 85, 247, 0.12) 30%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+
+        .vip-card:hover .holo-glare {
+            opacity: 1;
+        }
+
+        /* Recortes laterais estilo ingresso físico */
+        .ticket-notch-left, .ticket-notch-right {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: var(--bg-deep);
+            border-radius: 9999px;
+            top: 66%;
+            transform: translateY(-50%);
+            z-index: 15;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .ticket-notch-left {
+            left: -13px;
+            border-left-color: transparent;
+            border-top-color: transparent;
+        }
+
+        .ticket-notch-right {
+            right: -13px;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        /* Animação das ondas sonoras (Equalizador) */
+        @keyframes soundWave {
+            0%, 100% { height: 6px; }
+            50% { height: 22px; }
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: linear-gradient(to top, #a855f7, #ec4899);
+            border-radius: 9999px;
+            animation: soundWave 1s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) { animation-delay: 0.1s; }
+        .eq-bar:nth-child(2) { animation-delay: 0.3s; }
+        .eq-bar:nth-child(3) { animation-delay: 0.5s; }
+        .eq-bar:nth-child(4) { animation-delay: 0.2s; }
+        .eq-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Transição suave para o botão fujão */
+        #btn-no {
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+        }
+
+        /* Pulso sutil no botão Sim */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 18px rgba(168, 85, 247, 0.5); }
+            50% { box-shadow: 0 0 32px rgba(236, 72, 153, 0.75); }
+        }
+
+        .btn-yes-glow {
+            animation: pulseGlow 2.5s infinite;
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="flex flex-col items-center justify-center p-4 sm:p-6 selection:bg-purple-500 selection:text-white">
 
-  <!-- CABEÇALHO SUPERIOR -->
-  <header class="sticky top-0 z-40 glass-panel border-b border-white/10 px-3 sm:px-6 py-2.5">
-    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
-      
-      <!-- Logo & Título da Tática -->
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-violet-600/30">
-          <i data-lucide="shield" class="w-5 h-5 text-white"></i>
+    <!-- Botão discreto no canto superior para personalizar os dados antes de enviar o link/print -->
+    <div class="w-full max-w-md flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2 text-xs text-zinc-400 bg-zinc-900/80 border border-zinc-800 px-3 py-1.5 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Convite Especial </span>
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold tracking-tight text-base sm:text-lg bg-gradient-to-r from-white to-violet-300 bg-clip-text text-transparent">TáticaPro Fut6</span>
-            <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">1 GOL + 5 LINHA</span>
-          </div>
-          <input id="tactic-title-input" type="text" value="Plano Fut6 — Saída 2-2-1 e Pressão" 
-            class="bg-transparent text-xs text-zinc-400 hover:text-zinc-200 focus:text-white focus:outline-none border-b border-transparent focus:border-violet-500 transition w-48 sm:w-64 truncate"
-            title="Clique para renomear a prancheta" />
-        </div>
-      </div>
-
-      <!-- Controles Rápidos de Formação e Campo -->
-      <div class="flex flex-wrap items-center gap-2">
-        <!-- Seletor de Formação Fut6 -->
-        <div class="flex items-center bg-graphite border border-white/10 rounded-xl px-2.5 py-1.5">
-          <i data-lucide="layout-grid" class="w-4 h-4 text-violet-400 mr-2"></i>
-          <label for="formation-select" class="text-xs text-zinc-400 mr-1.5 hidden sm:inline">Esquema:</label>
-          <select id="formation-select" class="bg-transparent text-xs sm:text-sm font-semibold text-white focus:outline-none cursor-pointer">
-            <option value="2-2-1" class="bg-surface">2-2-1 (Equilibrado)</option>
-            <option value="1-3-1" class="bg-surface">1-3-1 (Losango)</option>
-            <option value="2-1-2" class="bg-surface">2-1-2 (Ofensivo)</option>
-            <option value="3-1-1" class="bg-surface">3-1-1 (Defensivo)</option>
-            <option value="1-2-2" class="bg-surface">1-2-2 (Pressão Alta)</option>
-            <option value="2-3" class="bg-surface">2-3 (Ataque Total)</option>
-          </select>
-        </div>
-
-        <!-- Modo de Visualização do Campo -->
-        <div class="flex items-center bg-graphite border border-white/10 rounded-xl p-1">
-          <button id="view-full-btn" onclick="setPitchView('full')" class="px-2.5 py-1 rounded-lg text-xs font-medium transition bg-violet-600 text-white">
-            Quadra Inteira
-          </button>
-          <button id="view-half-btn" onclick="setPitchView('half')" class="px-2.5 py-1 rounded-lg text-xs font-medium text-zinc-400 hover:text-white transition">
-            Meia Quadra
-          </button>
-        </div>
-
-        <!-- Estilo do Gramado -->
-        <div class="hidden md:flex items-center bg-graphite border border-white/10 rounded-xl p-1 gap-1" title="Estilo do Gramado Sintético">
-          <button onclick="setPitchTheme('emerald')" class="w-6 h-6 rounded-lg bg-[#047857] border border-white/30 hover:scale-105 transition" title="Sintético Esmeralda"></button>
-          <button onclick="setPitchTheme('classic')" class="w-6 h-6 rounded-lg bg-[#196b38] border border-white/20 hover:scale-105 transition" title="Sintético Clássico"></button>
-          <button onclick="setPitchTheme('dark')" class="w-6 h-6 rounded-lg bg-[#15201c] border border-white/20 hover:scale-105 transition" title="Gramado Noturno"></button>
-        </div>
-      </div>
-
-      <!-- Ações de Exportação / Importação / Reset -->
-      <div class="flex items-center gap-1.5">
-        <button onclick="exportPNG()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-md shadow-violet-600/20 transition" title="Baixar imagem da prancheta">
-          <i data-lucide="image-down" class="w-3.5 h-3.5"></i>
-          <span class="hidden sm:inline">PNG</span>
+        <button id="toggle-edit-btn" title="Personalizar detalhes do show" class="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-purple-400 bg-zinc-900/80 border border-zinc-800 hover:border-purple-500/40 px-3 py-1.5 rounded-full transition-colors">
+            <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+            <span>Personalizar</span>
         </button>
-        <button onclick="exportJSON()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-surfaceHover border border-white/10 text-zinc-200 text-xs font-medium transition" title="Exportar tática em JSON">
-          <i data-lucide="download" class="w-3.5 h-3.5 text-violet-400"></i>
-          <span class="hidden md:inline">Salvar</span>
-        </button>
-        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-surfaceHover border border-white/10 text-zinc-200 text-xs font-medium cursor-pointer transition" title="Carregar arquivo JSON">
-          <i data-lucide="upload" class="w-3.5 h-3.5 text-violet-400"></i>
-          <span class="hidden md:inline">Abrir</span>
-          <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
-        </label>
-        <button onclick="resetAllTactics()" class="p-1.5 rounded-xl bg-surface hover:bg-rose-500/20 border border-white/10 text-zinc-400 hover:text-rose-400 transition" title="Restaurar padrão Fut6">
-          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-        </button>
-      </div>
     </div>
-  </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 max-w-[1600px] w-full mx-auto p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-
-    <!-- COLUNA ESQUERDA: FERRAMENTAS DE DESENHO, PEÇAS E UNIFORMES -->
-    <aside class="lg:col-span-3 flex flex-col gap-3 order-2 lg:order-1">
-      
-      <!-- Ferramentas de Prancheta -->
-      <div class="glass-panel rounded-2xl p-3.5 shadow-xl">
-        <div class="flex items-center justify-between mb-2.5">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-            <i data-lucide="pen-tool" class="w-3.5 h-3.5 text-violet-400"></i>
-            Prancheta Vetorial
-          </h2>
-          <div class="flex items-center gap-1">
-            <button onclick="undoDrawing()" class="p-1.5 rounded-lg bg-graphite hover:bg-surfaceHover text-zinc-300 transition" title="Desfazer (Ctrl+Z)">
-              <i data-lucide="undo-2" class="w-3.5 h-3.5"></i>
+    <!-- Painel de Personalização Rápida (Oculto por padrão) -->
+    <div id="edit-panel" class="hidden w-full max-w-md mb-6 bg-zinc-900/95 border border-purple-500/30 rounded-2xl p-4 shadow-2xl backdrop-blur-md transition-all">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-sm font-semibold text-purple-300 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Editar Detalhes do Convite
+            </h3>
+            <button id="close-edit-btn" class="text-zinc-500 hover:text-zinc-300">
+                <i data-lucide="x" class="w-4 h-4"></i>
             </button>
-            <button onclick="redoDrawing()" class="p-1.5 rounded-lg bg-graphite hover:bg-surfaceHover text-zinc-300 transition" title="Refazer">
-              <i data-lucide="redo-2" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="clearDrawings()" class="p-1.5 rounded-lg bg-graphite hover:bg-rose-500/20 text-zinc-300 hover:text-rose-400 transition" title="Limpar todos os desenhos">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
         </div>
-
-        <!-- Botões de Ferramentas -->
-        <div class="grid grid-cols-3 gap-1.5 mb-3">
-          <button onclick="selectTool('move')" data-tool="move" class="tool-btn active flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-violet-600 text-white text-[11px] font-medium transition">
-            <i data-lucide="mouse-pointer-2" class="w-4 h-4"></i>
-            <span>Mover</span>
-          </button>
-          <button onclick="selectTool('arrow')" data-tool="arrow" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-            <span>Corrida</span>
-          </button>
-          <button onclick="selectTool('dashed')" data-tool="dashed" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="git-commit-horizontal" class="w-4 h-4"></i>
-            <span>Passe</span>
-          </button>
-          <button onclick="selectTool('dribble')" data-tool="dribble" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="waves" class="w-4 h-4"></i>
-            <span>Condução</span>
-          </button>
-          <button onclick="selectTool('freehand')" data-tool="freehand" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="pencil" class="w-4 h-4"></i>
-            <span>Livre</span>
-          </button>
-          <button onclick="selectTool('circle')" data-tool="circle" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="circle-dashed" class="w-4 h-4"></i>
-            <span>Zona</span>
-          </button>
-          <button onclick="selectTool('rect')" data-tool="rect" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="square-dashed" class="w-4 h-4"></i>
-            <span>Setor</span>
-          </button>
-          <button onclick="selectTool('text')" data-tool="text" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="type" class="w-4 h-4"></i>
-            <span>Texto</span>
-          </button>
-          <button onclick="selectTool('eraser')" data-tool="eraser" class="tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition">
-            <i data-lucide="eraser" class="w-4 h-4"></i>
-            <span>Apagar</span>
-          </button>
-        </div>
-
-        <!-- Seletor de Cores e Espessura do Traço -->
-        <div class="flex items-center justify-between pt-2 border-t border-white/5">
-          <span class="text-xs text-zinc-400">Cor:</span>
-          <div class="flex items-center gap-2">
-            <button onclick="selectDrawColor('#ffffff')" data-color="#ffffff" class="color-swatch w-5 h-5 rounded-full bg-white ring-2 ring-violet-500 ring-offset-2 ring-offset-surface transition"></button>
-            <button onclick="selectDrawColor('#facc15')" data-color="#facc15" class="color-swatch w-5 h-5 rounded-full bg-yellow-400 opacity-80 hover:opacity-100 transition"></button>
-            <button onclick="selectDrawColor('#a855f7')" data-color="#a855f7" class="color-swatch w-5 h-5 rounded-full bg-purple-500 opacity-80 hover:opacity-100 transition"></button>
-            <button onclick="selectDrawColor('#ef4444')" data-color="#ef4444" class="color-swatch w-5 h-5 rounded-full bg-red-500 opacity-80 hover:opacity-100 transition"></button>
-            <button onclick="selectDrawColor('#38bdf8')" data-color="#38bdf8" class="color-swatch w-5 h-5 rounded-full bg-sky-400 opacity-80 hover:opacity-100 transition"></button>
-          </div>
-        </div>
-        <div class="flex items-center justify-between pt-2 mt-2 border-t border-white/5">
-          <span class="text-xs text-zinc-400">Espessura:</span>
-          <div class="flex items-center gap-1 bg-graphite p-0.5 rounded-lg border border-white/5">
-            <button onclick="selectDrawWidth(2)" data-width="2" class="width-btn px-2 py-0.5 rounded text-[11px] text-zinc-400 hover:text-white transition">Fina</button>
-            <button onclick="selectDrawWidth(3.5)" data-width="3.5" class="width-btn px-2 py-0.5 rounded text-[11px] bg-violet-600 text-white font-semibold transition">Média</button>
-            <button onclick="selectDrawWidth(5.5)" data-width="5.5" class="width-btn px-2 py-0.5 rounded text-[11px] text-zinc-400 hover:text-white transition">Grossa</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Objetos & Adversários no Campo -->
-      <div class="glass-panel rounded-2xl p-3.5 shadow-xl">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5 mb-2.5">
-          <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-violet-400"></i>
-          Peças & Adversário Fut6
-        </h2>
-        <div class="grid grid-cols-2 gap-2">
-          <button id="toggle-opp-btn" onclick="toggleOpponentTeam()" class="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-200 text-xs font-semibold transition">
-            <i data-lucide="users" class="w-4 h-4 text-rose-400"></i>
-            <span id="toggle-opp-label">Ativar Time Adversário (6)</span>
-          </button>
-          <button onclick="addExtraToken('opponent')" class="flex items-center gap-2 p-2 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/5 text-xs font-medium transition">
-            <span class="w-5 h-5 rounded-full bg-rose-600 border border-white flex items-center justify-center text-[9px] font-bold">ADV</span>
-            <span>+1 Adversário</span>
-          </button>
-          <button onclick="addExtraToken('ball')" class="flex items-center gap-2 p-2 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/5 text-xs font-medium transition">
-            <span class="text-sm leading-none">⚽</span>
-            <span>Bola Society</span>
-          </button>
-          <button onclick="addExtraToken('cone')" class="flex items-center gap-2 p-2 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/5 text-xs font-medium transition">
-            <span class="w-5 h-5 rounded-md bg-orange-500/20 text-orange-400 flex items-center justify-center text-xs font-bold">▲</span>
-            <span>Cone Treino</span>
-          </button>
-          <button onclick="addExtraToken('minigoal')" class="flex items-center gap-2 p-2 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/5 text-xs font-medium transition">
-            <span class="w-5 h-5 rounded-md bg-sky-500/20 text-sky-300 flex items-center justify-center text-[11px] font-bold">🥅</span>
-            <span>Mini-Meta</span>
-          </button>
-          <button onclick="clearExtras()" class="col-span-2 flex items-center justify-center gap-1.5 p-2 rounded-xl bg-graphite hover:bg-rose-500/15 border border-white/5 text-xs text-zinc-400 hover:text-rose-300 transition">
-            <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
-            <span>Limpar Extras da Quadra</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Personalização dos Times -->
-      <div class="glass-panel rounded-2xl p-3.5 shadow-xl">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5 mb-2.5">
-          <i data-lucide="shirt" class="w-3.5 h-3.5 text-violet-400"></i>
-          Equipes & Uniformes
-        </h2>
-        <div class="space-y-2 text-xs">
-          <!-- Meu Time -->
-          <div class="bg-graphite p-2.5 rounded-xl border border-white/5 space-y-2">
-            <div class="flex items-center justify-between gap-2">
-              <input id="team-a-name" type="text" value="Meu Time Fut6" onchange="saveToLocalStorage()"
-                class="bg-transparent font-semibold text-zinc-200 focus:text-white focus:outline-none border-b border-transparent focus:border-violet-500 w-full truncate" />
-              <span class="text-[10px] text-violet-400 font-bold shrink-0">CASA</span>
+        <div class="grid grid-cols-1 gap-3 text-xs">
+            <div>
+                <label class="block text-zinc-400 mb-1">Vitoria</label>
+                <input type="text" id="input-guest" value="Você ✨" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
             </div>
-            <div class="flex items-center justify-between text-[11px] text-zinc-400">
-              <span>Linha / GOL / Borda / Nº:</span>
-              <div class="flex items-center gap-1.5">
-                <input type="color" id="team-a-primary" value="#7c3aed" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Camisa Linha" />
-                <input type="color" id="team-a-gk" value="#0ea5e9" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Camisa Goleiro" />
-                <input type="color" id="team-a-border" value="#ffffff" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Cor da Borda" />
-                <input type="color" id="team-a-text" value="#ffffff" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Cor do Número" />
-              </div>
+            <div>
+                <label class="block text-zinc-400 mb-1"> MORADA/ ValParaCristo </label>
+                <input type="text" id="input-artist" value="Banda Morada • Ao Vivo" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
             </div>
-          </div>
-
-          <!-- Adversário -->
-          <div class="bg-graphite p-2.5 rounded-xl border border-white/5 space-y-2">
-            <div class="flex items-center justify-between gap-2">
-              <input id="team-b-name" type="text" value="Adversário FC" onchange="saveToLocalStorage()"
-                class="bg-transparent font-semibold text-zinc-200 focus:text-white focus:outline-none border-b border-transparent focus:border-rose-500 w-full truncate" />
-              <span class="text-[10px] text-rose-400 font-bold shrink-0">FORA</span>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-zinc-400 mb-1">28 de novembro ás 19 horas </label>
+                    <input type="text" id="input-date" value="Sábado • 21:00" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-zinc-400 mb-1">Valparaiso </label>
+                    <input type="text" id="input-location" value="Arena VIP / A combinar" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
+                </div>
             </div>
-            <div class="flex items-center justify-between text-[11px] text-zinc-400">
-              <span>Linha / GOL / Borda / Nº:</span>
-              <div class="flex items-center gap-1.5">
-                <input type="color" id="team-b-primary" value="#e11d48" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Camisa Linha" />
-                <input type="color" id="team-b-gk" value="#f59e0b" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Camisa Goleiro" />
-                <input type="color" id="team-b-border" value="#ffffff" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Cor da Borda" />
-                <input type="color" id="team-b-text" value="#ffffff" onchange="updateTeamColors()" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0" title="Cor do Número" />
-              </div>
+            <div>
+                <label class="block text-zinc-400 mb-1">61991181653</label>
+                <input type="text" id="input-whatsapp" placeholder="Ex: 5511999999999" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
             </div>
-          </div>
+            <div>
+                <label class="block text-zinc-400 mb-1">Música de Fundo (Link do YouTube)</label>
+                <input type="text" id="input-music-url" value="https://www.youtube.com/watch?v=ePdRgBWhvog" placeholder="Cole o link do YouTube aqui" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-zinc-100 focus:outline-none focus:border-purple-500">
+            </div>
         </div>
-      </div>
-
-    </aside>
-
-    <!-- COLUNA CENTRAL: QUADRA DE SOCIETY FUT6 & TIMELINE DE ANIMAÇÃO -->
-    <section class="lg:col-span-6 flex flex-col gap-3 order-1 lg:order-2">
-      
-      <!-- Container da Quadra Fut6 -->
-      <div class="glass-panel p-2.5 sm:p-3 rounded-2xl shadow-2xl border border-white/10">
-        <div id="pitch-wrapper" class="relative w-full aspect-[3/4.2] sm:aspect-[4/4.8] rounded-xl overflow-hidden shadow-inner border-2 border-white/25 pitch-emerald select-none">
-          
-          <!-- SVG das Linhas Oficiais de Society / Fut6 -->
-          <svg id="pitch-lines-full" viewBox="0 0 600 840" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none opacity-85">
-            <!-- Bordas da quadra -->
-            <rect x="22" y="22" width="556" height="796" fill="none" stroke="#ffffff" stroke-width="3" />
-            <!-- Linha do meio -->
-            <line x1="22" y1="420" x2="578" y2="420" stroke="#ffffff" stroke-width="3" />
-            <!-- Círculo central -->
-            <circle cx="300" cy="420" r="72" fill="none" stroke="#ffffff" stroke-width="3" />
-            <circle cx="300" cy="420" r="4" fill="#ffffff" />
-
-            <!-- Área Superior (Society) -->
-            <rect x="175" y="22" width="250" height="122" fill="none" stroke="#ffffff" stroke-width="3" />
-            <path d="M 245 144 A 62 45 0 0 0 355 144" fill="none" stroke="#ffffff" stroke-width="3" />
-            <!-- Marca Pênalti e Shoot-out Superior -->
-            <circle cx="300" cy="108" r="3.5" fill="#ffffff" />
-            <circle cx="300" cy="166" r="3.5" fill="#ffffff" />
-            <!-- Baliza Superior -->
-            <rect x="252" y="8" width="96" height="14" fill="rgba(255,255,255,0.2)" stroke="#ffffff" stroke-width="2.5" />
-
-            <!-- Área Inferior (Society) -->
-            <rect x="175" y="696" width="250" height="122" fill="none" stroke="#ffffff" stroke-width="3" />
-            <path d="M 245 696 A 62 45 0 0 1 355 696" fill="none" stroke="#ffffff" stroke-width="3" />
-            <!-- Marca Pênalti e Shoot-out Inferior -->
-            <circle cx="300" cy="732" r="3.5" fill="#ffffff" />
-            <circle cx="300" cy="674" r="3.5" fill="#ffffff" />
-            <!-- Baliza Inferior -->
-            <rect x="252" y="818" width="96" height="14" fill="rgba(255,255,255,0.2)" stroke="#ffffff" stroke-width="2.5" />
-
-            <!-- Escanteios -->
-            <path d="M 22 40 A 18 18 0 0 0 40 22" fill="none" stroke="#ffffff" stroke-width="2.5" />
-            <path d="M 560 22 A 18 18 0 0 0 578 40" fill="none" stroke="#ffffff" stroke-width="2.5" />
-            <path d="M 22 800 A 18 18 0 0 1 40 818" fill="none" stroke="#ffffff" stroke-width="2.5" />
-            <path d="M 560 818 A 18 18 0 0 1 578 800" fill="none" stroke="#ffffff" stroke-width="2.5" />
-          </svg>
-
-          <!-- SVG Meia Quadra (Oculto por padrão) -->
-          <svg id="pitch-lines-half" viewBox="0 0 600 600" preserveAspectRatio="none" class="hidden absolute inset-0 w-full h-full pointer-events-none opacity-85">
-            <rect x="22" y="22" width="556" height="556" fill="none" stroke="#ffffff" stroke-width="3" />
-            <path d="M 215 22 A 85 85 0 0 0 385 22" fill="none" stroke="#ffffff" stroke-width="3" />
-            <circle cx="300" cy="22" r="4" fill="#ffffff" />
-            <rect x="165" y="422" width="270" height="156" fill="none" stroke="#ffffff" stroke-width="3" />
-            <path d="M 240 422 A 68 50 0 0 1 360 422" fill="none" stroke="#ffffff" stroke-width="3" />
-            <circle cx="300" cy="472" r="4" fill="#ffffff" />
-            <circle cx="300" cy="395" r="4" fill="#ffffff" />
-            <rect x="248" y="578" width="104" height="16" fill="rgba(255,255,255,0.2)" stroke="#ffffff" stroke-width="2.5" />
-          </svg>
-
-          <!-- Camada de Desenho Vetorial (Canvas) -->
-          <canvas id="tactical-canvas" class="absolute inset-0 w-full h-full z-10 pointer-events-none"></canvas>
-
-          <!-- Camada de Rastros de Simulação entre Cenas -->
-          <svg id="motion-trails-svg" viewBox="0 0 100 100" preserveAspectRatio="none" class="absolute inset-0 w-full h-full z-15 pointer-events-none"></svg>
-
-          <!-- Camada Interativa de Jogadores e Peças -->
-          <div id="players-layer" class="absolute inset-0 w-full h-full z-20"></div>
-        </div>
-      </div>
-
-      <!-- Barra de Quadros / Simulação de Movimentação (Frames) -->
-      <div class="glass-panel rounded-2xl p-3 shadow-xl flex flex-col gap-2.5">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="flex flex-wrap items-center gap-1.5">
-            <button id="play-frames-btn" onclick="togglePlayAnimation()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-md shadow-violet-600/25 transition">
-              <i data-lucide="play" class="w-3.5 h-3.5"></i>
-              <span>Simular</span>
-            </button>
-            <button onclick="captureFrame()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/10 text-zinc-200 text-xs font-medium transition" title="Salvar posição atual como nova cena">
-              <i data-lucide="plus" class="w-3.5 h-3.5 text-violet-400"></i>
-              <span>+ Cena</span>
-            </button>
-            <button onclick="updateCurrentFrame()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-graphite hover:bg-surfaceHover border border-white/10 text-zinc-200 text-xs font-medium transition" title="Sobrescrever a cena selecionada com as posições atuais">
-              <i data-lucide="refresh-cw" class="w-3 h-3 text-emerald-400"></i>
-              <span class="hidden sm:inline">Atualizar</span>
-            </button>
-            <button id="loop-btn" onclick="toggleLoopMode()" class="p-1.5 rounded-xl bg-violet-600/25 border border-violet-500/40 text-violet-300 text-xs transition" title="Repetir simulação em loop">
-              <i data-lucide="repeat" class="w-3.5 h-3.5"></i>
-            </button>
-            <button id="trails-btn" onclick="toggleMotionTrails()" class="p-1.5 rounded-xl bg-violet-600/25 border border-violet-500/40 text-violet-300 text-xs transition" title="Mostrar/ocultar trajetos da próxima cena">
-              <i data-lucide="route" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-
-          <div class="flex items-center gap-1.5">
-            <!-- Simulações Prontas Fut6 -->
-            <select id="preset-play-select" onchange="loadPresetSimulation(this.value)" class="bg-graphite border border-violet-500/30 rounded-xl px-2.5 py-1.5 text-xs font-medium text-violet-200 focus:outline-none cursor-pointer" title="Carregar e simular uma jogada ensaiada do Fut6">
-              <option value="" class="bg-surface">⚡ Jogadas Prontas Fut6...</option>
-              <option value="saida-gk" class="bg-surface">1. Saída 2-2 com Goleiro Linha</option>
-              <option value="triangulacao" class="bg-surface">2. Triangulação Ala → Pivô → Ala</option>
-              <option value="pressao-alta" class="bg-surface">3. Pressão Alta e Roubada</option>
-              <option value="contra-ataque" class="bg-surface">4. Contra-Ataque em Velocidade</option>
-            </select>
-
-            <select id="anim-speed-select" onchange="updateAnimSpeed()" class="bg-graphite border border-white/10 rounded-xl px-2 py-1.5 text-xs text-zinc-200 focus:outline-none" title="Velocidade da simulação">
-              <option value="1600">0.75x</option>
-              <option value="1100" selected>1.0x</option>
-              <option value="650">1.5x</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Lista de Quadros + Barra de Progresso da Simulação -->
-        <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
-          <div id="frames-list" class="flex items-center gap-1.5 overflow-x-auto max-w-full py-0.5"></div>
-          <span id="sim-status-badge" class="text-[11px] text-zinc-400 shrink-0">Arraste os jogadores e clique em "+ Cena"</span>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- COLUNA DIREITA: ELENCO RESERVA & PRANCHETA DE ANOTAÇÕES -->
-    <aside class="lg:col-span-3 flex flex-col gap-3 order-3">
-      
-      <!-- Elenco / Banco de Reservas -->
-      <div class="glass-panel rounded-2xl p-3.5 shadow-xl">
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-            <i data-lucide="users-round" class="w-3.5 h-3.5 text-violet-400"></i>
-            Banco de Reservas
-          </h2>
-          <button onclick="openAddSubModal()" class="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center gap-1">
-            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-            <span>Adicionar</span>
-          </button>
-        </div>
-        <p class="text-[11px] text-zinc-500 mb-2.5">
-          Clique no reserva e depois em um dos 6 titulares para substituir.
-        </p>
-
-        <div id="bench-list" class="space-y-1.5 max-h-60 overflow-y-auto pr-1"></div>
-      </div>
-
-      <!-- Quadro de Anotações Táticas -->
-      <div class="glass-panel rounded-2xl p-3.5 shadow-xl flex flex-col gap-2.5">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-            <i data-lucide="clipboard-list" class="w-3.5 h-3.5 text-violet-400"></i>
-            Notas Fut6
-          </h2>
-          <div class="flex bg-graphite rounded-lg p-0.5 border border-white/5 text-[11px]">
-            <button onclick="loadNoteTab('attack')" data-notetab="attack" class="note-tab-btn px-2 py-0.5 rounded-md bg-violet-600 text-white font-medium">Ataque</button>
-            <button onclick="loadNoteTab('defense')" data-notetab="defense" class="note-tab-btn px-2 py-0.5 rounded-md text-zinc-400 hover:text-white">Defesa</button>
-            <button onclick="loadNoteTab('setpieces')" data-notetab="setpieces" class="note-tab-btn px-2 py-0.5 rounded-md text-zinc-400 hover:text-white">B. Parada</button>
-          </div>
-        </div>
-
-        <textarea id="tactical-notes-area" rows="5"
-          class="w-full bg-graphite border border-white/10 rounded-xl p-2.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition resize-none leading-relaxed"
-          placeholder="Descreva a saída de bola com o goleiro, movimentação dos alas e pivô..."></textarea>
-
-        <!-- Instruções Rápidas Fut6 -->
-        <div class="flex flex-wrap gap-1.5">
-          <button onclick="appendQuickInstruction('Saída 2-2 com goleiro linha')" class="px-2 py-1 rounded-lg bg-graphite hover:bg-violet-500/20 border border-white/5 text-[11px] text-zinc-300 transition">+ Goleiro Linha</button>
-          <button onclick="appendQuickInstruction('Marcação pressão alta na saída')" class="px-2 py-1 rounded-lg bg-graphite hover:bg-violet-500/20 border border-white/5 text-[11px] text-zinc-300 transition">+ Pressão Alta</button>
-          <button onclick="appendQuickInstruction('Triangulação Ala-Pivô-Ala')" class="px-2 py-1 rounded-lg bg-graphite hover:bg-violet-500/20 border border-white/5 text-[11px] text-zinc-300 transition">+ Triangulação</button>
-          <button onclick="appendQuickInstruction('Jogada ensaiada de lateral')" class="px-2 py-1 rounded-lg bg-graphite hover:bg-violet-500/20 border border-white/5 text-[11px] text-zinc-300 transition">+ Lateral</button>
-        </div>
-      </div>
-
-    </aside>
-
-  </main>
-
-  <!-- MODAL DE EDIÇÃO DE JOGADOR / RESERVA -->
-  <div id="player-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="glass-panel rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-white/15">
-      <div class="flex items-center justify-between mb-4">
-        <h3 id="modal-title" class="text-sm font-bold text-white flex items-center gap-2">
-          <i data-lucide="user-cog" class="w-4 h-4 text-violet-400"></i>
-          <span>Editar Jogador</span>
-        </h3>
-        <button onclick="closePlayerModal()" class="text-zinc-400 hover:text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="space-y-3">
-        <div class="grid grid-cols-3 gap-3">
-          <div class="col-span-1">
-            <label class="block text-xs text-zinc-400 mb-1">Número</label>
-            <input id="edit-player-num" type="number" min="1" max="99" class="w-full bg-graphite border border-white/10 rounded-xl px-3 py-2 text-sm text-white font-bold focus:outline-none focus:border-violet-500" />
-          </div>
-          <div class="col-span-2">
-            <label class="block text-xs text-zinc-400 mb-1">Nome / Apelido</label>
-            <input id="edit-player-name" type="text" maxlength="16" class="w-full bg-graphite border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs text-zinc-400 mb-1">Posição Fut6</label>
-            <select id="edit-player-pos" class="w-full bg-graphite border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500">
-              <option value="GOL">GOL (Goleiro)</option>
-              <option value="FIX">FIX (Fixo)</option>
-              <option value="ALA D">ALA D (Ala Direito)</option>
-              <option value="ALA E">ALA E (Ala Esquerdo)</option>
-              <option value="MEI">MEI (Meia Armador)</option>
-              <option value="PIV">PIV (Pivô / Atacante)</option>
-            </select>
-          </div>
-          <div class="flex items-end">
-            <label class="w-full flex items-center justify-between bg-graphite border border-white/10 rounded-xl px-3 py-2 text-xs text-zinc-200 cursor-pointer">
-              <span>Capitão (C)</span>
-              <input id="edit-player-captain" type="checkbox" class="accent-violet-600 w-4 h-4 rounded" />
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-between gap-2 mt-5 pt-3 border-t border-white/10">
-        <button id="delete-player-btn" onclick="deleteModalPlayer()" class="hidden px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold transition">
-          Remover
-        </button>
-        <div class="flex items-center gap-2 ml-auto">
-          <button onclick="closePlayerModal()" class="px-3.5 py-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-xs font-medium transition">
-            Cancelar
-          </button>
-          <button onclick="savePlayerModal()" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold transition">
-            Salvar
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- MODAL PARA TEXTO NA PRANCHETA -->
-  <div id="text-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="glass-panel rounded-2xl max-w-xs w-full p-4 shadow-2xl border border-white/15">
-      <h3 class="text-sm font-bold text-white mb-2">Inserir Rótulo Tático</h3>
-      <input id="canvas-text-input" type="text" maxlength="28" placeholder="Ex: Bloqueio, Linha Alta..."
-        class="w-full bg-graphite border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 mb-3" />
-      <div class="flex justify-end gap-2">
-        <button onclick="closeTextModal()" class="px-3 py-1.5 rounded-xl bg-graphite text-xs text-zinc-300">Cancelar</button>
-        <button onclick="confirmCanvasText()" class="px-3.5 py-1.5 rounded-xl bg-violet-600 text-xs font-semibold text-white">Inserir</button>
-      </div>
+    <!-- Player Oculto do YouTube para tocar "É Tudo Sobre Você - Morada" -->
+    <div id="yt-player-container" class="fixed w-0 h-0 overflow-hidden opacity-0 pointer-events-none" aria-hidden="true">
+        <div id="yt-player"></div>
     </div>
-  </div>
 
-  <!-- NOTIFICAÇÃO TOAST -->
-  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-  <script>
-    // =========================================================================
-    // FORMAÇÕES OFICIAIS DE FUTEBOL 6 / SOCIETY 6x6 (1 GOLEIRO + 5 LINHA = 6)
-    // =========================================================================
-    const STORAGE_KEY = 'taticapro_fut6_state_v1';
-
-    const FORMATIONS = {
-      '2-2-1': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 3, name: 'Fixo Dir.', pos: 'FIX', x: 68, y: 74, captain: true },
-        { num: 4, name: 'Fixo Esq.', pos: 'FIX', x: 32, y: 74, captain: false },
-        { num: 7, name: 'Ala Dir.', pos: 'ALA D', x: 80, y: 50, captain: false },
-        { num: 11, name: 'Ala Esq.', pos: 'ALA E', x: 20, y: 50, captain: false },
-        { num: 9, name: 'Pivô', pos: 'PIV', x: 50, y: 27, captain: false }
-      ],
-      '1-3-1': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 3, name: 'Fixo', pos: 'FIX', x: 50, y: 75, captain: true },
-        { num: 7, name: 'Ala Dir.', pos: 'ALA D', x: 82, y: 51, captain: false },
-        { num: 10, name: 'Meia Central', pos: 'MEI', x: 50, y: 52, captain: false },
-        { num: 11, name: 'Ala Esq.', pos: 'ALA E', x: 18, y: 51, captain: false },
-        { num: 9, name: 'Pivô', pos: 'PIV', x: 50, y: 27, captain: false }
-      ],
-      '2-1-2': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 3, name: 'Fixo Dir.', pos: 'FIX', x: 68, y: 75, captain: true },
-        { num: 4, name: 'Fixo Esq.', pos: 'FIX', x: 32, y: 75, captain: false },
-        { num: 10, name: 'Meia', pos: 'MEI', x: 50, y: 53, captain: false },
-        { num: 7, name: 'Pivô Dir.', pos: 'PIV', x: 67, y: 29, captain: false },
-        { num: 9, name: 'Pivô Esq.', pos: 'PIV', x: 33, y: 29, captain: false }
-      ],
-      '3-1-1': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 2, name: 'Ala Dir.', pos: 'ALA D', x: 80, y: 71, captain: false },
-        { num: 3, name: 'Fixo Central', pos: 'FIX', x: 50, y: 76, captain: true },
-        { num: 6, name: 'Ala Esq.', pos: 'ALA E', x: 20, y: 71, captain: false },
-        { num: 10, name: 'Meia', pos: 'MEI', x: 50, y: 51, captain: false },
-        { num: 9, name: 'Pivô', pos: 'PIV', x: 50, y: 27, captain: false }
-      ],
-      '1-2-2': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 3, name: 'Fixo', pos: 'FIX', x: 50, y: 76, captain: true },
-        { num: 8, name: 'Ala Dir.', pos: 'ALA D', x: 75, y: 52, captain: false },
-        { num: 10, name: 'Ala Esq.', pos: 'ALA E', x: 25, y: 52, captain: false },
-        { num: 7, name: 'Pivô Dir.', pos: 'PIV', x: 66, y: 28, captain: false },
-        { num: 9, name: 'Pivô Esq.', pos: 'PIV', x: 34, y: 28, captain: false }
-      ],
-      '2-3': [
-        { num: 1, name: 'Goleiro', pos: 'GOL', x: 50, y: 91, captain: false },
-        { num: 3, name: 'Fixo Dir.', pos: 'FIX', x: 67, y: 74, captain: true },
-        { num: 4, name: 'Fixo Esq.', pos: 'FIX', x: 33, y: 74, captain: false },
-        { num: 7, name: 'Ala Dir.', pos: 'ALA D', x: 81, y: 36, captain: false },
-        { num: 9, name: 'Pivô', pos: 'PIV', x: 50, y: 26, captain: false },
-        { num: 11, name: 'Ala Esq.', pos: 'ALA E', x: 19, y: 36, captain: false }
-      ]
-    };
-
-    const state = {
-      pitchView: 'full', // 'full' | 'half'
-      pitchTheme: 'emerald',
-      teamAColors: { bg: '#7c3aed', gkBg: '#0ea5e9', border: '#ffffff', text: '#ffffff' },
-      teamBColors: { bg: '#e11d48', gkBg: '#f59e0b', border: '#ffffff', text: '#ffffff' },
-      players: [], // { id, type: 'player'|'ball'|'cone'|'minigoal', team: 'A'|'B', num, name, pos, captain, x, y }
-      bench: [
-        { id: 'sub-1', num: 12, name: 'Reserva GOL', pos: 'GOL', team: 'A', captain: false },
-        { id: 'sub-2', num: 5, name: 'Fixo Res.', pos: 'FIX', team: 'A', captain: false },
-        { id: 'sub-3', num: 8, name: 'Ala Res. 1', pos: 'ALA D', team: 'A', captain: false },
-        { id: 'sub-4', num: 14, name: 'Ala Res. 2', pos: 'ALA E', team: 'A', captain: false },
-        { id: 'sub-5', num: 19, name: 'Pivô Res.', pos: 'PIV', team: 'A', captain: false }
-      ],
-      selectedBenchId: null,
-      activeTool: 'move', // 'move', 'arrow', 'dashed', 'dribble', 'freehand', 'circle', 'rect', 'text', 'eraser'
-      drawColor: '#ffffff',
-      drawWidth: 3.5,
-      drawings: [],
-      redoStack: [],
-      currentDrawing: null,
-      pendingTextCoords: null,
-      editingTarget: null, // { id, isBench, isNew }
-      frames: [],
-      activeFrameIndex: 0,
-      isPlaying: false,
-      loopSimulation: true,
-      showMotionTrails: true,
-      animRafId: null,
-      animSpeed: 1100,
-      notes: {
-        attack: '• Saída com 2 fixos abertos e goleiro apoiando por trás.\n• Alas dão amplitude máxima na quadra de society.\n• Pivô faz parede para finalização de média distância.',
-        defense: '• Encaixe individual no setor com cobertura do fixo na sobra.\n• Pressionar retorno de bola ao goleiro adversário.',
-        setpieces: '• Lateral ofensivo: bloqueio do pivô na entrada da área para chute do ala.\n• Shoot-out: condução rápida em diagonal tirando do goleiro.'
-      },
-      activeNoteTab: 'attack'
-    };
-
-    // =========================================================================
-    // INICIALIZAÇÃO & PERSISTÊNCIA AUTOMÁTICA
-    // =========================================================================
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      const loaded = loadFromLocalStorage();
-
-      if (!loaded) {
-        applyFormation('2-2-1', false);
-        state.players.push({ id: 'ball-main', type: 'ball', x: 50, y: 50 });
-        captureFrame(true);
-      }
-
-      renderPlayers(false);
-      renderBench();
-      renderFramesList();
-      renderMotionTrails();
-      updateOpponentToggleUI();
-      setupCanvasEvents();
-      loadNoteTab(state.activeNoteTab);
-
-      document.getElementById('formation-select').addEventListener('change', (e) => {
-        applyFormation(e.target.value, true);
-        saveToLocalStorage();
-      });
-
-      document.getElementById('tactic-title-input').addEventListener('input', saveToLocalStorage);
-
-      document.getElementById('tactical-notes-area').addEventListener('input', (e) => {
-        state.notes[state.activeNoteTab] = e.target.value;
-        saveToLocalStorage();
-      });
-
-      window.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
-          if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
-          e.preventDefault();
-          if (e.shiftKey) redoDrawing();
-          else undoDrawing();
-        }
-      });
-
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-    });
-
-    function saveToLocalStorage() {
-      try {
-        const payload = {
-          title: document.getElementById('tactic-title-input').value,
-          formation: document.getElementById('formation-select').value,
-          teamAName: document.getElementById('team-a-name').value,
-          teamBName: document.getElementById('team-b-name').value,
-          pitchView: state.pitchView,
-          pitchTheme: state.pitchTheme,
-          teamAColors: state.teamAColors,
-          teamBColors: state.teamBColors,
-          players: state.players,
-          bench: state.bench,
-          drawings: state.drawings,
-          frames: state.frames,
-          notes: state.notes
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-      } catch (e) {
-        // Ignora erro se storage estiver indisponível
-      }
-    }
-
-    function loadFromLocalStorage() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return false;
-        const data = JSON.parse(raw);
-        if (data.title) document.getElementById('tactic-title-input').value = data.title;
-        if (data.formation) document.getElementById('formation-select').value = data.formation;
-        if (data.teamAName) document.getElementById('team-a-name').value = data.teamAName;
-        if (data.teamBName) document.getElementById('team-b-name').value = data.teamBName;
-        if (data.pitchView) setPitchView(data.pitchView, true);
-        if (data.pitchTheme) setPitchTheme(data.pitchTheme, true);
-        if (data.teamAColors) {
-          state.teamAColors = { gkBg: '#0ea5e9', ...data.teamAColors };
-          document.getElementById('team-a-primary').value = state.teamAColors.bg;
-          document.getElementById('team-a-gk').value = state.teamAColors.gkBg;
-          document.getElementById('team-a-border').value = state.teamAColors.border || '#ffffff';
-          document.getElementById('team-a-text').value = state.teamAColors.text;
-        }
-        if (data.teamBColors) {
-          state.teamBColors = { gkBg: '#f59e0b', ...data.teamBColors };
-          document.getElementById('team-b-primary').value = state.teamBColors.bg;
-          document.getElementById('team-b-gk').value = state.teamBColors.gkBg;
-          document.getElementById('team-b-border').value = state.teamBColors.border || '#ffffff';
-          document.getElementById('team-b-text').value = state.teamBColors.text;
-        }
-        if (Array.isArray(data.players) && data.players.length > 0) state.players = data.players;
-        if (Array.isArray(data.bench)) state.bench = data.bench;
-        if (Array.isArray(data.drawings)) state.drawings = data.drawings;
-        if (Array.isArray(data.frames) && data.frames.length > 0) state.frames = data.frames;
-        if (data.notes) state.notes = data.notes;
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function resetAllTactics() {
-      localStorage.removeItem(STORAGE_KEY);
-      document.getElementById('tactic-title-input').value = 'Plano Fut6 — Saída 2-2-1 e Pressão';
-      document.getElementById('formation-select').value = '2-2-1';
-      state.drawings = [];
-      state.redoStack = [];
-      state.frames = [];
-      state.players = [];
-      applyFormation('2-2-1', true);
-      state.players.push({ id: 'ball-main', type: 'ball', x: 50, y: 50 });
-      renderPlayers(true);
-      updateOpponentToggleUI();
-      captureFrame(true);
-      redrawCanvas();
-      showToast('Prancheta Fut6 restaurada ao padrão');
-    }
-
-    // =========================================================================
-    // SISTEMA DE MENSAGENS TOAST
-    // =========================================================================
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      const borderClass = type === 'success' ? 'border-emerald-500/40' : type === 'warn' ? 'border-amber-500/40' : 'border-violet-500/40';
-      toast.className = `glass-panel ${borderClass} px-3.5 py-2 rounded-xl text-xs font-medium text-white shadow-xl transition-all duration-300 translate-y-2 opacity-0`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-      });
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 300);
-      }, 2400);
-    }
-
-    // =========================================================================
-    // FORMAÇÕES FUT6 (1 GOL + 5 LINHA) & RENDERIZAÇÃO DOS JOGADORES
-    // =========================================================================
-    function applyFormation(formationKey, animate = true) {
-      const template = FORMATIONS[formationKey];
-      if (!template) return;
-
-      const extras = state.players.filter(p => p.team === 'B' || p.type !== 'player');
-      const existingTeamA = state.players.filter(p => p.team === 'A' && p.type === 'player');
-
-      const newTeamA = template.map((slot, idx) => {
-        const prev = existingTeamA[idx];
-        return {
-          id: prev ? prev.id : `p-a-${idx + 1}`,
-          type: 'player',
-          team: 'A',
-          num: prev ? prev.num : slot.num,
-          name: prev ? prev.name : slot.name,
-          captain: prev ? prev.captain : slot.captain,
-          pos: slot.pos,
-          x: slot.x,
-          y: slot.y
-        };
-      });
-
-      state.players = [...newTeamA, ...extras];
-      renderPlayers(animate);
-      if (animate) showToast(`Esquema Fut6 ${formationKey} aplicado (1 GOL + 5 Linha)`);
-    }
-
-    function getJerseyBg(team, pos) {
-      const colors = team === 'A' ? state.teamAColors : state.teamBColors;
-      return pos === 'GOL' ? (colors.gkBg || colors.bg) : colors.bg;
-    }
-
-    function renderPlayers(animate = false) {
-      const layer = document.getElementById('players-layer');
-      layer.innerHTML = '';
-
-      state.players.forEach(item => {
-        const el = document.createElement('div');
-        el.dataset.id = item.id;
-        el.style.left = `${item.x}%`;
-        el.style.top = `${item.y}%`;
-        el.className = `player-token absolute -translate-x-1/2 -translate-y-1/2 cursor-grab flex flex-col items-center ${animate ? 'smooth-move' : ''}`;
-
-        if (item.type === 'ball') {
-          el.innerHTML = `
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-lg border border-zinc-800 flex items-center justify-center text-base sm:text-lg" title="Bola Society (Clique para remover)">
-              ⚽
-            </div>
-          `;
-        } else if (item.type === 'cone') {
-          el.innerHTML = `
-            <div class="w-6 h-6 flex items-center justify-center drop-shadow-md" title="Cone (Clique para remover)">
-              <svg viewBox="0 0 24 24" class="w-5 h-5 fill-orange-500 stroke-white stroke-[1.5]">
-                <polygon points="12,3 21,20 3,20" />
-              </svg>
-            </div>
-          `;
-        } else if (item.type === 'minigoal') {
-          el.innerHTML = `
-            <div class="w-12 h-6 rounded-t-md border-2 border-b-0 border-white bg-white/15 backdrop-blur-xs shadow-md flex items-center justify-center" title="Mini-Meta (Clique para remover)">
-              <div class="w-full h-full opacity-40" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 4px 4px;"></div>
-            </div>
-          `;
-        } else {
-          const colors = item.team === 'A' ? state.teamAColors : state.teamBColors;
-          const jerseyBg = getJerseyBg(item.team, item.pos);
-          const isSwapTarget = state.selectedBenchId && item.team === 'A';
-          el.innerHTML = `
-            <div class="relative group">
-              ${isSwapTarget ? `<span class="absolute -inset-1.5 rounded-full border-2 border-dashed border-amber-400 animate-spin"></span>` : ''}
-              <div style="background-color: ${jerseyBg}; color: ${colors.text}; border-color: ${colors.border || '#ffffff'};"
-                class="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-extrabold text-xs sm:text-sm shadow-[0_6px_16px_rgba(0,0,0,0.55)] border-2 transition-transform group-hover:scale-105">
-                ${item.num}
-              </div>
-              <span class="absolute -top-1 -right-2 px-1 rounded bg-obsidian/95 border border-white/20 text-[8px] font-bold text-zinc-200 leading-tight">
-                ${item.pos}
-              </span>
-              ${item.captain ? `
-                <span class="absolute -bottom-1 -left-1 w-4 h-4 rounded-full bg-amber-400 text-zinc-950 font-black text-[9px] flex items-center justify-center border border-zinc-950 shadow" title="Capitão">
-                  C
-                </span>
-              ` : ''}
-            </div>
-            <span class="mt-1 px-2 py-0.5 rounded-md bg-obsidian/85 backdrop-blur-xs border border-white/10 text-[10px] sm:text-[11px] font-semibold text-white whitespace-nowrap shadow">
-              ${item.name}
+    <!-- Container Principal -->
+    <main class="w-full max-w-md flex flex-col items-center">
+        
+        <!-- Cabeçalho -->
+        <div class="text-center mb-5">
+            <span class="inline-block text-[11px] font-semibold tracking-[0.25em] uppercase text-purple-400 mb-1">
+                Passe Exclusivo • All Access
             </span>
-          `;
-        }
+            <h1 class="font-display text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-300 bg-clip-text text-transparent">
+                Tenho um convite pra você
+            </h1>
+        </div>
 
-        attachTokenInteractions(el, item);
-        layer.appendChild(el);
-      });
-    }
+        <!-- Cartão VIP Backstage Pass com Efeito 3D -->
+        <div class="ticket-perspective w-full mb-7">
+            <div id="vip-card" class="vip-card rounded-3xl p-6 overflow-hidden select-none cursor-pointer">
+                <!-- Brilho Holográfico -->
+                <div class="holo-glare"></div>
 
-    // =========================================================================
-    // DRAG & DROP + CLIQUE PARA EDITAR / SUBSTITUIR
-    // =========================================================================
-    function attachTokenInteractions(el, item) {
-      let dragging = false;
-      let moved = false;
-      let startX = 0;
-      let startY = 0;
+                <!-- Recortes laterais de ingresso -->
+                <div class="ticket-notch-left"></div>
+                <div class="ticket-notch-right"></div>
 
-      const onPointerDown = (e) => {
-        if (state.activeTool !== 'move') return;
-        e.stopPropagation();
-        dragging = true;
-        moved = false;
-        el.classList.remove('smooth-move');
-        el.setPointerCapture(e.pointerId);
-        startX = e.clientX;
-        startY = e.clientY;
-      };
+                <!-- Topo do Ingresso: Lanyard Hole + Badge VIP -->
+                <div class="flex justify-between items-start mb-5">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30">
+                            VIP BACKSTAGE
+                        </span>
+                        <span class="text-xs font-mono text-zinc-400">#001</span>
+                    </div>
 
-      const onPointerMove = (e) => {
-        if (!dragging) return;
-        const dx = Math.abs(e.clientX - startX);
-        const dy = Math.abs(e.clientY - startY);
-        if (dx > 4 || dy > 4) moved = true;
+                    <!-- Equalizador Musical Interativo -->
+                    <button id="vibe-btn" title="Tocar / Pausar: É Tudo Sobre Você - Morada" class="flex items-center gap-2 bg-zinc-950/80 border border-zinc-800 hover:border-purple-500/50 px-3 py-1.5 rounded-full transition-all">
+                        <div class="flex items-end gap-0.5 h-5" id="eq-container">
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                        </div>
+                        <span id="vibe-text" class="text-[11px] font-medium text-purple-300">Tocar Música</span>
+                    </button>
+                </div>
 
-        const rect = document.getElementById('pitch-wrapper').getBoundingClientRect();
-        let xPct = ((e.clientX - rect.left) / rect.width) * 100;
-        let yPct = ((e.clientY - rect.top) / rect.height) * 100;
+                <!-- Título do Show / Artista -->
+                <div class="mb-6">
+                    <p class="text-xs uppercase tracking-widest text-zinc-400 mb-1">Atração Principal</p>
+                    <h2 id="display-artist" class="font-display text-2xl sm:text-3xl font-bold text-white leading-tight">
+                        Banda Morada • Ao Vivo
+                    </h2>
+                    <p class="text-sm text-purple-300/90 mt-1 flex items-center gap-1.5">
+                        <i data-lucide="ticket" class="w-4 h-4 text-pink-400"></i>
+                        <span>Convidada de Honra: <strong id="display-guest" class="text-white font-semibold">Você ✨</strong></span>
+                    </p>
+                </div>
 
-        xPct = Math.max(4, Math.min(96, xPct));
-        yPct = Math.max(4, Math.min(96, yPct));
+                <!-- Grid de Informações (Data, Local, Benefícios) -->
+                <div class="grid grid-cols-2 gap-3 mb-6 bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-3.5">
+                    <div>
+                        <span class="text-[11px] text-zinc-400 flex items-center gap-1 mb-0.5">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 text-purple-400"></i> Quando
+                        </span>
+                        <p id="display-date" class="text-sm font-semibold text-zinc-100">Sábado • 18:00</p>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-zinc-400 flex items-center gap-1 mb-0.5">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-pink-400"></i> Onde
+                        </span>
+                        <p id="display-location" class="text-sm font-semibold text-zinc-100"> Valparaiso </p>
+                    </div>
+                </div>
 
-        item.x = Number(xPct.toFixed(2));
-        item.y = Number(yPct.toFixed(2));
-        el.style.left = `${item.x}%`;
-        el.style.top = `${item.y}%`;
-        renderMotionTrails();
-      };
+                <!-- Linha Pontilhada de Corte do Ingresso -->
+                <div class="border-t-2 border-dashed border-zinc-800 my-5 relative"></div>
 
-      const onPointerUp = (e) => {
-        if (!dragging) return;
-        dragging = false;
-        try {
-          el.releasePointerCapture(e.pointerId);
-        } catch (err) {}
+                <!-- Rodapé do Ingresso: Contagem Regressiva / Vantagens + Código de Barras -->
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-zinc-400 block mb-1">Inclui no Pacote</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[11px] bg-purple-500/10 text-purple-300 border border-purple-500/20 px-2 py-0.5 rounded-md">Carona VIP</span>
+                            <span class="text-[11px] bg-pink-500/10 text-pink-300 border border-pink-500/20 px-2 py-0.5 rounded-md">Melhor Companhia</span>
+                        </div>
+                    </div>
 
-        if (moved) {
-          saveToLocalStorage();
-        } else {
-          handleTokenClick(item);
-        }
-      };
+                    <!-- Código de Barras Estilizado -->
+                    <div class="flex flex-col items-end opacity-75">
+                        <div class="flex items-center gap-[2px] h-8">
+                            <div class="w-[2px] h-full bg-zinc-300"></div>
+                            <div class="w-[1px] h-full bg-zinc-400"></div>
+                            <div class="w-[3px] h-full bg-zinc-200"></div>
+                            <div class="w-[1px] h-full bg-zinc-500"></div>
+                            <div class="w-[2px] h-full bg-zinc-300"></div>
+                            <div class="w-[3px] h-full bg-zinc-100"></div>
+                            <div class="w-[1px] h-full bg-zinc-400"></div>
+                            <div class="w-[2px] h-full bg-zinc-300"></div>
+                            <div class="w-[1px] h-full bg-zinc-200"></div>
+                            <div class="w-[3px] h-full bg-zinc-400"></div>
+                        </div>
+                        <span class="text-[9px] font-mono tracking-widest text-zinc-400 mt-1">VIP-2026-PASS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      el.addEventListener('pointerdown', onPointerDown);
-      el.addEventListener('pointermove', onPointerMove);
-      el.addEventListener('pointerup', onPointerUp);
-    }
+        <!-- Pergunta e Área dos Botões de Resposta -->
+        <div id="action-area" class="w-full text-center relative">
+            <p class="text-base sm:text-lg font-medium text-zinc-200 mb-5">
+                E aí, bora ??
+            </p>
 
-    function handleTokenClick(item) {
-      if (state.selectedBenchId && item.type === 'player' && item.team === 'A') {
-        swapBenchWithStarter(state.selectedBenchId, item.id);
-        return;
-      }
+            <!-- Feedback engraçado quando tenta clicar no "Não" -->
+            <p id="funny-feedback" class="h-6 text-xs sm:text-sm font-medium text-pink-400 mb-3 transition-opacity duration-200 opacity-0">
+                Ops! Esse botão está com defeito... 😉
+            </p>
 
-      if (item.type === 'ball' || item.type === 'cone' || item.type === 'minigoal') {
-        state.players = state.players.filter(p => p.id !== item.id);
-        renderPlayers();
-        saveToLocalStorage();
-        showToast('Objeto removido da quadra');
-        return;
-      }
+            <!-- Container dos Botões -->
+            <div class="flex flex-wrap items-center justify-center gap-4 min-h-[64px] relative">
+                <!-- Botão SIM -->
+                <button id="btn-yes" class="btn-yes-glow relative z-10 px-7 py-3.5 rounded-2xl font-bold text-sm sm:text-base text-white bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Sim, eu topo!</span>
+                </button>
 
-      openPlayerModal(item, false);
-    }
+                <!-- Botão NÃO (Fujão) -->
+                <button id="btn-no" class="px-5 py-3.5 rounded-2xl font-medium text-sm text-zinc-400 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 cursor-pointer select-none">
+                    Não
+                </button>
+            </div>
+        </div>
 
-    // =========================================================================
-    // QUADROS / SIMULAÇÃO REAL DE MOVIMENTAÇÃO (INTERPOLAÇÃO + PRESETS FUT6)
-    // =========================================================================
-    const PRESET_PLAYS = {
-      'saida-gk': {
-        title: 'Simulação: Saída 2-2 com Goleiro Linha',
-        frames: [
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 90 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 72, y: 76 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 28, y: 76 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 84, y: 50 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 16, y: 50 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 28 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 86 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 58, y: 74 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 82, y: 64 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 22, y: 66 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 86, y: 34 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 15, y: 36 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 46, y: 24 },
-            { id: 'ball-main', type: 'ball', x: 80, y: 62 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 58 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 76, y: 48 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 24, y: 50 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 84, y: 22 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 26, y: 22 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 54, y: 18 },
-            { id: 'ball-main', type: 'ball', x: 28, y: 22 }
-          ]
-        ]
-      },
-      'triangulacao': {
-        title: 'Simulação: Triangulação Ala → Pivô → Ala',
-        frames: [
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 91 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 66, y: 72 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 34, y: 72 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 82, y: 52 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 20, y: 52 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 52, y: 32 },
-            { id: 'ball-main', type: 'ball', x: 80, y: 50 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 90 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 62, y: 66 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 36, y: 68 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 74, y: 30 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 26, y: 34 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 52, y: 34 },
-            { id: 'ball-main', type: 'ball', x: 52, y: 32 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 90 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 58, y: 62 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 36, y: 64 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 66, y: 20 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 32, y: 21 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 28 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 10 }
-          ]
-        ]
-      },
-      'pressao-alta': {
-        title: 'Simulação: Pressão Alta na Saída',
-        frames: [
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 91 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 66, y: 68 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 34, y: 68 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 78, y: 46 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 22, y: 46 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 26 },
-            { id: 'opp-1', type: 'player', team: 'B', num: 1, name: 'Adv 1', pos: 'GOL', captain: false, x: 50, y: 9 },
-            { id: 'opp-2', type: 'player', team: 'B', num: 3, name: 'Adv 3', pos: 'FIX', captain: true, x: 30, y: 22 },
-            { id: 'opp-3', type: 'player', team: 'B', num: 4, name: 'Adv 4', pos: 'FIX', captain: false, x: 70, y: 22 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 12 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 84 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 64, y: 52 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 34, y: 50 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 74, y: 24 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 28, y: 25 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 52, y: 17 },
-            { id: 'opp-1', type: 'player', team: 'B', num: 1, name: 'Adv 1', pos: 'GOL', captain: false, x: 50, y: 9 },
-            { id: 'opp-2', type: 'player', team: 'B', num: 3, name: 'Adv 3', pos: 'FIX', captain: true, x: 26, y: 23 },
-            { id: 'opp-3', type: 'player', team: 'B', num: 4, name: 'Adv 4', pos: 'FIX', captain: false, x: 74, y: 23 },
-            { id: 'ball-main', type: 'ball', x: 72, y: 23 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 84 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 60, y: 46 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 34, y: 46 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 68, y: 21 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 34, y: 22 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 19 },
-            { id: 'opp-1', type: 'player', team: 'B', num: 1, name: 'Adv 1', pos: 'GOL', captain: false, x: 50, y: 9 },
-            { id: 'opp-2', type: 'player', team: 'B', num: 3, name: 'Adv 3', pos: 'FIX', captain: true, x: 32, y: 26 },
-            { id: 'opp-3', type: 'player', team: 'B', num: 4, name: 'Adv 4', pos: 'FIX', captain: false, x: 76, y: 25 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 10 }
-          ]
-        ]
-      },
-      'contra-ataque': {
-        title: 'Simulação: Contra-Ataque em Velocidade',
-        frames: [
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 91 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 62, y: 80 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 38, y: 80 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 76, y: 66 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 24, y: 66 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 54 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 88 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 90 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 56, y: 58 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 36, y: 62 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 84, y: 34 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 18, y: 34 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 30 },
-            { id: 'ball-main', type: 'ball', x: 50, y: 32 }
-          ],
-          [
-            { id: 'p-a-1', type: 'player', team: 'A', num: 1, name: 'Goleiro', pos: 'GOL', captain: false, x: 50, y: 90 },
-            { id: 'p-a-2', type: 'player', team: 'A', num: 3, name: 'Fixo Dir.', pos: 'FIX', captain: true, x: 52, y: 46 },
-            { id: 'p-a-3', type: 'player', team: 'A', num: 4, name: 'Fixo Esq.', pos: 'FIX', captain: false, x: 36, y: 50 },
-            { id: 'p-a-4', type: 'player', team: 'A', num: 7, name: 'Ala Dir.', pos: 'ALA D', captain: false, x: 76, y: 18 },
-            { id: 'p-a-5', type: 'player', team: 'A', num: 11, name: 'Ala Esq.', pos: 'ALA E', captain: false, x: 24, y: 18 },
-            { id: 'p-a-6', type: 'player', team: 'A', num: 9, name: 'Pivô', pos: 'PIV', captain: false, x: 50, y: 24 },
-            { id: 'ball-main', type: 'ball', x: 74, y: 18 }
-          ]
-        ]
-      }
-    };
+        <!-- Tela de Confirmação (Aparece ao clicar em "Sim, eu topo!") -->
+        <div id="success-card" class="hidden w-full bg-zinc-900/90 border border-purple-500/40 rounded-3xl p-6 text-center shadow-2xl backdrop-blur-md animate-[fadeIn_0.5s_ease-out]">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/30">
+                <i data-lucide="party-popper" class="w-7 h-7 text-white"></i>
+            </div>
+            
+            <h3 class="font-display text-2xl font-bold text-white mb-2">
+                Ingresso Confirmado! 🎉
+            </h3>
+            <p class="text-sm text-zinc-300 leading-relaxed mb-6">
+                Sabia que você não ia recusar (ops, nao tem a opção do 'nao') 
 
-    function loadPresetSimulation(presetKey) {
-      if (!presetKey || !PRESET_PLAYS[presetKey]) return;
-      stopPlayAnimation();
-      const preset = PRESET_PLAYS[presetKey];
-      document.getElementById('tactic-title-input').value = preset.title;
-      state.frames = JSON.parse(JSON.stringify(preset.frames));
-      state.activeFrameIndex = 0;
-      state.players = JSON.parse(JSON.stringify(state.frames[0]));
-      renderPlayers(false);
-      renderFramesList();
-      renderMotionTrails();
-      updateOpponentToggleUI();
-      saveToLocalStorage();
-      showToast(`Jogada carregada! Simulando movimentação...`, 'success');
-      setTimeout(() => togglePlayAnimation(), 250);
-    }
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-2xl font-semibold text-sm text-white bg-emerald-600 hover:bg-emerald-500 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>Confirmar no WhatsApp</span>
+                </a>
+                <button id="btn-replay-confetti" class="px-5 py-3 rounded-2xl font-medium text-sm text-purple-300 bg-purple-500/10 border border-purple-500/30 hover:bg-purple-500/20 transition-all flex items-center justify-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Mais confetes!</span>
+                </button>
+            </div>
+        </div>
 
-    function captureFrame(silent = false) {
-      stopPlayAnimation();
-      const snapshot = JSON.parse(JSON.stringify(state.players));
-      state.frames.push(snapshot);
-      state.activeFrameIndex = state.frames.length - 1;
-      renderFramesList();
-      renderMotionTrails();
-      if (!silent) {
-        saveToLocalStorage();
-        showToast(`Cena ${state.frames.length} salva! Mova os jogadores e salve a próxima.`);
-      }
-    }
+    </main>
 
-    function updateCurrentFrame() {
-      if (!state.frames[state.activeFrameIndex]) return;
-      state.frames[state.activeFrameIndex] = JSON.parse(JSON.stringify(state.players));
-      renderMotionTrails();
-      saveToLocalStorage();
-      showToast(`Cena ${state.activeFrameIndex + 1} atualizada com as posições atuais`, 'success');
-    }
+    <!-- Rodapé discreto -->
+    <footer class="mt-10 text-[11px] text-zinc-600 text-center">
+        Passe VIP intransferível • Válido para uma noite inesquecível
+    </footer>
 
-    function toggleLoopMode() {
-      state.loopSimulation = !state.loopSimulation;
-      const btn = document.getElementById('loop-btn');
-      btn.className = state.loopSimulation
-        ? 'p-1.5 rounded-xl bg-violet-600/25 border border-violet-500/40 text-violet-300 text-xs transition'
-        : 'p-1.5 rounded-xl bg-graphite border border-white/10 text-zinc-400 text-xs transition';
-      showToast(state.loopSimulation ? 'Loop contínuo ativado' : 'Loop contínuo desativado');
-    }
-
-    function toggleMotionTrails() {
-      state.showMotionTrails = !state.showMotionTrails;
-      const btn = document.getElementById('trails-btn');
-      btn.className = state.showMotionTrails
-        ? 'p-1.5 rounded-xl bg-violet-600/25 border border-violet-500/40 text-violet-300 text-xs transition'
-        : 'p-1.5 rounded-xl bg-graphite border border-white/10 text-zinc-400 text-xs transition';
-      renderMotionTrails();
-    }
-
-    function renderMotionTrails() {
-      const svg = document.getElementById('motion-trails-svg');
-      if (!svg) return;
-      svg.innerHTML = '';
-      if (!state.showMotionTrails || state.frames.length < 2) return;
-
-      const nextIdx = (state.activeFrameIndex + 1) % state.frames.length;
-      if (!state.loopSimulation && state.activeFrameIndex === state.frames.length - 1) return;
-
-      const nextFrame = state.frames[nextIdx];
-      if (!nextFrame) return;
-
-      state.players.forEach(curr => {
-        const target = nextFrame.find(p => p.id === curr.id);
-        if (!target) return;
-        const dist = Math.hypot(target.x - curr.x, target.y - curr.y);
-        if (dist < 1.2) return;
-
-        const isBall = curr.type === 'ball';
-        const strokeColor = isBall ? '#facc15' : (curr.team === 'B' ? '#fb7185' : '#c4b5fd');
-
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', curr.x);
-        line.setAttribute('y1', curr.y);
-        line.setAttribute('x2', target.x);
-        line.setAttribute('y2', target.y);
-        line.setAttribute('stroke', strokeColor);
-        line.setAttribute('stroke-width', isBall ? '0.65' : '0.5');
-        line.setAttribute('stroke-dasharray', isBall ? '1.4 1' : '1 1');
-        line.setAttribute('opacity', '0.85');
-        svg.appendChild(line);
-
-        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        dot.setAttribute('cx', target.x);
-        dot.setAttribute('cy', target.y);
-        dot.setAttribute('r', isBall ? '0.9' : '0.75');
-        dot.setAttribute('fill', strokeColor);
-        dot.setAttribute('opacity', '0.9');
-        svg.appendChild(dot);
-      });
-    }
-
-    function renderFramesList() {
-      const container = document.getElementById('frames-list');
-      container.innerHTML = '';
-
-      state.frames.forEach((_, idx) => {
-        const active = idx === state.activeFrameIndex;
-        const chip = document.createElement('div');
-        chip.className = `flex items-center rounded-xl border text-xs font-semibold overflow-hidden shrink-0 transition ${
-          active
-            ? 'bg-violet-600/30 border-violet-500 text-white shadow-sm'
-            : 'bg-graphite border-white/10 text-zinc-400 hover:text-white'
-        }`;
-        chip.innerHTML = `
-          <button onclick="loadFrame(${idx})" class="px-2.5 py-1">Cena ${idx + 1}</button>
-          ${state.frames.length > 1 ? `
-            <button onclick="deleteFrame(${idx})" class="px-1.5 py-1 hover:text-rose-400 border-l border-white/10" title="Excluir cena">
-              ×
-            </button>
-          ` : ''}
-        `;
-        container.appendChild(chip);
-      });
-
-      const statusBadge = document.getElementById('sim-status-badge');
-      if (statusBadge) {
-        statusBadge.textContent = state.frames.length < 2
-          ? 'Mova os jogadores e clique em "+ Cena"'
-          : `Cena ${state.activeFrameIndex + 1} de ${state.frames.length}`;
-      }
-    }
-
-    function loadFrame(idx) {
-      if (!state.frames[idx]) return;
-      stopPlayAnimation();
-      state.activeFrameIndex = idx;
-      state.players = JSON.parse(JSON.stringify(state.frames[idx]));
-      renderPlayers(true);
-      renderFramesList();
-      renderMotionTrails();
-    }
-
-    function deleteFrame(idx) {
-      if (state.frames.length <= 1) return;
-      stopPlayAnimation();
-      state.frames.splice(idx, 1);
-      state.activeFrameIndex = Math.min(state.activeFrameIndex, state.frames.length - 1);
-      loadFrame(state.activeFrameIndex);
-      saveToLocalStorage();
-    }
-
-    function stopPlayAnimation() {
-      if (state.animRafId) {
-        cancelAnimationFrame(state.animRafId);
-        state.animRafId = null;
-      }
-      state.isPlaying = false;
-      const btn = document.getElementById('play-frames-btn');
-      if (btn) {
-        btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5"></i><span>Simular</span>`;
+    <script>
+        // Inicializa os ícones Lucide
         lucide.createIcons();
-      }
-    }
 
-    function togglePlayAnimation() {
-      if (state.frames.length < 2) {
-        showToast('Salve pelo menos 2 cenas ou escolha uma jogada pronta!', 'warn');
-        return;
-      }
+        // ==========================================
+        // 1. EFEITO 3D INTERATIVO NO CARTÃO VIP
+        // ==========================================
+        const card = document.getElementById('vip-card');
 
-      if (state.isPlaying) {
-        stopPlayAnimation();
-        renderPlayers(false);
-        renderFramesList();
-        renderMotionTrails();
-        return;
-      }
+        function handleCardMove(clientX, clientY) {
+            const rect = card.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
 
-      state.isPlaying = true;
-      const btn = document.getElementById('play-frames-btn');
-      btn.innerHTML = `<i data-lucide="square" class="w-3.5 h-3.5"></i><span>Parar</span>`;
-      lucide.createIcons();
+            // Calcula porcentagem para o reflexo holográfico
+            const mouseXPercent = (x / rect.width) * 100;
+            const mouseYPercent = (y / rect.height) * 100;
+            card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
+            card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
 
-      let segIndex = 0;
-      let segStartTime = null;
-      state.activeFrameIndex = 0;
-      state.players = JSON.parse(JSON.stringify(state.frames[0]));
-      renderPlayers(false);
-      renderFramesList();
-      renderMotionTrails();
+            // Calcula inclinação 3D suave (máx 10 graus)
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -9;
+            const rotateY = ((x - centerX) / centerX) * 9;
 
-      const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        }
 
-      const stepFrame = (timestamp) => {
-        if (!state.isPlaying) return;
-        if (!segStartTime) segStartTime = timestamp;
+        function resetCardTransform() {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        }
 
-        const elapsed = timestamp - segStartTime;
-        const rawProgress = Math.min(1, elapsed / state.animSpeed);
-        const eased = easeInOutCubic(rawProgress);
-
-        const fromFrame = state.frames[segIndex];
-        const toFrame = state.frames[(segIndex + 1) % state.frames.length];
-
-        // Atualiza posição dos tokens diretamente no DOM para 60fps reais
-        const layer = document.getElementById('players-layer');
-        fromFrame.forEach(fromItem => {
-          const toItem = toFrame.find(p => p.id === fromItem.id) || fromItem;
-          const currX = fromItem.x + (toItem.x - fromItem.x) * eased;
-          const currY = fromItem.y + (toItem.y - fromItem.y) * eased;
-
-          const stateObj = state.players.find(p => p.id === fromItem.id);
-          if (stateObj) {
-            stateObj.x = currX;
-            stateObj.y = currY;
-          }
-
-          const tokenEl = layer.querySelector(`[data-id="${fromItem.id}"]`);
-          if (tokenEl) {
-            tokenEl.style.left = `${currX}%`;
-            tokenEl.style.top = `${currY}%`;
-          }
+        // Eventos para Mouse (Desktop)
+        card.addEventListener('mousemove', (e) => {
+            handleCardMove(e.clientX, e.clientY);
         });
+        card.addEventListener('mouseleave', resetCardTransform);
 
-        const statusBadge = document.getElementById('sim-status-badge');
-        if (statusBadge) {
-          const nextNum = ((segIndex + 1) % state.frames.length) + 1;
-          statusBadge.textContent = `Simulando: Cena ${segIndex + 1} → Cena ${nextNum}`;
+        // Eventos para Toque (Mobile)
+        card.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                handleCardMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+        card.addEventListener('touchend', resetCardTransform);
+
+        // ==========================================
+        // 2. PLAYER YOUTUBE: MORADA - É TUDO SOBRE VOCÊ
+        // ==========================================
+        let ytPlayer = null;
+        let isPlayingMusic = false;
+        let hasUserInteracted = false;
+        let currentVideoId = 'ePdRgBWhvog'; // ID oficial: É TUDO SOBRE VOCÊ | MORADA
+        const vibeBtn = document.getElementById('vibe-btn');
+        const vibeText = document.getElementById('vibe-text');
+        const eqBars = document.querySelectorAll('.eq-bar');
+
+        // Pausa animação das barras inicialmente até tocar
+        eqBars.forEach(bar => bar.style.animationPlayState = 'paused');
+
+        function updateMusicUI(playing) {
+            isPlayingMusic = playing;
+            if (playing) {
+                vibeText.textContent = 'Morada ♪';
+                vibeBtn.classList.add('border-purple-500', 'bg-purple-950/40');
+                eqBars.forEach(bar => bar.style.animationPlayState = 'running');
+            } else {
+                vibeText.textContent = 'Pausado';
+                vibeBtn.classList.remove('border-purple-500', 'bg-purple-950/40');
+                eqBars.forEach(bar => bar.style.animationPlayState = 'paused');
+            }
         }
 
-        if (rawProgress >= 1) {
-          segIndex++;
-          if (segIndex >= state.frames.length - 1 && !state.loopSimulation) {
-            state.activeFrameIndex = state.frames.length - 1;
-            stopPlayAnimation();
-            renderFramesList();
-            renderMotionTrails();
-            showToast('Simulação concluída!', 'success');
-            return;
-          }
-          if (segIndex >= state.frames.length) {
-            segIndex = 0;
-          }
-          state.activeFrameIndex = segIndex;
-          renderFramesList();
-          renderMotionTrails();
-          segStartTime = timestamp;
-        }
+        // Carrega a API IFrame do YouTube
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        state.animRafId = requestAnimationFrame(stepFrame);
-      };
-
-      state.animRafId = requestAnimationFrame(stepFrame);
-    }
-
-    function updateAnimSpeed() {
-      state.animSpeed = parseInt(document.getElementById('anim-speed-select').value, 10) || 1100;
-    }
-
-    // =========================================================================
-    // BANCO DE RESERVAS & SUBSTITUIÇÕES
-    // =========================================================================
-    function renderBench() {
-      const container = document.getElementById('bench-list');
-      if (!container) return;
-      container.innerHTML = '';
-
-      if (state.bench.length === 0) {
-        container.innerHTML = `<p class="text-xs text-zinc-500 text-center py-3">Nenhum reserva no banco.</p>`;
-        return;
-      }
-
-      state.bench.forEach(sub => {
-        const isSelected = state.selectedBenchId === sub.id;
-        const jerseyBg = getJerseyBg('A', sub.pos);
-        const card = document.createElement('div');
-        card.className = `flex items-center justify-between p-2 rounded-xl border transition cursor-pointer ${
-          isSelected
-            ? 'bg-amber-500/15 border-amber-400 text-white'
-            : 'bg-graphite hover:bg-surfaceHover border-white/5 text-zinc-200'
-        }`;
-
-        card.innerHTML = `
-          <div onclick="toggleSelectBench('${sub.id}')" class="flex items-center gap-2.5 flex-1 min-w-0">
-            <span style="background-color: ${jerseyBg}; color: ${state.teamAColors.text}; border-color: ${state.teamAColors.border || '#ffffff'};"
-              class="w-7 h-7 rounded-full border flex items-center justify-center text-xs font-extrabold shrink-0">
-              ${sub.num}
-            </span>
-            <div class="truncate">
-              <div class="text-xs font-semibold truncate flex items-center gap-1">
-                <span>${sub.name}</span>
-                ${sub.captain ? `<span class="px-1 rounded bg-amber-400 text-zinc-950 font-black text-[9px]">C</span>` : ''}
-              </div>
-              <div class="text-[10px] text-zinc-400">${sub.pos}</div>
-            </div>
-          </div>
-          <button onclick="openPlayerModalById('${sub.id}', true)" class="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition" title="Editar reserva">
-            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-          </button>
-        `;
-        container.appendChild(card);
-      });
-
-      lucide.createIcons();
-    }
-
-    function toggleSelectBench(subId) {
-      state.selectedBenchId = state.selectedBenchId === subId ? null : subId;
-      renderBench();
-      renderPlayers();
-      if (state.selectedBenchId) {
-        showToast('Selecione o titular na quadra para substituir');
-      }
-    }
-
-    function swapBenchWithStarter(subId, starterId) {
-      const subIdx = state.bench.findIndex(s => s.id === subId);
-      const starterIdx = state.players.findIndex(p => p.id === starterId);
-      if (subIdx === -1 || starterIdx === -1) return;
-
-      const sub = state.bench[subIdx];
-      const starter = state.players[starterIdx];
-
-      state.players[starterIdx] = {
-        ...starter,
-        num: sub.num,
-        name: sub.name,
-        captain: sub.captain
-      };
-
-      state.bench[subIdx] = {
-        ...sub,
-        num: starter.num,
-        name: starter.name,
-        pos: starter.pos,
-        captain: starter.captain
-      };
-
-      state.selectedBenchId = null;
-      renderPlayers(true);
-      renderBench();
-      saveToLocalStorage();
-      showToast(`${sub.name} entrou no lugar de ${starter.name}`, 'success');
-    }
-
-    // =========================================================================
-    // MODAL DE EDIÇÃO / CRIAÇÃO DE JOGADOR
-    // =========================================================================
-    function openPlayerModal(player, isBench, isNew = false) {
-      state.editingTarget = { id: player ? player.id : null, isBench, isNew };
-      document.getElementById('modal-title').querySelector('span').textContent = isNew
-        ? 'Adicionar ao Banco'
-        : isBench
-          ? 'Editar Reserva'
-          : 'Editar Jogador';
-
-      document.getElementById('edit-player-num').value = player ? player.num : 15;
-      document.getElementById('edit-player-name').value = player ? player.name : '';
-      document.getElementById('edit-player-pos').value = player ? player.pos : 'ALA D';
-      document.getElementById('edit-player-captain').checked = player ? Boolean(player.captain) : false;
-
-      const delBtn = document.getElementById('delete-player-btn');
-      if (!isNew && (isBench || (player && player.team === 'B'))) {
-        delBtn.classList.remove('hidden');
-      } else {
-        delBtn.classList.add('hidden');
-      }
-
-      document.getElementById('player-modal').classList.remove('hidden');
-    }
-
-    function openPlayerModalById(id, isBench) {
-      const target = isBench
-        ? state.bench.find(b => b.id === id)
-        : state.players.find(p => p.id === id);
-      if (target) openPlayerModal(target, isBench, false);
-    }
-
-    function openAddSubModal() {
-      openPlayerModal(null, true, true);
-    }
-
-    function closePlayerModal() {
-      document.getElementById('player-modal').classList.add('hidden');
-      state.editingTarget = null;
-    }
-
-    function savePlayerModal() {
-      if (!state.editingTarget) return;
-      const num = Math.max(1, Math.min(99, parseInt(document.getElementById('edit-player-num').value, 10) || 1));
-      const name = document.getElementById('edit-player-name').value.trim() || `Jogador ${num}`;
-      const pos = document.getElementById('edit-player-pos').value;
-      const captain = document.getElementById('edit-player-captain').checked;
-
-      if (state.editingTarget.isNew) {
-        state.bench.push({
-          id: `sub-${Date.now()}`,
-          num,
-          name,
-          pos,
-          team: 'A',
-          captain
-        });
-      } else if (state.editingTarget.isBench) {
-        const sub = state.bench.find(b => b.id === state.editingTarget.id);
-        if (sub) {
-          sub.num = num;
-          sub.name = name;
-          sub.pos = pos;
-          sub.captain = captain;
-        }
-      } else {
-        const player = state.players.find(p => p.id === state.editingTarget.id);
-        if (player) {
-          player.num = num;
-          player.name = name;
-          player.pos = pos;
-          player.captain = captain;
-        }
-      }
-
-      closePlayerModal();
-      renderPlayers();
-      renderBench();
-      saveToLocalStorage();
-      showToast('Ficha do jogador atualizada', 'success');
-    }
-
-    function deleteModalPlayer() {
-      if (!state.editingTarget) return;
-      if (state.editingTarget.isBench) {
-        state.bench = state.bench.filter(b => b.id !== state.editingTarget.id);
-      } else {
-        state.players = state.players.filter(p => p.id !== state.editingTarget.id);
-      }
-      closePlayerModal();
-      renderPlayers();
-      renderBench();
-      updateOpponentToggleUI();
-      saveToLocalStorage();
-      showToast('Jogador removido');
-    }
-
-    // =========================================================================
-    // EXTRAS NO CAMPO & ADVERSÁRIO FUT6 (1 GOL + 5 LINHA)
-    // =========================================================================
-    function addExtraToken(type) {
-      const id = `extra-${Date.now()}-${Math.floor(Math.random() * 100)}`;
-      if (type === 'opponent') {
-        state.players.push({
-          id,
-          type: 'player',
-          team: 'B',
-          num: state.players.filter(p => p.team === 'B').length + 1,
-          name: 'Adversário',
-          pos: 'FIX',
-          captain: false,
-          x: 50,
-          y: 35
-        });
-      } else if (type === 'ball') {
-        state.players.push({ id, type: 'ball', x: 50, y: 50 });
-      } else if (type === 'cone') {
-        state.players.push({ id, type: 'cone', x: 45, y: 45 });
-      } else if (type === 'minigoal') {
-        state.players.push({ id, type: 'minigoal', x: 50, y: 30 });
-      }
-      renderPlayers();
-      updateOpponentToggleUI();
-      saveToLocalStorage();
-    }
-
-    function toggleOpponentTeam() {
-      const hasOpp = state.players.some(p => p.team === 'B');
-      if (hasOpp) {
-        state.players = state.players.filter(p => p.team !== 'B');
-        renderPlayers(true);
-        updateOpponentToggleUI();
-        saveToLocalStorage();
-        showToast('Time adversário removido');
-        return;
-      }
-
-      // Formação espelhada 2-2-1 Fut6 (1 GOL + 5 Linha)
-      const oppCoords = [
-        { num: 1, pos: 'GOL', x: 50, y: 9 },
-        { num: 3, pos: 'FIX', x: 32, y: 24 },
-        { num: 4, pos: 'FIX', x: 68, y: 24 },
-        { num: 7, pos: 'ALA E', x: 20, y: 44 },
-        { num: 11, pos: 'ALA D', x: 80, y: 44 },
-        { num: 9, pos: 'PIV', x: 50, y: 63 }
-      ];
-
-      oppCoords.forEach((o, i) => {
-        state.players.push({
-          id: `opp-${i + 1}`,
-          type: 'player',
-          team: 'B',
-          num: o.num,
-          name: `Adv ${o.num}`,
-          pos: o.pos,
-          captain: i === 1,
-          x: o.x,
-          y: o.y
-        });
-      });
-
-      renderPlayers(true);
-      updateOpponentToggleUI();
-      saveToLocalStorage();
-      showToast('Time adversário Fut6 (1 GOL + 5 Linha) ativado');
-    }
-
-    function updateOpponentToggleUI() {
-      const hasOpp = state.players.some(p => p.team === 'B');
-      const label = document.getElementById('toggle-opp-label');
-      if (label) {
-        label.textContent = hasOpp ? 'Ocultar Time Adversário (6)' : 'Ativar Time Adversário (6)';
-      }
-    }
-
-    function clearExtras() {
-      state.players = state.players.filter(p => p.team === 'A' && p.type === 'player');
-      renderPlayers();
-      updateOpponentToggleUI();
-      saveToLocalStorage();
-      showToast('Adversários, bolas, cones e mini-metas removidos');
-    }
-
-    function updateTeamColors() {
-      state.teamAColors.bg = document.getElementById('team-a-primary').value;
-      state.teamAColors.gkBg = document.getElementById('team-a-gk').value;
-      state.teamAColors.border = document.getElementById('team-a-border').value;
-      state.teamAColors.text = document.getElementById('team-a-text').value;
-      state.teamBColors.bg = document.getElementById('team-b-primary').value;
-      state.teamBColors.gkBg = document.getElementById('team-b-gk').value;
-      state.teamBColors.border = document.getElementById('team-b-border').value;
-      state.teamBColors.text = document.getElementById('team-b-text').value;
-      renderPlayers();
-      renderBench();
-      saveToLocalStorage();
-    }
-
-    // =========================================================================
-    // VISUALIZAÇÃO DA QUADRA (INTEIRA / MEIA QUADRA / TEMAS)
-    // =========================================================================
-    function setPitchView(view, silent = false) {
-      state.pitchView = view;
-      const fullSvg = document.getElementById('pitch-lines-full');
-      const halfSvg = document.getElementById('pitch-lines-half');
-      const fullBtn = document.getElementById('view-full-btn');
-      const halfBtn = document.getElementById('view-half-btn');
-
-      if (view === 'full') {
-        fullSvg.classList.remove('hidden');
-        halfSvg.classList.add('hidden');
-        fullBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium transition bg-violet-600 text-white';
-        halfBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-zinc-400 hover:text-white transition';
-      } else {
-        fullSvg.classList.add('hidden');
-        halfSvg.classList.remove('hidden');
-        halfBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium transition bg-violet-600 text-white';
-        fullBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-zinc-400 hover:text-white transition';
-      }
-      if (!silent) saveToLocalStorage();
-    }
-
-    function setPitchTheme(theme, silent = false) {
-      const wrapper = document.getElementById('pitch-wrapper');
-      wrapper.classList.remove('pitch-emerald', 'pitch-classic', 'pitch-dark');
-      if (theme === 'emerald') wrapper.classList.add('pitch-emerald');
-      if (theme === 'classic') wrapper.classList.add('pitch-classic');
-      if (theme === 'dark') wrapper.classList.add('pitch-dark');
-      state.pitchTheme = theme;
-      if (!silent) saveToLocalStorage();
-    }
-
-    // =========================================================================
-    // FERRAMENTAS DE DESENHO TÁTICO (CANVAS 2D + BORRACHA + CONDUÇÃO)
-    // =========================================================================
-    function selectTool(tool) {
-      state.activeTool = tool;
-      document.querySelectorAll('.tool-btn').forEach(btn => {
-        const isCurrent = btn.dataset.tool === tool;
-        btn.className = isCurrent
-          ? 'tool-btn active flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-violet-600 text-white text-[11px] font-medium transition'
-          : 'tool-btn flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-graphite hover:bg-surfaceHover text-zinc-300 text-[11px] font-medium transition';
-      });
-
-      const canvas = document.getElementById('tactical-canvas');
-      if (tool === 'move') {
-        canvas.classList.add('pointer-events-none');
-        canvas.classList.remove('cursor-crosshair');
-      } else {
-        canvas.classList.remove('pointer-events-none');
-        canvas.classList.add('cursor-crosshair');
-      }
-    }
-
-    function selectDrawColor(hex) {
-      state.drawColor = hex;
-      document.querySelectorAll('.color-swatch').forEach(btn => {
-        const active = btn.dataset.color === hex;
-        btn.classList.toggle('ring-2', active);
-        btn.classList.toggle('ring-violet-500', active);
-        btn.classList.toggle('ring-offset-2', active);
-        btn.classList.toggle('ring-offset-surface', active);
-        btn.classList.toggle('opacity-100', active);
-      });
-    }
-
-    function selectDrawWidth(width) {
-      state.drawWidth = width;
-      document.querySelectorAll('.width-btn').forEach(btn => {
-        const active = parseFloat(btn.dataset.width) === width;
-        btn.className = active
-          ? 'width-btn px-2 py-0.5 rounded text-[11px] bg-violet-600 text-white font-semibold transition'
-          : 'width-btn px-2 py-0.5 rounded text-[11px] text-zinc-400 hover:text-white transition';
-      });
-    }
-
-    function resizeCanvas() {
-      const canvas = document.getElementById('tactical-canvas');
-      const wrapper = document.getElementById('pitch-wrapper');
-      if (!canvas || !wrapper) return;
-      const rect = wrapper.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      const ctx = canvas.getContext('2d');
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      redrawCanvas();
-    }
-
-    function getNormalizedCoords(e) {
-      const canvas = document.getElementById('tactical-canvas');
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)),
-        y: Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height))
-      };
-    }
-
-    function setupCanvasEvents() {
-      const canvas = document.getElementById('tactical-canvas');
-      let isDrawing = false;
-
-      const startDraw = (e) => {
-        if (state.activeTool === 'move') return;
-        const pos = getNormalizedCoords(e);
-
-        if (state.activeTool === 'eraser') {
-          eraseNearPoint(pos);
-          return;
-        }
-
-        if (state.activeTool === 'text') {
-          state.pendingTextCoords = pos;
-          document.getElementById('canvas-text-input').value = '';
-          document.getElementById('text-modal').classList.remove('hidden');
-          setTimeout(() => document.getElementById('canvas-text-input').focus(), 50);
-          return;
-        }
-
-        isDrawing = true;
-        state.currentDrawing = {
-          tool: state.activeTool,
-          color: state.drawColor,
-          width: state.drawWidth,
-          start: pos,
-          end: pos,
-          points: [pos]
+        window.onYouTubeIframeAPIReady = function() {
+            ytPlayer = new YT.Player('yt-player', {
+                height: '0',
+                width: '0',
+                videoId: currentVideoId,
+                playerVars: {
+                    autoplay: 0,
+                    controls: 0,
+                    loop: 1,
+                    playlist: currentVideoId,
+                    playsinline: 1
+                },
+                events: {
+                    onStateChange: function(event) {
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            updateMusicUI(true);
+                        } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                            updateMusicUI(false);
+                        }
+                    }
+                }
+            });
         };
-      };
 
-      const moveDraw = (e) => {
-        if (!isDrawing || !state.currentDrawing) return;
-        const pos = getNormalizedCoords(e);
-        state.currentDrawing.end = pos;
-        if (state.currentDrawing.tool === 'freehand') {
-          state.currentDrawing.points.push(pos);
+        function startMusicIfReady() {
+            if (ytPlayer && typeof ytPlayer.playVideo === 'function' && !isPlayingMusic) {
+                ytPlayer.setVolume(80);
+                ytPlayer.playVideo();
+            }
         }
-        redrawCanvas();
-      };
 
-      const endDraw = () => {
-        if (!isDrawing || !state.currentDrawing) return;
-        isDrawing = false;
-        state.drawings.push(state.currentDrawing);
-        state.redoStack = [];
-        state.currentDrawing = null;
-        redrawCanvas();
-        saveToLocalStorage();
-      };
+        // Inicia a música na primeira interação na tela (desbloqueio automático do navegador)
+        function handleFirstInteraction(e) {
+            if (hasUserInteracted) return;
+            // Evita conflito se clicar direto nos inputs de edição ou no próprio botão de vibe
+            if (e.target.closest('#edit-panel') || e.target.closest('#toggle-edit-btn') || e.target.closest('#vibe-btn')) return;
+            
+            hasUserInteracted = true;
+            startMusicIfReady();
+        }
 
-      canvas.addEventListener('pointerdown', startDraw);
-      canvas.addEventListener('pointermove', moveDraw);
-      canvas.addEventListener('pointerup', endDraw);
-      canvas.addEventListener('pointerleave', endDraw);
-    }
+        document.addEventListener('click', handleFirstInteraction);
+        document.addEventListener('touchstart', handleFirstInteraction, { passive: true });
 
-    function eraseNearPoint(pos) {
-      const threshold = 0.05;
-      const before = state.drawings.length;
-      state.drawings = state.drawings.filter(item => {
-        const distStart = Math.hypot(item.start.x - pos.x, item.start.y - pos.y);
-        const distEnd = Math.hypot(item.end.x - pos.x, item.end.y - pos.y);
-        const midX = (item.start.x + item.end.x) / 2;
-        const midY = (item.start.y + item.end.y) / 2;
-        const distMid = Math.hypot(midX - pos.x, midY - pos.y);
-        return Math.min(distStart, distEnd, distMid) > threshold;
-      });
-      if (state.drawings.length !== before) {
-        redrawCanvas();
-        saveToLocalStorage();
-      }
-    }
+        // Botão de Play/Pause integrado no ingresso
+        vibeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hasUserInteracted = true;
+            if (!ytPlayer || typeof ytPlayer.playVideo !== 'function') return;
 
-    function closeTextModal() {
-      document.getElementById('text-modal').classList.add('hidden');
-      state.pendingTextCoords = null;
-    }
-
-    function confirmCanvasText() {
-      const text = document.getElementById('canvas-text-input').value.trim();
-      if (text && state.pendingTextCoords) {
-        state.drawings.push({
-          tool: 'text',
-          color: state.drawColor,
-          width: state.drawWidth,
-          start: state.pendingTextCoords,
-          end: state.pendingTextCoords,
-          text
+            if (isPlayingMusic) {
+                ytPlayer.pauseVideo();
+            } else {
+                ytPlayer.setVolume(80);
+                ytPlayer.playVideo();
+            }
         });
-        state.redoStack = [];
-        redrawCanvas();
-        saveToLocalStorage();
-      }
-      closeTextModal();
-    }
 
-    function undoDrawing() {
-      if (state.drawings.length === 0) return;
-      state.redoStack.push(state.drawings.pop());
-      redrawCanvas();
-      saveToLocalStorage();
-    }
+        // Permite trocar o vídeo do YouTube no painel de personalização se desejar
+        function extractYouTubeId(url) {
+            const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
 
-    function redoDrawing() {
-      if (state.redoStack.length === 0) return;
-      state.drawings.push(state.redoStack.pop());
-      redrawCanvas();
-      saveToLocalStorage();
-    }
-
-    function clearDrawings() {
-      state.drawings = [];
-      state.redoStack = [];
-      redrawCanvas();
-      saveToLocalStorage();
-    }
-
-    function redrawCanvas() {
-      const canvas = document.getElementById('tactical-canvas');
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, rect.width, rect.height);
-
-      state.drawings.forEach(item => renderDrawingItem(ctx, item, rect.width, rect.height));
-      if (state.currentDrawing) {
-        renderDrawingItem(ctx, state.currentDrawing, rect.width, rect.height);
-      }
-    }
-
-    function renderDrawingItem(ctx, item, w, h) {
-      ctx.save();
-      ctx.strokeStyle = item.color;
-      ctx.fillStyle = item.color;
-      ctx.lineWidth = item.width || 3.5;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      const sx = item.start.x * w;
-      const sy = item.start.y * h;
-      const ex = item.end.x * w;
-      const ey = item.end.y * h;
-
-      if (item.tool === 'arrow') {
-        drawArrow(ctx, sx, sy, ex, ey, false);
-      } else if (item.tool === 'dashed') {
-        drawArrow(ctx, sx, sy, ex, ey, true);
-      } else if (item.tool === 'dribble') {
-        drawWavyArrow(ctx, sx, sy, ex, ey);
-      } else if (item.tool === 'freehand' && item.points) {
-        ctx.beginPath();
-        item.points.forEach((pt, i) => {
-          if (i === 0) ctx.moveTo(pt.x * w, pt.y * h);
-          else ctx.lineTo(pt.x * w, pt.y * h);
+        document.getElementById('input-music-url').addEventListener('change', (e) => {
+            const newId = extractYouTubeId(e.target.value.trim());
+            if (newId && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+                currentVideoId = newId;
+                ytPlayer.loadVideoById({ videoId: newId });
+            }
         });
-        ctx.stroke();
-      } else if (item.tool === 'circle') {
-        const radius = Math.hypot(ex - sx, ey - sy);
-        ctx.beginPath();
-        ctx.arc(sx, sy, radius, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(item.color, 0.16);
-        ctx.fill();
-        ctx.stroke();
-      } else if (item.tool === 'rect') {
-        ctx.fillStyle = hexToRgba(item.color, 0.14);
-        ctx.fillRect(sx, sy, ex - sx, ey - sy);
-        ctx.strokeRect(sx, sy, ex - sx, ey - sy);
-      } else if (item.tool === 'text' && item.text) {
-        ctx.font = '700 13px Inter, sans-serif';
-        const metrics = ctx.measureText(item.text);
-        const padX = 8;
-        ctx.fillStyle = 'rgba(9, 9, 11, 0.85)';
-        ctx.beginPath();
-        ctx.roundRect(sx - padX, sy - 14, metrics.width + padX * 2, 22, 6);
-        ctx.fill();
-        ctx.fillStyle = item.color;
-        ctx.fillText(item.text, sx, sy + 1);
-      }
 
-      ctx.restore();
-    }
+        // ==========================================
+        // 3. BOTÃO "NÃO" FUJÃO COM FRASES DIVERTIDAS
+        // ==========================================
+        const btnNo = document.getElementById('btn-no');
+        const funnyFeedback = document.getElementById('funny-feedback');
+        let escapeCount = 0;
 
-    function drawArrow(ctx, sx, sy, ex, ey, dashed) {
-      const angle = Math.atan2(ey - sy, ex - sx);
-      const headLen = 13;
-      ctx.save();
-      if (dashed) ctx.setLineDash([8, 6]);
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.lineTo(ex, ey);
-      ctx.stroke();
-      ctx.restore();
+        const funnyPhrases = [
+            "Ops! Esse botão escorregou... ",
+            "Tem certeza? O show vai ser incrível! ",
+            "Erro 404: Opção 'Não' indisponível ",
+            "Tenta o botão roxo ali do lado, é bem mais legal! ",
+            "Quase! Mas meu ingresso VIP já tem seu nome ",
+            "Nem adianta tentar, hoje você vai! "
+        ];
 
-      ctx.beginPath();
-      ctx.moveTo(ex, ey);
-      ctx.lineTo(ex - headLen * Math.cos(angle - Math.PI / 6), ey - headLen * Math.sin(angle - Math.PI / 6));
-      ctx.lineTo(ex - headLen * Math.cos(angle + Math.PI / 6), ey - headLen * Math.sin(angle + Math.PI / 6));
-      ctx.closePath();
-      ctx.fill();
-    }
+        function moveNoButton(e) {
+            if (e) e.preventDefault();
 
-    function drawWavyArrow(ctx, sx, sy, ex, ey) {
-      const dx = ex - sx;
-      const dy = ey - sy;
-      const dist = Math.hypot(dx, dy);
-      if (dist < 6) return;
-      const angle = Math.atan2(dy, dx);
-      const steps = Math.max(8, Math.floor(dist / 6));
+            // Calcula deslocamento aleatório seguro dentro da tela
+            const maxX = Math.min(130, window.innerWidth * 0.32);
+            const maxY = 90;
 
-      ctx.beginPath();
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const along = t * (dist - 10);
-        const wave = Math.sin(t * Math.PI * (dist / 14)) * 4.5;
-        const px = sx + Math.cos(angle) * along - Math.sin(angle) * wave;
-        const py = sy + Math.sin(angle) * along + Math.cos(angle) * wave;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.stroke();
+            const randomX = (Math.random() * 2 - 1) * maxX;
+            const randomY = (Math.random() * 2 - 1) * maxY;
 
-      const headLen = 13;
-      ctx.beginPath();
-      ctx.moveTo(ex, ey);
-      ctx.lineTo(ex - headLen * Math.cos(angle - Math.PI / 6), ey - headLen * Math.sin(angle - Math.PI / 6));
-      ctx.lineTo(ex - headLen * Math.cos(angle + Math.PI / 6), ey - headLen * Math.sin(angle + Math.PI / 6));
-      ctx.closePath();
-      ctx.fill();
-    }
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
-    function hexToRgba(hex, alpha) {
-      const clean = hex.replace('#', '');
-      const bigint = parseInt(clean, 16);
-      const r = (bigint >> 16) & 255;
-      const g = (bigint >> 8) & 255;
-      const b = bigint & 255;
-      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    }
+            // Atualiza frase divertida
+            funnyFeedback.textContent = funnyPhrases[escapeCount % funnyPhrases.length];
+            funnyFeedback.classList.remove('opacity-0');
+            funnyFeedback.classList.add('opacity-100');
 
-    // =========================================================================
-    // ANOTAÇÕES TÁTICAS
-    // =========================================================================
-    function loadNoteTab(tab) {
-      state.activeNoteTab = tab;
-      document.querySelectorAll('.note-tab-btn').forEach(btn => {
-        const active = btn.dataset.notetab === tab;
-        btn.className = active
-          ? 'note-tab-btn px-2 py-0.5 rounded-md bg-violet-600 text-white font-medium'
-          : 'note-tab-btn px-2 py-0.5 rounded-md text-zinc-400 hover:text-white';
-      });
-      document.getElementById('tactical-notes-area').value = state.notes[tab] || '';
-    }
+            // Muda levemente o texto do botão após algumas tentativas
+            if (escapeCount === 2) btnNo.textContent = "Sério?";
+            if (escapeCount === 4) btnNo.textContent = "Desiste 😅";
+            if (escapeCount >= 6) btnNo.textContent = "Clica no Sim!";
 
-    function appendQuickInstruction(text) {
-      const area = document.getElementById('tactical-notes-area');
-      const prefix = area.value.trim().length > 0 ? '\n' : '';
-      area.value += `${prefix}• ${text}`;
-      state.notes[state.activeNoteTab] = area.value;
-      saveToLocalStorage();
-    }
-
-    // =========================================================================
-    // EXPORTAR IMAGEM PNG
-    // =========================================================================
-    function exportPNG() {
-      const exportCanvas = document.createElement('canvas');
-      const W = 1080;
-      const H = 1520;
-      exportCanvas.width = W;
-      exportCanvas.height = H;
-      const ctx = exportCanvas.getContext('2d');
-
-      // 1. Fundo do gramado
-      if (state.pitchTheme === 'dark') {
-        const stripes = 10;
-        const stripeH = H / stripes;
-        for (let i = 0; i < stripes; i++) {
-          ctx.fillStyle = i % 2 === 0 ? '#111916' : '#15201c';
-          ctx.fillRect(0, i * stripeH, W, stripeH);
-        }
-      } else if (state.pitchTheme === 'classic') {
-        const stripes = 12;
-        const stripeH = H / stripes;
-        for (let i = 0; i < stripes; i++) {
-          ctx.fillStyle = i % 2 === 0 ? '#155d30' : '#196b38';
-          ctx.fillRect(0, i * stripeH, W, stripeH);
-        }
-      } else {
-        const stripes = 12;
-        const stripeH = H / stripes;
-        for (let i = 0; i < stripes; i++) {
-          ctx.fillStyle = i % 2 === 0 ? '#065f46' : '#047857';
-          ctx.fillRect(0, i * stripeH, W, stripeH);
-        }
-      }
-
-      // 2. Linhas oficiais Fut6 / Society
-      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-      ctx.lineWidth = 5;
-      const pad = 42;
-      ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
-
-      if (state.pitchView === 'full') {
-        ctx.beginPath();
-        ctx.moveTo(pad, H / 2);
-        ctx.lineTo(W - pad, H / 2);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(W / 2, H / 2, 135, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Áreas Society superior e inferior
-        ctx.strokeRect(W * 0.29, pad, W * 0.42, H * 0.145);
-        ctx.strokeRect(W * 0.29, H - pad - H * 0.145, W * 0.42, H * 0.145);
-
-        // Marcas de Shoot-out
-        ctx.beginPath();
-        ctx.arc(W / 2, pad + H * 0.195, 5, 0, Math.PI * 2);
-        ctx.arc(W / 2, H - pad - H * 0.195, 5, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-      } else {
-        ctx.strokeRect(W * 0.29, H - pad - H * 0.26, W * 0.42, H * 0.26);
-      }
-
-      // 3. Desenhos táticos
-      state.drawings.forEach(item => renderDrawingItem(ctx, item, W, H));
-
-      // 4. Jogadores e Objetos
-      state.players.forEach(item => {
-        const px = (item.x / 100) * W;
-        const py = (item.y / 100) * H;
-
-        if (item.type === 'ball') {
-          ctx.font = '40px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('⚽', px, py);
-          return;
+            escapeCount++;
         }
 
-        if (item.type === 'cone') {
-          ctx.fillStyle = '#f97316';
-          ctx.beginPath();
-          ctx.moveTo(px, py - 18);
-          ctx.lineTo(px + 16, py + 14);
-          ctx.lineTo(px - 16, py + 14);
-          ctx.closePath();
-          ctx.fill();
-          return;
+        // Foge no hover (desktop) e no toque/clique (mobile e desktop)
+        btnNo.addEventListener('mouseover', moveNoButton);
+        btnNo.addEventListener('touchstart', moveNoButton, { passive: false });
+        btnNo.addEventListener('click', moveNoButton);
+
+        // ==========================================
+        // 4. BOTÃO "SIM" E CELEBRAÇÃO COM CONFETES
+        // ==========================================
+        const btnYes = document.getElementById('btn-yes');
+        const actionArea = document.getElementById('action-area');
+        const successCard = document.getElementById('success-card');
+        const btnReplayConfetti = document.getElementById('btn-replay-confetti');
+        const whatsappLink = document.getElementById('whatsapp-link');
+
+        function launchCelebration() {
+            startMusicIfReady();
+            
+            // Dispara confetes nas cores roxo, rosa e dourado
+            const colors = ['#a855f7', '#ec4899', '#f43f5e', '#fbbf24', '#ffffff'];
+            
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.65 },
+                colors: colors
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 50,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+            }, 250);
         }
 
-        if (item.type === 'minigoal') {
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 4;
-          ctx.strokeRect(px - 36, py - 18, 72, 32);
-          return;
+        function updateWhatsAppUrl() {
+            const artist = document.getElementById('display-artist').textContent.trim();
+            const date = document.getElementById('display-date').textContent.trim();
+            const phone = document.getElementById('input-whatsapp').value.replace(/\D/g, '');
+            
+            const message = encodeURIComponent(`Eu topo ir no show (${artist} - ${date})! Já garanti meu passe VIP! 🎟️✨`);
+            
+            if (phone) {
+                whatsappLink.href = `https://wa.me/${phone}?text=${message}`;
+            } else {
+                whatsappLink.href = `https://wa.me/?text=${message}`;
+            }
         }
 
-        const colors = item.team === 'A' ? state.teamAColors : state.teamBColors;
-        const jerseyBg = getJerseyBg(item.team, item.pos);
-        ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 12;
-        ctx.shadowOffsetY = 5;
+        btnYes.addEventListener('click', () => {
+            updateWhatsAppUrl();
+            actionArea.classList.add('hidden');
+            successCard.classList.remove('hidden');
+            launchCelebration();
+        });
 
-        ctx.fillStyle = jerseyBg;
-        ctx.beginPath();
-        ctx.arc(px, py, 33, 0, Math.PI * 2);
-        ctx.fill();
+        btnReplayConfetti.addEventListener('click', launchCelebration);
 
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = colors.border || '#ffffff';
-        ctx.stroke();
-        ctx.restore();
+        // ==========================================
+        // 5. PAINEL DE PERSONALIZAÇÃO EM TEMPO REAL
+        // ==========================================
+        const toggleEditBtn = document.getElementById('toggle-edit-btn');
+        const closeEditBtn = document.getElementById('close-edit-btn');
+        const editPanel = document.getElementById('edit-panel');
 
-        // Número
-        ctx.fillStyle = colors.text;
-        ctx.font = '800 22px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(String(item.num), px, py + 1);
+        toggleEditBtn.addEventListener('click', () => {
+            editPanel.classList.toggle('hidden');
+        });
 
-        // Capitão
-        if (item.captain) {
-          ctx.fillStyle = '#facc15';
-          ctx.beginPath();
-          ctx.arc(px - 24, py + 24, 11, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = '#09090b';
-          ctx.font = '900 12px Inter, sans-serif';
-          ctx.fillText('C', px - 24, py + 25);
-        }
+        closeEditBtn.addEventListener('click', () => {
+            editPanel.classList.add('hidden');
+        });
 
-        // Nome
-        ctx.font = '600 17px Inter, sans-serif';
-        const tw = ctx.measureText(item.name).width;
-        ctx.fillStyle = 'rgba(9, 9, 11, 0.88)';
-        ctx.beginPath();
-        ctx.roundRect(px - tw / 2 - 10, py + 40, tw + 20, 26, 8);
-        ctx.fill();
+        // Sincroniza os inputs com o cartão VIP em tempo real
+        const bindings = [
+            { input: 'input-guest', display: 'display-guest', fallback: 'Você ✨' },
+            { input: 'input-artist', display: 'display-artist', fallback: 'Banda Morada • Ao Vivo' },
+            { input: 'input-date', display: 'display-date', fallback: 'Sábado • 21:00' },
+            { input: 'input-location', display: 'display-location', fallback: 'Arena VIP / A combinar' }
+        ];
 
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(item.name, px, py + 54);
-      });
+        bindings.forEach(({ input, display, fallback }) => {
+            const inputEl = document.getElementById(input);
+            const displayEl = document.getElementById(display);
 
-      // Rodapé informativo
-      const title = document.getElementById('tactic-title-input').value || 'TáticaPro Fut6';
-      const formation = document.getElementById('formation-select').value;
-      ctx.fillStyle = 'rgba(255,255,255,0.75)';
-      ctx.font = '600 18px Inter, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(`TáticaPro Fut6 (${formation}) • ${title}`, pad + 10, H - 15);
+            inputEl.addEventListener('input', (e) => {
+                displayEl.textContent = e.target.value.trim() || fallback;
+                updateWhatsAppUrl();
+            });
+        });
 
-      const link = document.createElement('a');
-      link.download = `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
-      link.href = exportCanvas.toDataURL('image/png');
-      link.click();
-      showToast('Imagem PNG do Fut6 exportada!', 'success');
-    }
-
-    // =========================================================================
-    // EXPORTAR & IMPORTAR JSON
-    // =========================================================================
-    function exportJSON() {
-      const payload = {
-        title: document.getElementById('tactic-title-input').value,
-        formation: document.getElementById('formation-select').value,
-        teamAName: document.getElementById('team-a-name').value,
-        teamBName: document.getElementById('team-b-name').value,
-        pitchView: state.pitchView,
-        pitchTheme: state.pitchTheme,
-        teamAColors: state.teamAColors,
-        teamBColors: state.teamBColors,
-        players: state.players,
-        bench: state.bench,
-        drawings: state.drawings,
-        frames: state.frames,
-        notes: state.notes
-      };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'prancheta-fut6.json';
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('Arquivo JSON Fut6 exportado', 'success');
-    }
-
-    function importJSON(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        try {
-          const data = JSON.parse(evt.target.result);
-          if (data.title) document.getElementById('tactic-title-input').value = data.title;
-          if (data.formation) document.getElementById('formation-select').value = data.formation;
-          if (data.teamAName) document.getElementById('team-a-name').value = data.teamAName;
-          if (data.teamBName) document.getElementById('team-b-name').value = data.teamBName;
-          if (data.pitchView) setPitchView(data.pitchView, true);
-          if (data.pitchTheme) setPitchTheme(data.pitchTheme, true);
-          if (data.teamAColors) {
-            state.teamAColors = data.teamAColors;
-            document.getElementById('team-a-primary').value = state.teamAColors.bg;
-            document.getElementById('team-a-gk').value = state.teamAColors.gkBg || '#0ea5e9';
-            document.getElementById('team-a-border').value = state.teamAColors.border || '#ffffff';
-            document.getElementById('team-a-text').value = state.teamAColors.text;
-          }
-          if (data.teamBColors) {
-            state.teamBColors = data.teamBColors;
-            document.getElementById('team-b-primary').value = state.teamBColors.bg;
-            document.getElementById('team-b-gk').value = state.teamBColors.gkBg || '#f59e0b';
-            document.getElementById('team-b-border').value = state.teamBColors.border || '#ffffff';
-            document.getElementById('team-b-text').value = state.teamBColors.text;
-          }
-          if (Array.isArray(data.players)) state.players = data.players;
-          if (Array.isArray(data.bench)) state.bench = data.bench;
-          if (Array.isArray(data.drawings)) state.drawings = data.drawings;
-          if (Array.isArray(data.frames)) state.frames = data.frames;
-          if (data.notes) state.notes = data.notes;
-
-          renderPlayers(true);
-          renderBench();
-          renderFramesList();
-          updateOpponentToggleUI();
-          loadNoteTab(state.activeNoteTab);
-          redrawCanvas();
-          saveToLocalStorage();
-          showToast('Tática Fut6 carregada com sucesso!', 'success');
-        } catch (err) {
-          showToast('Erro ao ler arquivo JSON', 'warn');
-        }
-      };
-      reader.readAsText(file);
-      e.target.value = '';
-    }
-  </script>
+        document.getElementById('input-whatsapp').addEventListener('input', updateWhatsAppUrl);
+    </script>
 </body>
 </html>
